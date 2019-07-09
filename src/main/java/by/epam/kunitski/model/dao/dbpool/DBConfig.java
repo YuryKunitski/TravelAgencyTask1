@@ -1,29 +1,33 @@
 package by.epam.kunitski.model.dao.dbpool;
 
 import com.zaxxer.hikari.HikariConfig;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 @Configuration
 @ComponentScan("by.epam.kunitski")
 @PropertySource("classpath:hikari.properties")
 public class DBConfig {
 
-    @Autowired
-    private static Environment environment;
+    private static final String CP_PROPERTIES = "/hikari.properties";
 
-    @Bean(destroyMethod = "close")
-    public String dataSource() {
-        HikariConfig hikariConfig = new HikariConfig();
-//        hikariConfig.setDriverClassName(environment.getProperty("db.jdbcDriver"));
-        System.out.println(environment.getProperty("db.jdbcDriver"));
-        return environment.getProperty("db.jdbcDriver");
+    @Bean
+    public DataSource dataSource() {
+        HikariConfig hikariConfig = new HikariConfig(CP_PROPERTIES);
+        return new HikariDataSource(hikariConfig);
+
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate() throws SQLException {
+        return new JdbcTemplate(dataSource());
     }
 
 
