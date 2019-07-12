@@ -1,15 +1,22 @@
 package by.epam.kunitski.model.dao.daoimpl;
 
 import by.epam.kunitski.model.dao.daointerface.UserDAO;
+import by.epam.kunitski.model.dao.dbconfig.DBConfig;
+import by.epam.kunitski.model.entity.Tour;
 import by.epam.kunitski.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
+
+import static by.epam.kunitski.model.entity.Tour.TourType.ECONOM;
 
 @Service
 public class UserDAOImpl implements UserDAO {
@@ -20,7 +27,7 @@ public class UserDAOImpl implements UserDAO {
 
     private static final String SQL_GET_ALL = "SELECT * FROM public.\"user\"";
     private static final String SQL_GET_BY_ID = "SELECT * FROM public.\"user\" WHERE id = ?";
-    private static final String SQL_CREATE = "insert into \"user\" (login, \"password\") values (?, ?)";
+    private static final String SQL_CREATE = "insert into \"user\" (login, password) values (?, ?)";
     private static final String SQL_UPDATE = "update \"user\" set login = ?, password = ? where id = ?;";
     private static final String SQL_DELETE = "delete from \"user\" where id = ?;";
 
@@ -58,8 +65,16 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User update(User user, int id) {
-        jdbcTemplate.update(SQL_UPDATE, user.getLogin(), user.getPassword(), id);
-        return getById(id);
+        if (user != null) {
+            jdbcTemplate.update(SQL_UPDATE, user.getLogin(), user.getPassword(), id);
+            return getById(id);
+        } else return null;
+    }
+
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(DBConfig.class);
+        UserDAOImpl userDAO = context.getBean(UserDAOImpl.class);
+        System.out.println(userDAO.delete(806));
     }
 
 }

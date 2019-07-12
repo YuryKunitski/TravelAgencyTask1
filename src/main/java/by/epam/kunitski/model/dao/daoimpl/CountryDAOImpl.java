@@ -1,7 +1,7 @@
 package by.epam.kunitski.model.dao.daoimpl;
 
 import by.epam.kunitski.model.dao.daointerface.CountryDAO;
-import by.epam.kunitski.model.dao.dbpool.DBConfig;
+import by.epam.kunitski.model.dao.dbconfig.DBConfig;
 import by.epam.kunitski.model.entity.Country;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,8 +61,10 @@ public class CountryDAOImpl implements CountryDAO {
 
     @Override
     public Country update(Country country, int id) {
-        jdbcTemplate.update(SQL_UPDATE, country.getName(), id);
-        return getById(id);
+        if (country != null) {
+            jdbcTemplate.update(SQL_UPDATE, country.getName(), id);
+            return getById(id);
+        } else return null;
     }
 
 
@@ -72,7 +74,7 @@ public class CountryDAOImpl implements CountryDAO {
 
         ApplicationContext context = new AnnotationConfigApplicationContext(DBConfig.class);
         CountryDAO countryDAO = context.getBean(CountryDAOImpl.class);
-        System.out.println(countryDAO.delete( 151));
+        System.out.println(countryDAO.delete(151));
     }
 
 }

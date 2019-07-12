@@ -1,7 +1,7 @@
 package by.epam.kunitski.model.dao.daoimpl;
 
 import by.epam.kunitski.model.dao.daointerface.TourDAO;
-import by.epam.kunitski.model.dao.dbpool.DBConfig;
+import by.epam.kunitski.model.dao.dbconfig.DBConfig;
 import by.epam.kunitski.model.entity.Tour;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public class TourDAOImpl implements TourDAO {
     public boolean create(Tour tour) {
         if (tour != null) {
             jdbcTemplate.update(SQL_CREATE, tour.getPhoto(), tour.getDate(), tour.getDuration(), tour.getDescription(),
-                    tour.getCost(), tour.getHotel_id(), tour.getCountry_id(), tour.getTour_type());
+                    tour.getCost(), tour.getHotel_id(), tour.getCountry_id(), tour.getTour_type().toString());
             return true;
         } else {
             return false;
@@ -68,17 +68,11 @@ public class TourDAOImpl implements TourDAO {
 
     @Override
     public Tour update(Tour tour, int id) {
-        jdbcTemplate.update(SQL_UPDATE, tour.getPhoto(), tour.getDate(), tour.getDuration(), tour.getDescription(),
-                tour.getCost(), tour.getHotel_id(), tour.getCountry_id(), tour.getTour_type(), id);
-        return getById(id);
+        if (tour != null) {
+            jdbcTemplate.update(SQL_UPDATE, tour.getPhoto(), tour.getDate(), tour.getDuration(), tour.getDescription(),
+                    tour.getCost(), tour.getHotel_id(), tour.getCountry_id(), tour.getTour_type().toString(), id);
+            return getById(id);
+        } else return null;
     }
 
-    public static void main(String[] args) {
-
-        Tour tour = new Tour(101, "", new Date(1), 9, "", 1.0, 1, 1, ECONOM);
-
-        ApplicationContext context = new AnnotationConfigApplicationContext(DBConfig.class);
-        TourDAOImpl tourDAO = context.getBean(TourDAOImpl.class);
-        System.out.println(tourDAO.create(tour));
-    }
 }

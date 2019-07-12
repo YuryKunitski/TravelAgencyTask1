@@ -1,11 +1,8 @@
 package by.epam.kunitski.model.dao.daoimpl;
 
-import by.epam.kunitski.model.dao.daointerface.CountryDAO;
 import by.epam.kunitski.model.dao.daointerface.ReviewDAO;
-import by.epam.kunitski.model.dao.dbpool.DBConfig;
-import by.epam.kunitski.model.entity.Country;
+import by.epam.kunitski.model.dao.dbconfig.DBConfig;
 import by.epam.kunitski.model.entity.Review;
-import by.epam.kunitski.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,21 +63,10 @@ public class ReviewDAOImpl implements ReviewDAO {
 
     @Override
     public Review update(Review review, int id) {
-        jdbcTemplate.update(SQL_UPDATE, review.getDate(), review.getText(), review.getUserID(), review.getTourID(), id);
-        return getById(id);
-    }
-
-    public static void main(String[] args) {
-
-        Review review = new Review();
-        review.setDate(new Date(1));
-        review.setText("aaaa");
-        review.setUserID(1);
-        review.setTourID(1);
-
-        ApplicationContext context = new AnnotationConfigApplicationContext(DBConfig.class);
-        ReviewDAO reviewDAO = context.getBean(ReviewDAOImpl.class);
-        System.out.println(reviewDAO.update(review, 1));
+        if (review != null) {
+            jdbcTemplate.update(SQL_UPDATE, review.getDate(), review.getText(), review.getUserID(), review.getTourID(), id);
+            return getById(id);
+        } else return null;
     }
 
 }

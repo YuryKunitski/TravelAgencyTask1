@@ -1,7 +1,7 @@
 package by.epam.kunitski.model.dao.daoimpl;
 
 import by.epam.kunitski.model.dao.daointerface.HotelDAO;
-import by.epam.kunitski.model.dao.dbpool.DBConfig;
+import by.epam.kunitski.model.dao.dbconfig.DBConfig;
 import by.epam.kunitski.model.entity.Hotel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public class HotelDAOImpl implements HotelDAO {
     public boolean create(Hotel hotel) {
         if (hotel != null) {
             jdbcTemplate.update(SQL_CREATE, hotel.getName(), hotel.getStars(), hotel.getWebsite(), hotel.getLatitude(),
-                    hotel.getLongitude(), hotel.getFeatures().toString() );
+                    hotel.getLongitude(), hotel.getFeatures().toString());
             return true;
         } else {
             return false;
@@ -63,14 +63,17 @@ public class HotelDAOImpl implements HotelDAO {
 
     @Override
     public Hotel update(Hotel hotel, int id) {
-        jdbcTemplate.update(SQL_UPDATE, hotel.getName(), hotel.getStars(), hotel.getWebsite(), hotel.getLatitude(),
-                hotel.getLongitude(), hotel.getFeatures(), id);
-        return getById(id);
+        if (hotel != null) {
+            jdbcTemplate.update(SQL_UPDATE, hotel.getName(), hotel.getStars(), hotel.getWebsite(), hotel.getLatitude(),
+                    hotel.getLongitude(), hotel.getFeatures().toString(), id);
+            return getById(id);
+        } else return null;
     }
 
     public static void main(String[] args) {
 
-        Hotel hotel = new Hotel(101, "Zimbabveshka", 5, "dfdf.com", 32.23, 54.45, Hotel.FeatureType.FREE_WIFI);
+        Hotel hotel = new Hotel(101, "Zimbabveshka", 5, "dfdf.com", 32.23
+                , 54.45, Hotel.FeatureType.FREE_WIFI);
 
         ApplicationContext context = new AnnotationConfigApplicationContext(DBConfig.class);
         HotelDAO hotelDAO = context.getBean(HotelDAO.class);

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +14,7 @@ public class Tour {
 
     private int id;
     private String photo;
-    private Date date;
+    private LocalDate date;
     private int duration;
     private String description;
     private Double cost;

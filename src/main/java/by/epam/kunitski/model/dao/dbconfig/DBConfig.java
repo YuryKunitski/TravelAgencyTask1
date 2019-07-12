@@ -1,23 +1,24 @@
-package by.epam.kunitski.model.dao.dbpool;
+package by.epam.kunitski.model.dao.dbconfig;
 
+import by.epam.kunitski.model.dao.daoimpl.CountryDAOImpl;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @Configuration
-@ComponentScan("by.epam.kunitski")
-@PropertySource("classpath:hikari.properties")
+@ComponentScan( basePackageClasses = {CountryDAOImpl.class})
 public class DBConfig {
 
     private static final String CP_PROPERTIES = "/hikari.properties";
 
+    //@Profile("dev")
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig(CP_PROPERTIES);
