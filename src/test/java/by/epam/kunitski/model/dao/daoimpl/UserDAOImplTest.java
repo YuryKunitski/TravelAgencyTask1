@@ -32,7 +32,7 @@ public class UserDAOImplTest {
 
     @Test
     public void getAll() {
-        int sizeExpected = 0;
+        int sizeExpected = 100;
         int sizeActual = userDAO.getAll().size();
         assertEquals(sizeExpected, sizeActual);
     }
