@@ -46,9 +46,8 @@ public class UserDAOImplTest {
 
     @Test
     public void getByWrongId() {
-        User expectedUser = null;
         User actualUser = userDAO.getById(-1);
-        assertEquals(expectedUser, actualUser);
+        assertEquals(null, actualUser);
     }
 
     @Test
