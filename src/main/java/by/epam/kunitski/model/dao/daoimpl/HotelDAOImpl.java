@@ -1,13 +1,10 @@
 package by.epam.kunitski.model.dao.daoimpl;
 
 import by.epam.kunitski.model.dao.daointerface.HotelDAO;
-import by.epam.kunitski.model.dao.dbconfig.DBConfig;
 import by.epam.kunitski.model.entity.Hotel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -17,7 +14,7 @@ import java.util.List;
 @Service
 public class HotelDAOImpl implements HotelDAO {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -69,16 +66,4 @@ public class HotelDAOImpl implements HotelDAO {
             return getById(id);
         } else return null;
     }
-
-    public static void main(String[] args) {
-
-        Hotel hotel = new Hotel(101, "Zimbabveshka", 5, "dfdf.com", 32.23
-                , 54.45, Hotel.FeatureType.FREE_WIFI);
-
-        ApplicationContext context = new AnnotationConfigApplicationContext(DBConfig.class);
-        HotelDAO hotelDAO = context.getBean(HotelDAO.class);
-        System.out.println(hotelDAO.create(hotel));
-    }
-
-
 }

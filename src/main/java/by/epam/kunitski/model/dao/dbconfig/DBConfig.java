@@ -6,7 +6,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -18,7 +17,6 @@ public class DBConfig {
 
     private static final String CP_PROPERTIES = "/hikari.properties";
 
-    //@Profile("dev")
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig(CP_PROPERTIES);

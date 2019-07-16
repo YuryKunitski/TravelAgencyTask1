@@ -1,13 +1,10 @@
 package by.epam.kunitski.model.dao.daoimpl;
 
 import by.epam.kunitski.model.dao.daointerface.CountryDAO;
-import by.epam.kunitski.model.dao.dbconfig.DBConfig;
 import by.epam.kunitski.model.entity.Country;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -67,14 +64,5 @@ public class CountryDAOImpl implements CountryDAO {
         } else return null;
     }
 
-
-    public static void main(String[] args) {
-
-        Country country = new Country(26, "Zimbabve");
-
-        ApplicationContext context = new AnnotationConfigApplicationContext(DBConfig.class);
-        CountryDAO countryDAO = context.getBean(CountryDAOImpl.class);
-        System.out.println(countryDAO.delete(151));
-    }
 
 }
