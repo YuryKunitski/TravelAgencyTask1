@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class CountryDAOImpl implements CountryDAO {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
