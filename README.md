@@ -1,1 +1,1 @@
-Tour agency
+Travel agency
