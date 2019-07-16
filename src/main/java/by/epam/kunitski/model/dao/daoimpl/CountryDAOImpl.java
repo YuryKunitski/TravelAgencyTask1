@@ -27,11 +27,13 @@ public class CountryDAOImpl implements CountryDAO {
 
     @Override
     public List<Country> getAll() {
+        LOGGER.info("CountryDAOImpl | getAll");
         return jdbcTemplate.query(SQL_GET_ALL, ROW_MAPPER_COUNTRY);
     }
 
     @Override
     public Country getById(int id) {
+        LOGGER.info("CountryDAOImpl | getById");
         Country country = null;
         try {
             country = (Country) jdbcTemplate.queryForObject(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_COUNTRY);
@@ -43,11 +45,13 @@ public class CountryDAOImpl implements CountryDAO {
 
     @Override
     public int delete(int id) {
+        LOGGER.info("CountryDAOImpl | delete");
         return jdbcTemplate.update(SQL_DELETE, id);
     }
 
     @Override
     public boolean create(Country country) {
+        LOGGER.info("CountryDAOImpl | create");
         if (country != null) {
             jdbcTemplate.update(SQL_CREATE, country.getName());
             return true;
@@ -58,6 +62,7 @@ public class CountryDAOImpl implements CountryDAO {
 
     @Override
     public Country update(Country country, int id) {
+        LOGGER.info("CountryDAOImpl | update");
         if (country != null) {
             jdbcTemplate.update(SQL_UPDATE, country.getName(), id);
             return getById(id);
