@@ -1,6 +1,5 @@
 package by.epam.kunitski.model.service.impl;
 
-import by.epam.kunitski.model.dao.daoimpl.ReviewDAOImpl;
 import by.epam.kunitski.model.dao.daoimpl.TourDAOImpl;
 import by.epam.kunitski.model.entity.Tour;
 import by.epam.kunitski.model.service.interf.EntityService;

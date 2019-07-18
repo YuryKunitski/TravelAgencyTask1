@@ -53,6 +53,13 @@ public class UserServiceTest {
     }
 
     @Test
+    public void deleteFail() {
+        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
+        when(userDAO.delete(1)).thenReturn(0);
+        assertFalse(userService.delete(1));
+    }
+
+    @Test
     public void deleteByWrongId() {
         when(userDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(userService.delete(-1));
@@ -60,13 +67,22 @@ public class UserServiceTest {
 
     @Test
     public void add() {
+        lenient().when(userDAO.getById(30)).thenReturn(Optional.empty());
         when(userDAO.create(expectedUser)).thenReturn(1);
         assertTrue(userService.add(expectedUser));
     }
 
     @Test
-    public void addByWrongId() {
-        lenient().when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
+    public void addFail() {
+        lenient().when(userDAO.getById(31)).thenReturn(Optional.empty());
+        when(userDAO.create(expectedUser)).thenReturn(0);
+        assertFalse(userService.add(expectedUser));
+    }
+
+    @Test
+    public void addByExistWrongId() {
+        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
+        lenient().when(userDAO.create(expectedUser)).thenReturn(0);
         assertFalse(userService.add(expectedUser));
     }
 

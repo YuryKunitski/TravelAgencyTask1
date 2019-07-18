@@ -52,6 +52,13 @@ public class CountryServiceTest {
     }
 
     @Test
+    public void deleteFail() {
+        when(countryDAO.getById(1)).thenReturn(Optional.of(expectedCountry));
+        when(countryDAO.delete(1)).thenReturn(0);
+        assertFalse(countryService.delete(1));
+    }
+
+    @Test
     public void deleteByWrongId() {
         when(countryDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(countryService.delete(-1));
@@ -59,13 +66,22 @@ public class CountryServiceTest {
 
     @Test
     public void add() {
+        lenient().when(countryDAO.getById(30)).thenReturn(Optional.empty());
         when(countryDAO.create(expectedCountry)).thenReturn(1);
         assertTrue(countryService.add(expectedCountry));
     }
 
     @Test
-    public void addByWrongId() {
-        when(countryDAO.getById(-1)).thenReturn(Optional.of(expectedCountry));
+    public void addFail() {
+        lenient().when(countryDAO.getById(30)).thenReturn(Optional.empty());
+        when(countryDAO.create(expectedCountry)).thenReturn(0);
+        assertFalse(countryService.add(expectedCountry));
+    }
+
+    @Test
+    public void addByExistWrongId() {
+        when(countryDAO.getById(1)).thenReturn(Optional.of(expectedCountry));
+        lenient().when(countryDAO.create(expectedCountry)).thenReturn(0);
         assertFalse(countryService.add(expectedCountry));
     }
 

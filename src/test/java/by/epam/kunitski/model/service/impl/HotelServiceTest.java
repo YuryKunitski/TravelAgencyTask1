@@ -57,6 +57,13 @@ public class HotelServiceTest {
     }
 
     @Test
+    public void deleteFail() {
+        when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
+        when(hotelDAO.delete(1)).thenReturn(0);
+        assertFalse(hotelService.delete(1));
+    }
+
+    @Test
     public void deleteByWrongId() {
         when(hotelDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(hotelService.delete(-1));
@@ -64,13 +71,22 @@ public class HotelServiceTest {
 
     @Test
     public void add() {
+        lenient().when(hotelDAO.getById(30)).thenReturn(Optional.empty());
         when(hotelDAO.create(expectedHotel)).thenReturn(1);
         assertTrue(hotelService.add(expectedHotel));
     }
 
     @Test
-    public void addByWrongId() {
-        lenient().when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
+    public void addFail() {
+        lenient().when(hotelDAO.getById(30)).thenReturn(Optional.empty());
+        when(hotelDAO.create(expectedHotel)).thenReturn(0);
+        assertFalse(hotelService.add(expectedHotel));
+    }
+
+    @Test
+    public void addByExistWrongId() {
+        when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
+        lenient().when(hotelDAO.create(expectedHotel)).thenReturn(0);
         assertFalse(hotelService.add(expectedHotel));
     }
 

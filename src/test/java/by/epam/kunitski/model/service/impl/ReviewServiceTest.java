@@ -53,6 +53,13 @@ public class ReviewServiceTest {
         when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
         assertTrue(reviewService.delete(1));
     }
+    
+    @Test
+    public void deleteFail() {
+        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
+        when(reviewDAO.delete(1)).thenReturn(0);
+        assertFalse(reviewService.delete(1));
+    }
 
     @Test
     public void deleteByWrongId() {
@@ -62,13 +69,22 @@ public class ReviewServiceTest {
 
     @Test
     public void add() {
+        lenient().when(reviewDAO.getById(30)).thenReturn(Optional.empty());
         when(reviewDAO.create(expectedReview)).thenReturn(1);
         assertTrue(reviewService.add(expectedReview));
     }
 
     @Test
-    public void addByWrongId() {
-        lenient().when(reviewDAO.getById(-1)).thenReturn(Optional.of(expectedReview));
+    public void addFail() {
+        lenient().when(reviewDAO.getById(30)).thenReturn(Optional.empty());
+        when(reviewDAO.create(expectedReview)).thenReturn(0);
+        assertFalse(reviewService.add(expectedReview));
+    }
+
+    @Test
+    public void addByExistWrongId() {
+        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
+        lenient().when(reviewDAO.create(expectedReview)).thenReturn(0);
         assertFalse(reviewService.add(expectedReview));
     }
 
