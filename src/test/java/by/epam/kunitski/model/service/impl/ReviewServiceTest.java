@@ -75,6 +75,7 @@ public class ReviewServiceTest {
     }
 
     @Test
+<<<<<<< HEAD
     public void addFail() {
         lenient().when(reviewDAO.getById(30)).thenReturn(Optional.empty());
         when(reviewDAO.create(expectedReview)).thenReturn(0);
@@ -82,6 +83,8 @@ public class ReviewServiceTest {
     }
 
     @Test
+=======
+>>>>>>> 78f3f82966cc1f90e6c3bd2f848dc5fb428d727c
     public void addByExistWrongId() {
         when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
         lenient().when(reviewDAO.create(expectedReview)).thenReturn(0);

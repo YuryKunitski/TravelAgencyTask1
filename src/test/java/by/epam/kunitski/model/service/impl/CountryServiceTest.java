@@ -72,6 +72,7 @@ public class CountryServiceTest {
     }
 
     @Test
+<<<<<<< HEAD
     public void addFail() {
         lenient().when(countryDAO.getById(30)).thenReturn(Optional.empty());
         when(countryDAO.create(expectedCountry)).thenReturn(0);
@@ -79,6 +80,8 @@ public class CountryServiceTest {
     }
 
     @Test
+=======
+>>>>>>> 78f3f82966cc1f90e6c3bd2f848dc5fb428d727c
     public void addByExistWrongId() {
         when(countryDAO.getById(1)).thenReturn(Optional.of(expectedCountry));
         lenient().when(countryDAO.create(expectedCountry)).thenReturn(0);
