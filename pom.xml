@@ -39,6 +39,50 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>verify-style</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <checkstyleRules>
+                        <module name="Checker">
+
+                            <!-- Checks for Size Violations.                    -->
+                            <module name="FileLength">
+                                <property name="max" value="3500"/>
+                                <property name="fileExtensions" value="java"/>
+                            </module>
+
+                            <!-- Checks for whitespace                               -->
+                            <module name="FileTabCharacter"/>
+
+                            <module name="TreeWalker">
+                                <module name="StaticVariableName"/>
+                                <module name="TypeName">
+                                    <property name="format" value="^_?[A-Z][a-zA-Z0-9]*$"/>
+                                </module>
+                            </module>
+                        </module>
+                    </checkstyleRules>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.12</version>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -84,14 +128,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>3.0.0</version>
-            <scope>test</scope>
-        </dependency>
-
 
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -146,9 +182,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.4.3.Final</version>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs</artifactId>
+            <version>4.0.0-beta3</version>
         </dependency>
     </dependencies>
 

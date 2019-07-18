@@ -1,4 +1,4 @@
-package by.epam.kunitski.travelagency.dao.dbconfig;
+package by.epam.kunitski.travelagency.dao.config;
 
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;

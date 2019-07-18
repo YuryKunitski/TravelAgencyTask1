@@ -15,7 +15,7 @@ public interface HotelDAO {
                 Hotel.FeatureType.valueOf(rs.getString(7)));
     };
 
-    List<Hotel> getAll();
+    List getAll();
 
     Optional<Hotel> getById(int id);
 

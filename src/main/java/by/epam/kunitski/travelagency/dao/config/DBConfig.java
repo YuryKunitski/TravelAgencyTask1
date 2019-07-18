@@ -1,4 +1,4 @@
-package by.epam.kunitski.travelagency.dao.dbconfig;
+package by.epam.kunitski.travelagency.dao.config;
 
 import by.epam.kunitski.travelagency.dao.impl.CountryDAOImpl;
 import com.zaxxer.hikari.HikariConfig;
@@ -9,11 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 
 @Configuration
-@ComponentScan( basePackageClasses = {CountryDAOImpl.class})
-public class DBConfig {
+@ComponentScan(basePackages = "by.epam.kunitski")
+class DBConfig {
 
     private static final String CP_PROPERTIES = "/hikari.properties";
 
@@ -25,7 +24,7 @@ public class DBConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() throws SQLException {
+    public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(dataSource());
     }
 

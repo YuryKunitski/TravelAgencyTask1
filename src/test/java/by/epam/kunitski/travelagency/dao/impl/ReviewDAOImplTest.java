@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.dbconfig.TestConfig;
+import by.epam.kunitski.travelagency.dao.config.TestConfig;
 import by.epam.kunitski.travelagency.entity.Review;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -25,6 +25,7 @@ public class ReviewDAOImplTest {
     private ReviewDAOImpl reviewDAO;
 
     @Autowired
+    private
     Flyway flyway;
 
     @Before
