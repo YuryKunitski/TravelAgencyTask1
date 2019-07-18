@@ -57,6 +57,13 @@ public class HotelServiceTest {
     }
 
     @Test
+    public void deleteFail() {
+        when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
+        when(hotelDAO.delete(1)).thenReturn(0);
+        assertFalse(hotelService.delete(1));
+    }
+
+    @Test
     public void deleteByWrongId() {
         when(hotelDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(hotelService.delete(-1));

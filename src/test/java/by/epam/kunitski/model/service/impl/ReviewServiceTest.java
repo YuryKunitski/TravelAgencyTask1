@@ -53,6 +53,13 @@ public class ReviewServiceTest {
         when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
         assertTrue(reviewService.delete(1));
     }
+    
+    @Test
+    public void deleteFail() {
+        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
+        when(reviewDAO.delete(1)).thenReturn(0);
+        assertFalse(reviewService.delete(1));
+    }
 
     @Test
     public void deleteByWrongId() {

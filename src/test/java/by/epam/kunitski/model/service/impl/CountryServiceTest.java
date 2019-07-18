@@ -52,6 +52,13 @@ public class CountryServiceTest {
     }
 
     @Test
+    public void deleteFail() {
+        when(countryDAO.getById(1)).thenReturn(Optional.of(expectedCountry));
+        when(countryDAO.delete(1)).thenReturn(0);
+        assertFalse(countryService.delete(1));
+    }
+
+    @Test
     public void deleteByWrongId() {
         when(countryDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(countryService.delete(-1));

@@ -53,6 +53,13 @@ public class UserServiceTest {
     }
 
     @Test
+    public void deleteFail() {
+        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
+        when(userDAO.delete(1)).thenReturn(0);
+        assertFalse(userService.delete(1));
+    }
+
+    @Test
     public void deleteByWrongId() {
         when(userDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(userService.delete(-1));

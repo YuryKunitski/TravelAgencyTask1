@@ -53,10 +53,16 @@ public class TourServiceTest {
 
     @Test
     public void delete() {
-
         when(tourDAO.delete(1)).thenReturn(1);
         when(tourDAO.getById(1)).thenReturn(Optional.of(expectedTour));
         assertTrue(tourService.delete(1));
+    }
+
+    @Test
+    public void deleteFail() {
+        when(tourDAO.getById(1)).thenReturn(Optional.of(expectedTour));
+        when(tourDAO.delete(1)).thenReturn(0);
+        assertFalse(tourService.delete(1));
     }
 
     @Test
@@ -71,6 +77,13 @@ public class TourServiceTest {
         when(tourDAO.create(expectedTour)).thenReturn(1);
         assertTrue(tourService.add(expectedTour));
     }
+
+//    @Test
+//    public void addFail() {
+//        lenient().when(tourDAO.getById(30)).thenReturn(Optional.empty());
+//        when(tourDAO.create(expectedTour)).thenReturn(0);
+//        assertFalse(tourService.add(expectedTour));
+//    }
 
     @Test
     public void addByExistWrongId() {
