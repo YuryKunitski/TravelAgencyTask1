@@ -2,6 +2,7 @@ package by.epam.kunitski.model.service.impl;
 
 import static by.epam.kunitski.model.entity.Tour.TourType.ONLY_BREAKFAST;
 import static org.junit.Assert.*;
+
 import by.epam.kunitski.model.dao.daoimpl.TourDAOImpl;
 import by.epam.kunitski.model.entity.Tour;
 import org.junit.Test;
@@ -77,15 +78,7 @@ public class TourServiceTest {
         assertTrue(tourService.add(expectedTour));
     }
 
-//    @Test
-//    public void addFail() {
-//        lenient().when(tourDAO.getById(30)).thenReturn(Optional.empty());
-//        when(tourDAO.create(expectedTour)).thenReturn(0);
-//        assertFalse(tourService.add(expectedTour));
-//    }
-
     @Test
-<<<<<<< HEAD
     public void addFail() {
         lenient().when(tourDAO.getById(30)).thenReturn(Optional.empty());
         when(tourDAO.create(expectedTour)).thenReturn(0);
@@ -95,12 +88,7 @@ public class TourServiceTest {
     @Test
     public void addByExistWrongId() {
         when(tourDAO.getById(1)).thenReturn(Optional.of(expectedTour));
-       lenient().when(tourDAO.create(expectedTour)).thenReturn(0);
-=======
-    public void addByExistWrongId() {
-        when(tourDAO.getById(1)).thenReturn(Optional.of(expectedTour));
         lenient().when(tourDAO.create(expectedTour)).thenReturn(0);
->>>>>>> 78f3f82966cc1f90e6c3bd2f848dc5fb428d727c
         assertFalse(tourService.add(expectedTour));
     }
 
