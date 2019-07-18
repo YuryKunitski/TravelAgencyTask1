@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -61,13 +62,15 @@ public class ReviewServiceTest {
 
     @Test
     public void add() {
+        lenient().when(reviewDAO.getById(30)).thenReturn(Optional.empty());
         when(reviewDAO.create(expectedReview)).thenReturn(1);
         assertTrue(reviewService.add(expectedReview));
     }
 
     @Test
-    public void addByWrongId() {
-        when(reviewDAO.getById(-1)).thenReturn(Optional.empty());
+    public void addByExistWrongId() {
+        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
+        lenient().when(reviewDAO.create(expectedReview)).thenReturn(0);
         assertFalse(reviewService.add(expectedReview));
     }
 

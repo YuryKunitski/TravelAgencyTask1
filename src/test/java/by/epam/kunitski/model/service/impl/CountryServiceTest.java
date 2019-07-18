@@ -59,13 +59,15 @@ public class CountryServiceTest {
 
     @Test
     public void add() {
+        lenient().when(countryDAO.getById(30)).thenReturn(Optional.empty());
         when(countryDAO.create(expectedCountry)).thenReturn(1);
         assertTrue(countryService.add(expectedCountry));
     }
 
     @Test
-    public void addByWrongId() {
-        when(countryDAO.getById(-1)).thenReturn(Optional.empty());
+    public void addByExistWrongId() {
+        when(countryDAO.getById(1)).thenReturn(Optional.of(expectedCountry));
+        lenient().when(countryDAO.create(expectedCountry)).thenReturn(0);
         assertFalse(countryService.add(expectedCountry));
     }
 
