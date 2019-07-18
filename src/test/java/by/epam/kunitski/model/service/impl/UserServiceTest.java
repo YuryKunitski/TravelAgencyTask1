@@ -12,7 +12,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -66,7 +65,7 @@ public class UserServiceTest {
 
     @Test
     public void addByWrongId() {
-        lenient().when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
+        when(userDAO.getById(1)).thenReturn(Optional.empty());
         assertFalse(userService.add(expectedUser));
     }
 

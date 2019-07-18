@@ -65,7 +65,7 @@ public class CountryServiceTest {
 
     @Test
     public void addByWrongId() {
-        when(countryDAO.getById(-1)).thenReturn(Optional.of(expectedCountry));
+        when(countryDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(countryService.add(expectedCountry));
     }
 

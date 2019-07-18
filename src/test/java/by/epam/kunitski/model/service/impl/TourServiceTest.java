@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -73,7 +72,7 @@ public class TourServiceTest {
 
     @Test
     public void addByWrongId() {
-        lenient().when(tourDAO.getById(1)).thenReturn(Optional.of(expectedTour));
+        when(tourDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(tourService.add(expectedTour));
     }
 

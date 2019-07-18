@@ -13,7 +13,6 @@ import java.util.Optional;
 
 import static by.epam.kunitski.model.entity.Hotel.FeatureType.CHILDREN_AREA;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -70,7 +69,7 @@ public class HotelServiceTest {
 
     @Test
     public void addByWrongId() {
-        lenient().when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
+        when(hotelDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(hotelService.add(expectedHotel));
     }
 
