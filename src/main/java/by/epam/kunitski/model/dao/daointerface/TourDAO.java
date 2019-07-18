@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Optional;
 
 public interface TourDAO {
     RowMapper ROW_MAPPER_TOUR = (ResultSet rs, int rowNum) -> {
@@ -15,11 +16,11 @@ public interface TourDAO {
 
     List<Tour> getAll();
 
-    Tour getById(int id);
+    Optional<Tour> getById(int id);
 
     int delete(int id);
 
-    boolean create(Tour tour);
+    int create(Tour tour);
 
-    Tour update(Tour tour, int id);
+    Optional<Tour> update(Tour tour, int id);
 }

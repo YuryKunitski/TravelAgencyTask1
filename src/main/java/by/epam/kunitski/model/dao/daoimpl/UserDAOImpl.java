@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserDAOImpl implements UserDAO {
@@ -26,41 +27,33 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAll() {
+        LOGGER.info("Start method getAll");
         return jdbcTemplate.query(SQL_GET_ALL, ROW_MAPPER_USER);
     }
 
     @Override
-    public User getById(int id) {
-        User user = null;
-        try {
-            user = (User) jdbcTemplate.queryForObject(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_USER);
-        } catch (DataAccessException e) {
-            LOGGER.error("Couldn't find entity of type User with id " + id);
-        }
-        return user;
-
+    public Optional<User> getById(int id) {
+        LOGGER.info("Start method getById");
+        List<User> userList = jdbcTemplate.query(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_USER);
+        return userList.isEmpty() ? Optional.empty() : Optional.of(userList.get(0));
     }
 
     @Override
     public int delete(int id) {
+        LOGGER.info("Start method delete");
         return jdbcTemplate.update(SQL_DELETE, id);
     }
 
     @Override
-    public boolean create(User user) {
-        if (user != null) {
-            jdbcTemplate.update(SQL_CREATE, user.getLogin(), user.getPassword());
-            return true;
-        } else {
-            return false;
-        }
+    public int create(User user) {
+        LOGGER.info("Start method create");
+        return jdbcTemplate.update(SQL_CREATE, user.getLogin(), user.getPassword());
     }
 
     @Override
-    public User update(User user, int id) {
-        if (user != null) {
+    public Optional<User> update(User user, int id) {
+        LOGGER.info("Start method update");
             jdbcTemplate.update(SQL_UPDATE, user.getLogin(), user.getPassword(), id);
             return getById(id);
-        } else return null;
     }
 }

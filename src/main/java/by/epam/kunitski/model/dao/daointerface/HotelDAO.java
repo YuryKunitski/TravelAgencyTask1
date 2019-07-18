@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Optional;
 
 public interface HotelDAO {
 
@@ -16,11 +17,11 @@ public interface HotelDAO {
 
     List<Hotel> getAll();
 
-    Hotel getById(int id);
+    Optional<Hotel> getById(int id);
 
     int delete(int id);
 
-    boolean create(Hotel hotel);
+    int create(Hotel hotel);
 
-    Hotel update(Hotel hotel, int id);
+    Optional<Hotel> update(Hotel hotel, int id);
 }

@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReviewDAO {
     RowMapper ROW_MAPPER_REVIEW = (ResultSet rs, int rowNum) -> {
@@ -15,11 +16,11 @@ public interface ReviewDAO {
 
     List<Review> getAll();
 
-    Review getById(int id);
+    Optional<Review> getById(int id);
 
     int delete(int id);
 
-    boolean create(Review review);
+    int create(Review review);
 
-    Review update(Review review, int id);
+    Optional<Review> update(Review review, int id);
 }

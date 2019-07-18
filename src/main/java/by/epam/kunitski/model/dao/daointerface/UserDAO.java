@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserDAO {
 
@@ -14,11 +15,11 @@ public interface UserDAO {
 
     List<User> getAll();
 
-    User getById(int id);
+    Optional<User> getById(int id);
 
     int delete(int id);
 
-    boolean create(User user);
+    int create(User user);
 
-    User update(User user, int id);
+    Optional<User> update(User user, int id);
 }

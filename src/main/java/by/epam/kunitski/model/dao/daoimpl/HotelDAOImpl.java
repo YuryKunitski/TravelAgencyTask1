@@ -1,6 +1,7 @@
 package by.epam.kunitski.model.dao.daoimpl;
 
 import by.epam.kunitski.model.dao.daointerface.HotelDAO;
+import by.epam.kunitski.model.entity.Country;
 import by.epam.kunitski.model.entity.Hotel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +11,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HotelDAOImpl implements HotelDAO {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(HotelDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -27,43 +29,36 @@ public class HotelDAOImpl implements HotelDAO {
 
     @Override
     public List<Hotel> getAll() {
+        LOGGER.info("Start method getAll");
         return jdbcTemplate.query(SQL_GET_ALL, ROW_MAPPER_HOTEL);
     }
 
     @Override
-    public Hotel getById(int id) {
-        Hotel hotel = null;
-        try {
-            hotel = (Hotel) jdbcTemplate.queryForObject(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_HOTEL);
-        } catch (DataAccessException e) {
-            LOGGER.error("Couldn't find entity of type Hotel with id " + id);
-        }
-        return hotel;
-
+    public Optional<Hotel> getById(int id) {
+        LOGGER.info("Start method getById");
+        List<Hotel> hotelList = jdbcTemplate.query(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_HOTEL);
+       return hotelList.isEmpty() ? Optional.empty() : Optional.of(hotelList.get(0));
     }
 
     @Override
     public int delete(int id) {
+        LOGGER.info("Start method delete");
         return jdbcTemplate.update(SQL_DELETE, id);
     }
 
     @Override
-    public boolean create(Hotel hotel) {
-        if (hotel != null) {
-            jdbcTemplate.update(SQL_CREATE, hotel.getName(), hotel.getStars(), hotel.getWebsite(), hotel.getLatitude(),
-                    hotel.getLongitude(), hotel.getFeatures().toString());
-            return true;
-        } else {
-            return false;
-        }
+    public int create(Hotel hotel) {
+        LOGGER.info("Start method create");
+        return jdbcTemplate.update(SQL_CREATE, hotel.getName(), hotel.getStars(), hotel.getWebsite(), hotel.getLatitude(),
+                hotel.getLongitude(), hotel.getFeatures().toString());
     }
 
     @Override
-    public Hotel update(Hotel hotel, int id) {
-        if (hotel != null) {
-            jdbcTemplate.update(SQL_UPDATE, hotel.getName(), hotel.getStars(), hotel.getWebsite(), hotel.getLatitude(),
-                    hotel.getLongitude(), hotel.getFeatures().toString(), id);
-            return getById(id);
-        } else return null;
+    public Optional<Hotel> update(Hotel hotel, int id) {
+        LOGGER.info("Start method update");
+        jdbcTemplate.update(SQL_UPDATE, hotel.getName(), hotel.getStars(), hotel.getWebsite(), hotel.getLatitude(),
+                hotel.getLongitude(), hotel.getFeatures().toString(), id);
+        return getById(id);
     }
+
 }

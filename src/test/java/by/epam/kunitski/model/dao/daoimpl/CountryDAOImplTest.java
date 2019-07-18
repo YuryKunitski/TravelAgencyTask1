@@ -10,14 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
+import java.util.Optional;
 
+import static org.junit.Assert.*;
 
 @ContextConfiguration(classes = TestConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CountryDAOImplTest {
 
-    private Country expectedCountry;
+    private Optional<Country> expectedCountry;
 
     @Autowired
     private CountryDAOImpl countryDAO;
@@ -40,15 +41,15 @@ public class CountryDAOImplTest {
 
     @Test
     public void getById() {
-        expectedCountry = new Country(1, "China");
-        Country actualCountry = countryDAO.getById(1);
+        expectedCountry = Optional.of(new Country(1, "China"));
+        Optional<Country> actualCountry = countryDAO.getById(1);
         assertEquals(expectedCountry, actualCountry);
     }
 
     @Test
     public void getByWrongId() {
-        Country actualCountry = countryDAO.getById(-1);
-        assertEquals(null, actualCountry);
+        Optional<Country> actualCountry = countryDAO.getById(-1);
+        assertEquals(Optional.empty(), actualCountry);
     }
 
     @Test
@@ -65,32 +66,33 @@ public class CountryDAOImplTest {
 
     @Test
     public void create() {
-        boolean actualResult = countryDAO.create(new Country(1, "Belarus"));
-        assertEquals(true, actualResult);
+        int actualResult = countryDAO.create(new Country(1, "Belarus"));
+        assertEquals(1, actualResult);
     }
 
-    @Test
-    public void createCountryNull() {
-        boolean actualResult = countryDAO.create(null);
-        assertEquals(false, actualResult);
-    }
+//    @Test
+//    public void createCountryNull() {
+//        int actualResult = countryDAO.create(null);
+//        assertEquals(false, actualResult);
+//    }
 
     @Test
     public void update() {
-        expectedCountry = new Country(1, "Belarus");
-        Country actualCountry = countryDAO.update(new Country(10, "Belarus"), 1);
+        expectedCountry = Optional.of(new Country(1, "Belarus"));
+        Optional<Country> actualCountry = countryDAO.update(new Country(10, "Belarus"), 1);
         assertEquals(expectedCountry, actualCountry);
     }
 
     @Test
     public void updateForWrongId() {
-        Country actualCountry = countryDAO.update(new Country(10, "Belarus"), -1);
-        assertEquals(null, actualCountry);
+        Optional<Country> actualCountry = countryDAO.update(new Country(10, "Belarus"), -1);
+        assertEquals(Optional.empty(), actualCountry);
+
     }
 
-    @Test
-    public void updateForCountryNull() {
-        Country actualCountry = countryDAO.update(null, -1);
-        assertEquals(null, actualCountry);
-    }
+//    @Test
+//    public void updateForCountryNull() {
+//        Optional<Country> actualCountry = countryDAO.update(null, -1);
+//        assertEquals(null, actualCountry);
+//    }
 }

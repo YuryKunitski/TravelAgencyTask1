@@ -7,8 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserDAOImplTest {
 
-    private User expectedUser;
+    private Optional<User> expectedUser;
 
     @Autowired
     private UserDAOImpl userDAO;
@@ -39,28 +42,28 @@ public class UserDAOImplTest {
 
     @Test
     public void getById() {
-        expectedUser = new User(2, "Flor", "T39TOUmA4");
-        User actualUser = userDAO.getById(2);
+        expectedUser = Optional.of(new User(2, "Flor", "T39TOUmA4"));
+        Optional<User> actualUser = userDAO.getById(2);
         assertEquals(expectedUser, actualUser);
     }
 
     @Test
     public void getByWrongId() {
-        User actualUser = userDAO.getById(-1);
-        assertEquals(null, actualUser);
+        Optional<User> actualUser = userDAO.getById(-1);
+        assertEquals(Optional.empty(), actualUser);
     }
 
     @Test
     public void create() {
-        boolean actualResult = userDAO.create(new User(1, "Smit", "a5C4mtyg"));
-        assertEquals(true, actualResult);
+        int actualResult = userDAO.create(new User(1, "Smit", "a5C4mtyg"));
+        assertEquals(1, actualResult);
     }
-
-    @Test
-    public void createUserNull() {
-        boolean actualResult = userDAO.create(null);
-        assertEquals(false, actualResult);
-    }
+//
+//    @Test(expected = NullPointerException.class)
+//    public void createUserNull() {
+//        int actualResult = userDAO.create(null);
+//        assertEquals(false, actualResult);
+//    }
 
     @Test
     public void delete() {
@@ -78,20 +81,20 @@ public class UserDAOImplTest {
 
     @Test
     public void update() {
-        expectedUser = new User(1, "Jonny", "a5C4mtyg");
-        User userActual = userDAO.update(new User(1, "Jonny", "a5C4mtyg"), 1);
+        expectedUser = Optional.of(new User(1, "Jonny", "a5C4mtyg"));
+        Optional<User> userActual = userDAO.update(new User(1, "Jonny", "a5C4mtyg"), 1);
         assertEquals(expectedUser, userActual);
     }
 
     @Test
     public void updateForWrongId() {
-        User userActual = userDAO.update(new User(1, "Lisa", "eee"), -1);
-        assertEquals(null, userActual);
+        Optional<User> userActual = userDAO.update(new User(1, "Lisa", "eee"), -1);
+        assertEquals(Optional.empty(), userActual);
     }
 
-    @Test
-    public void updateForUserNull() {
-        User userActual = userDAO.update(null, 1);
-        assertEquals(null, userActual);
-    }
+//    @Test(expected = NullPointerException.class)
+//    public void updateForUserNull() {
+//        User userActual = userDAO.update(null, 1);
+//        assertEquals(null, userActual);
+//    }
 }

@@ -7,10 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static by.epam.kunitski.model.entity.Tour.TourType.ONLY_BREAKFAST;
 import static org.junit.Assert.*;
@@ -19,7 +21,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TourDAOImplTest {
 
-    private Tour expectedTour;
+    private Optional<Tour> expectedTour;
 
     @Autowired
     private TourDAOImpl tourDAO;
@@ -43,16 +45,16 @@ public class TourDAOImplTest {
 
     @Test
     public void getById() {
-        expectedTour = new Tour(1, "http://dummyimage.com/147x238.jpg/cc0000/ffffff", LocalDate.of(2019, 01, 15)
-                , 3, "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst.", 231.70, 1, 1, ONLY_BREAKFAST);
-        Tour actualTour = tourDAO.getById(1);
+        expectedTour = Optional.of(new Tour(1, "http://dummyimage.com/147x238.jpg/cc0000/ffffff", LocalDate.of(2019, 01, 15)
+                , 3, "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst.", 231.70, 1, 1, ONLY_BREAKFAST));
+        Optional<Tour> actualTour = tourDAO.getById(1);
         assertEquals(expectedTour, actualTour);
     }
 
     @Test
     public void getByWrongId() {
-        Tour actualTour = tourDAO.getById(-1);
-        assertEquals(null, actualTour);
+        Optional<Tour> actualTour = tourDAO.getById(-1);
+        assertEquals(Optional.empty(), actualTour);
     }
 
     @Test
@@ -69,25 +71,25 @@ public class TourDAOImplTest {
 
     @Test
     public void create() {
-        boolean actualResult = tourDAO.create(new Tour(1, "http://dummyimage.com/147x238.jpg/cc0000/ffffff"
+        int actualResult = tourDAO.create(new Tour(1, "http://dummyimage.com/147x238.jpg/cc0000/ffffff"
                 , LocalDate.of(2019, 01, 15), 3, "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst."
                 , 231.70, 1, 1, ONLY_BREAKFAST));
-        assertEquals(true, actualResult);
+        assertEquals(1, actualResult);
     }
 
-    @Test
-    public void createTourNull() {
-        boolean actualResult = tourDAO.create(null);
-        assertEquals(false, actualResult);
-    }
+//    @Test(expected = NullPointerException.class)
+//    public void createTourNull() {
+//        int actualResult = tourDAO.create(null);
+//        assertEquals(false, actualResult);
+//    }
 
     @Test
     public void update() {
-        expectedTour = new Tour(1, "http://dummyimage.com/147x238.jpg/cc0000/ffffff"
+        expectedTour = Optional.of(new Tour(1, "http://dummyimage.com/147x238.jpg/cc0000/ffffff"
                 , LocalDate.of(2019, 01, 15), 3, "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst."
-                , 231.70, 1, 1, ONLY_BREAKFAST);
+                , 231.70, 1, 1, ONLY_BREAKFAST));
 
-        Tour tourActual = tourDAO.update(new Tour(100, "http://dummyimage.com/147x238.jpg/cc0000/ffffff"
+        Optional<Tour> tourActual = tourDAO.update(new Tour(100, "http://dummyimage.com/147x238.jpg/cc0000/ffffff"
                 , LocalDate.of(2019, 01, 15), 3, "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst."
                 , 231.70, 1, 1, ONLY_BREAKFAST), 1);
 
@@ -96,17 +98,17 @@ public class TourDAOImplTest {
 
     @Test
     public void updateForWrongId() {
-        Tour tourActual = tourDAO.update(new Tour(100, "http://dummyimage.com/147x238.jpg/cc0000/ffffff"
+        Optional<Tour> tourActual = tourDAO.update(new Tour(100, "http://dummyimage.com/147x238.jpg/cc0000/ffffff"
                 , LocalDate.of(2019, 01, 15), 3, "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst."
                 , 231.70, 1, 1, ONLY_BREAKFAST), -1);
 
-        assertEquals(null, tourActual);
+        assertEquals(Optional.empty(), tourActual);
     }
 
-    @Test
-    public void updateForTourNull() {
-        Tour tourActual = tourDAO.update(null, -1);
-
-        assertEquals(null, tourActual);
-    }
+//    @Test(expected = NullPointerException.class)
+//    public void updateForTourNull() {
+//        Tour tourActual = tourDAO.update(null, -1);
+//
+//        assertEquals(null, tourActual);
+//    }
 }

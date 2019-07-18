@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Optional;
 
 public interface CountryDAO {
 
@@ -14,11 +15,11 @@ public interface CountryDAO {
 
     List<Country> getAll();
 
-    Country getById(int id);
+    Optional<Country> getById(int id);
 
     int delete(int id);
 
-    boolean create(Country country);
+    int create(Country country);
 
-    Country update(Country country, int id);
+    Optional<Country> update(Country country, int id);
 }

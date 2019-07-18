@@ -5,15 +5,15 @@ import by.epam.kunitski.model.entity.Tour;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TourDAOImpl implements TourDAO {
-    private final static Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(TourDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -28,44 +28,36 @@ public class TourDAOImpl implements TourDAO {
 
 
     public List<Tour> getAll() {
+        LOGGER.info("Start method getAll");
         return jdbcTemplate.query(SQL_GET_ALL, ROW_MAPPER_TOUR);
     }
 
     @Override
-    public Tour getById(int id) {
-        Tour tour = null;
-        try {
-            tour = (Tour) jdbcTemplate.queryForObject(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_TOUR);
-        } catch (DataAccessException e) {
-            LOGGER.error("Couldn't find entity of type Tour with id " + id);
-        }
-        return tour;
+    public Optional<Tour> getById(int id) {
+        LOGGER.info("Start method getById");
+        List<Tour> tourList = jdbcTemplate.query(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_TOUR);
+        return tourList.isEmpty() ? Optional.empty() : Optional.of(tourList.get(0));
 
     }
 
     @Override
     public int delete(int id) {
+        LOGGER.info("Start method delete");
         return jdbcTemplate.update(SQL_DELETE, id);
     }
 
     @Override
-    public boolean create(Tour tour) {
-        if (tour != null) {
-            jdbcTemplate.update(SQL_CREATE, tour.getPhoto(), tour.getDate(), tour.getDuration(), tour.getDescription(),
-                    tour.getCost(), tour.getHotel_id(), tour.getCountry_id(), tour.getTour_type().toString());
-            return true;
-        } else {
-            return false;
-        }
+    public int create(Tour tour) {
+        LOGGER.info("Start method create");
+        return jdbcTemplate.update(SQL_CREATE, tour.getPhoto(), tour.getDate(), tour.getDuration(), tour.getDescription(),
+                tour.getCost(), tour.getHotel_id(), tour.getCountry_id(), tour.getTour_type().toString());
     }
 
     @Override
-    public Tour update(Tour tour, int id) {
-        if (tour != null) {
-            jdbcTemplate.update(SQL_UPDATE, tour.getPhoto(), tour.getDate(), tour.getDuration(), tour.getDescription(),
-                    tour.getCost(), tour.getHotel_id(), tour.getCountry_id(), tour.getTour_type().toString(), id);
-            return getById(id);
-        } else return null;
+    public Optional<Tour> update(Tour tour, int id) {
+        LOGGER.info("Start method update");
+        jdbcTemplate.update(SQL_UPDATE, tour.getPhoto(), tour.getDate(), tour.getDuration(), tour.getDescription(),
+                tour.getCost(), tour.getHotel_id(), tour.getCountry_id(), tour.getTour_type().toString(), id);
+        return getById(id);
     }
-
 }

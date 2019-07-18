@@ -7,8 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Optional;
 
 import static by.epam.kunitski.model.entity.Hotel.FeatureType.CHILDREN_AREA;
 import static org.junit.Assert.*;
@@ -17,7 +20,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class HotelDAOImplTest {
 
-    private Hotel expectedHotel;
+    private Optional<Hotel> expectedHotel;
 
     @Autowired
     private HotelDAOImpl hotelDAO;
@@ -26,7 +29,7 @@ public class HotelDAOImplTest {
     Flyway flyway;
 
     @Before
-    public void init(){
+    public void init() {
         flyway.clean();
         flyway.migrate();
     }
@@ -40,16 +43,16 @@ public class HotelDAOImplTest {
 
     @Test
     public void getById() {
-        expectedHotel = new Hotel(1, "Choloepus hoffmani", 2, "kvassman0@wikimedia.org"
-                ,8.2673715, 48.9086571, CHILDREN_AREA);
-        Hotel actualUser = hotelDAO.getById(1);
+        expectedHotel = Optional.of(new Hotel(1, "Choloepus hoffmani", 2, "kvassman0@wikimedia.org"
+                , 8.2673715, 48.9086571, CHILDREN_AREA));
+        Optional<Hotel> actualUser = hotelDAO.getById(1);
         assertEquals(expectedHotel, actualUser);
     }
 
     @Test
     public void getByWrongId() {
-        Hotel actualUser = hotelDAO.getById(-1);
-        assertEquals(null, actualUser);
+        Optional<Hotel> actualHotel = hotelDAO.getById(-1);
+        assertEquals(Optional.empty(), actualHotel);
     }
 
     @Test
@@ -66,33 +69,36 @@ public class HotelDAOImplTest {
 
     @Test
     public void create() {
-        boolean actualResult = hotelDAO.create(new Hotel(1, "Choloepus hoffmani", 2
+        int actualResult = hotelDAO.create(new Hotel(1, "Choloepus hoffmani", 2
                 , "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA));
-        assertEquals(true, actualResult);
+        assertEquals(1, actualResult);
     }
 
-    @Test
-    public void createHotelNull() {
-        boolean actualResult = hotelDAO.create(null);
-        assertEquals(false, actualResult);
-    }
+//    @Test(expected = NullPointerException.class)
+//    public void createHotelNull() {
+//        int actualResult = hotelDAO.create(null);
+//        assertEquals(false, actualResult);
+//    }
 
     @Test
     public void update() {
-        expectedHotel = new Hotel(1, "Reverance", 2, "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA);
-        Hotel hotelActual = hotelDAO.update(new Hotel(10, "Reverance", 2, "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA), 1);
+        expectedHotel = Optional.of(new Hotel(1, "Reverance", 2, "kvassman0@wikimedia.org"
+                , 8.2673715, 48.9086571, CHILDREN_AREA));
+        Optional<Hotel> hotelActual = hotelDAO.update(new Hotel(10, "Reverance", 2
+                , "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA), 1);
         assertEquals(expectedHotel, hotelActual);
     }
 
     @Test
     public void updateForWrongId() {
-        Hotel hotelActual = hotelDAO.update(new Hotel(10, "Reverance", 2, "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA), -1);
-        assertEquals(null, hotelActual);
+        Optional<Hotel> hotelActual = hotelDAO.update(new Hotel(10, "Reverance", 2
+                , "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA), -1);
+        assertEquals(Optional.empty(), hotelActual);
     }
 
-    @Test
-    public void updateForHotelNull() {
-        Hotel hotelActual = hotelDAO.update(null, 1);
-        assertEquals(null, hotelActual);
-    }
+//    @Test(expected = NullPointerException.class)
+//    public void updateForHotelNull() {
+//        Optional<Hotel> hotelActual = hotelDAO.update(null, 1);
+//        assertEquals(null, hotelActual);
+//    }
 }
