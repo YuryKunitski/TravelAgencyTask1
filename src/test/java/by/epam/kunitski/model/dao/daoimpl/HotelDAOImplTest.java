@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -74,12 +73,6 @@ public class HotelDAOImplTest {
         assertEquals(1, actualResult);
     }
 
-//    @Test(expected = NullPointerException.class)
-//    public void createHotelNull() {
-//        int actualResult = hotelDAO.create(null);
-//        assertEquals(false, actualResult);
-//    }
-
     @Test
     public void update() {
         expectedHotel = Optional.of(new Hotel(1, "Reverance", 2, "kvassman0@wikimedia.org"
@@ -96,9 +89,4 @@ public class HotelDAOImplTest {
         assertEquals(Optional.empty(), hotelActual);
     }
 
-//    @Test(expected = NullPointerException.class)
-//    public void updateForHotelNull() {
-//        Optional<Hotel> hotelActual = hotelDAO.update(null, 1);
-//        assertEquals(null, hotelActual);
-//    }
 }

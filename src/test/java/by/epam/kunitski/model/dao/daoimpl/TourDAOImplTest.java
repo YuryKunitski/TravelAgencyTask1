@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -30,7 +29,7 @@ public class TourDAOImplTest {
     Flyway flyway;
 
     @Before
-    public void init(){
+    public void init() {
         flyway.clean();
         flyway.migrate();
     }
@@ -77,12 +76,6 @@ public class TourDAOImplTest {
         assertEquals(1, actualResult);
     }
 
-//    @Test(expected = NullPointerException.class)
-//    public void createTourNull() {
-//        int actualResult = tourDAO.create(null);
-//        assertEquals(false, actualResult);
-//    }
-
     @Test
     public void update() {
         expectedTour = Optional.of(new Tour(1, "http://dummyimage.com/147x238.jpg/cc0000/ffffff"
@@ -104,11 +97,4 @@ public class TourDAOImplTest {
 
         assertEquals(Optional.empty(), tourActual);
     }
-
-//    @Test(expected = NullPointerException.class)
-//    public void updateForTourNull() {
-//        Tour tourActual = tourDAO.update(null, -1);
-//
-//        assertEquals(null, tourActual);
-//    }
 }

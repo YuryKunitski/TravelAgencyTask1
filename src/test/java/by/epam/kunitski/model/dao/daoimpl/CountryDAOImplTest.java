@@ -27,7 +27,7 @@ public class CountryDAOImplTest {
     Flyway flyway;
 
     @Before
-    public void init(){
+    public void init() {
         flyway.clean();
         flyway.migrate();
     }
@@ -70,12 +70,6 @@ public class CountryDAOImplTest {
         assertEquals(1, actualResult);
     }
 
-//    @Test
-//    public void createCountryNull() {
-//        int actualResult = countryDAO.create(null);
-//        assertEquals(false, actualResult);
-//    }
-
     @Test
     public void update() {
         expectedCountry = Optional.of(new Country(1, "Belarus"));
@@ -90,9 +84,4 @@ public class CountryDAOImplTest {
 
     }
 
-//    @Test
-//    public void updateForCountryNull() {
-//        Optional<Country> actualCountry = countryDAO.update(null, -1);
-//        assertEquals(null, actualCountry);
-//    }
 }

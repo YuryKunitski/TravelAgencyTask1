@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -29,7 +28,7 @@ public class ReviewDAOImplTest {
     Flyway flyway;
 
     @Before
-    public void init(){
+    public void init() {
         flyway.clean();
         flyway.migrate();
     }
@@ -74,12 +73,6 @@ public class ReviewDAOImplTest {
         assertEquals(1, actualResult);
     }
 
-//    @Test(expected = NullPointerException.class)
-//    public void createUserNull() {
-//        int actualResult = reviewDAO.create(null);
-//        assertEquals(false, actualResult);
-//    }
-
     @Test
     public void update() {
         expectedReview = Optional.of(new Review(1, LocalDate.of(2018, 8, 22), "Curabitur convallis.", 1, 1));
@@ -94,9 +87,4 @@ public class ReviewDAOImplTest {
         assertEquals(Optional.empty(), reviewActual);
     }
 
-//    @Test(expected = NullPointerException.class)
-//    public void updateForReviewNull() {
-//        Review reviewActual = reviewDAO.update(null, 1);
-//        assertEquals(null, reviewActual);
-//    }
 }

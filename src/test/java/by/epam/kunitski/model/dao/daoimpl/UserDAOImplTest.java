@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -28,7 +27,7 @@ public class UserDAOImplTest {
     Flyway flyway;
 
     @Before
-    public void init(){
+    public void init() {
         flyway.clean();
         flyway.migrate();
     }
@@ -58,25 +57,17 @@ public class UserDAOImplTest {
         int actualResult = userDAO.create(new User(1, "Smit", "a5C4mtyg"));
         assertEquals(1, actualResult);
     }
-//
-//    @Test(expected = NullPointerException.class)
-//    public void createUserNull() {
-//        int actualResult = userDAO.create(null);
-//        assertEquals(false, actualResult);
-//    }
 
     @Test
     public void delete() {
         int actual = userDAO.delete(100);
         assertEquals(1, actual);
-
     }
 
     @Test
     public void deleteForWrongId() {
         int actual = userDAO.delete(-1);
         assertEquals(0, actual);
-
     }
 
     @Test
@@ -92,9 +83,4 @@ public class UserDAOImplTest {
         assertEquals(Optional.empty(), userActual);
     }
 
-//    @Test(expected = NullPointerException.class)
-//    public void updateForUserNull() {
-//        User userActual = userDAO.update(null, 1);
-//        assertEquals(null, userActual);
-//    }
 }
