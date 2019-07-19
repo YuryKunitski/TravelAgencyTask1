@@ -2,13 +2,13 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.TourDAOImpl;
 import by.epam.kunitski.travelagency.entity.Tour;
-import by.epam.kunitski.travelagency.service.EntityService;
+import by.epam.kunitski.travelagency.service.TourService;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-public class TourService implements EntityService<Tour> {
+public class TourServiceImpl implements TourService {
 
     @Inject
     private TourDAOImpl tourDAO;

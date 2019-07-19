@@ -2,13 +2,13 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.ReviewDAOImpl;
 import by.epam.kunitski.travelagency.entity.Review;
-import by.epam.kunitski.travelagency.service.EntityService;
+import by.epam.kunitski.travelagency.service.ReviewService;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-public class ReviewService implements EntityService<Review> {
+public class ReviewServiceImpl implements ReviewService {
 
     @Inject
     private ReviewDAOImpl reviewDAO;

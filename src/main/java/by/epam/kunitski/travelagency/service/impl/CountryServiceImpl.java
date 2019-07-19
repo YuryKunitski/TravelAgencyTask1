@@ -2,13 +2,13 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.CountryDAOImpl;
 import by.epam.kunitski.travelagency.entity.Country;
-import by.epam.kunitski.travelagency.service.EntityService;
+import by.epam.kunitski.travelagency.service.CountryService;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-public class CountryService implements EntityService<Country> {
+public class CountryServiceImpl implements CountryService {
 
     @Inject
     private CountryDAOImpl countryDAO;

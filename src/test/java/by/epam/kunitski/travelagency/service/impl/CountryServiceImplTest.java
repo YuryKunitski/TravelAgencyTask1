@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class CountryServiceTest {
+public class CountryServiceImplTest {
 
     private Country expectedCountry = new Country(1, "Belarus");
 
@@ -24,7 +24,7 @@ public class CountryServiceTest {
     private CountryDAOImpl countryDAO;
 
     @InjectMocks
-    private CountryService countryService;
+    private CountryServiceImpl countryService;
 
     @Test
     public void findAll() {

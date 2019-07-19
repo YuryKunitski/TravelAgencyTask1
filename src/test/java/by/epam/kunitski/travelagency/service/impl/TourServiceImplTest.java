@@ -19,7 +19,7 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TourServiceTest {
+public class TourServiceImplTest {
 
     private Tour expectedTour = new Tour(1, "http://dummyimage.com/147x238.jpg/cc0000/ffffff"
             , LocalDate.of(2019, 1, 15), 3
@@ -30,88 +30,88 @@ public class TourServiceTest {
     private TourDAOImpl tourDAO;
 
     @InjectMocks
-    private TourService tourService;
+    private TourServiceImpl tourServiceImpl;
 
     @Test
     public void findAll() {
         when(tourDAO.getAll()).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), tourService.findAll());
+        assertEquals(new ArrayList<>(), tourServiceImpl.findAll());
     }
 
     @Test
     public void findById() {
 
         when(tourDAO.getById(1)).thenReturn(Optional.of(expectedTour));
-        assertEquals(Optional.of(expectedTour), tourService.findById(1));
+        assertEquals(Optional.of(expectedTour), tourServiceImpl.findById(1));
     }
 
     @Test
     public void findByWrongId() {
         when(tourDAO.getById(-1)).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), tourService.findById(-1));
+        assertEquals(Optional.empty(), tourServiceImpl.findById(-1));
     }
 
     @Test
     public void delete() {
         when(tourDAO.delete(1)).thenReturn(1);
         when(tourDAO.getById(1)).thenReturn(Optional.of(expectedTour));
-        assertTrue(tourService.delete(1));
+        assertTrue(tourServiceImpl.delete(1));
     }
 
     @Test
     public void deleteFail() {
         when(tourDAO.getById(1)).thenReturn(Optional.of(expectedTour));
         when(tourDAO.delete(1)).thenReturn(0);
-        assertFalse(tourService.delete(1));
+        assertFalse(tourServiceImpl.delete(1));
     }
 
     @Test
     public void deleteByWrongId() {
         when(tourDAO.getById(-1)).thenReturn(Optional.empty());
-        assertFalse(tourService.delete(-1));
+        assertFalse(tourServiceImpl.delete(-1));
     }
 
     @Test
     public void add() {
         lenient().when(tourDAO.getById(30)).thenReturn(Optional.empty());
         when(tourDAO.create(expectedTour)).thenReturn(1);
-        assertTrue(tourService.add(expectedTour));
+        assertTrue(tourServiceImpl.add(expectedTour));
     }
 
     @Test
     public void addFail() {
         lenient().when(tourDAO.getById(30)).thenReturn(Optional.empty());
         when(tourDAO.create(expectedTour)).thenReturn(0);
-        assertFalse(tourService.add(expectedTour));
+        assertFalse(tourServiceImpl.add(expectedTour));
     }
 
     @Test
     public void addByExistWrongId() {
         when(tourDAO.getById(1)).thenReturn(Optional.of(expectedTour));
         lenient().when(tourDAO.create(expectedTour)).thenReturn(0);
-        assertFalse(tourService.add(expectedTour));
+        assertFalse(tourServiceImpl.add(expectedTour));
     }
 
     @Test
     public void addByNull() {
-        assertFalse(tourService.add(null));
+        assertFalse(tourServiceImpl.add(null));
     }
 
     @Test
     public void update() {
         when(tourDAO.update(expectedTour, 1)).thenReturn(Optional.of(expectedTour));
-        assertEquals(Optional.of(expectedTour), tourService.update(expectedTour, 1));
+        assertEquals(Optional.of(expectedTour), tourServiceImpl.update(expectedTour, 1));
     }
 
     @Test
     public void updateWrongId() {
         when(tourDAO.update(expectedTour, -1)).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), tourService.update(expectedTour, -1));
+        assertEquals(Optional.empty(), tourServiceImpl.update(expectedTour, -1));
     }
 
     @Test
     public void updateByNull() {
-        assertEquals(Optional.empty(), tourService.update(null, 1));
+        assertEquals(Optional.empty(), tourServiceImpl.update(null, 1));
     }
 
 }

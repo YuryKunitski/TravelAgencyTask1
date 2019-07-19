@@ -16,7 +16,7 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserServiceTest {
+public class UserServiceImplTest {
 
     private User expectedUser = new User(1, "Saundra", "CDHjDf5Tnr");
 
@@ -24,87 +24,87 @@ public class UserServiceTest {
     private UserDAOImpl userDAO;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Test
     public void findAll() {
         when(userDAO.getAll()).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), userService.findAll());
+        assertEquals(new ArrayList<>(), userServiceImpl.findAll());
 
     }
 
     @Test
     public void findById() {
         when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
-        assertEquals(Optional.of(expectedUser), userService.findById(1));
+        assertEquals(Optional.of(expectedUser), userServiceImpl.findById(1));
     }
 
     @Test
     public void findByWrongId() {
         when(userDAO.getById(-1)).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), userService.findById(-1));
+        assertEquals(Optional.empty(), userServiceImpl.findById(-1));
     }
 
     @Test
     public void delete() {
         when(userDAO.delete(1)).thenReturn(1);
         when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
-        assertTrue(userService.delete(1));
+        assertTrue(userServiceImpl.delete(1));
     }
 
     @Test
     public void deleteFail() {
         when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
         when(userDAO.delete(1)).thenReturn(0);
-        assertFalse(userService.delete(1));
+        assertFalse(userServiceImpl.delete(1));
     }
 
     @Test
     public void deleteByWrongId() {
         when(userDAO.getById(-1)).thenReturn(Optional.empty());
-        assertFalse(userService.delete(-1));
+        assertFalse(userServiceImpl.delete(-1));
     }
 
     @Test
     public void add() {
         lenient().when(userDAO.getById(30)).thenReturn(Optional.empty());
         when(userDAO.create(expectedUser)).thenReturn(1);
-        assertTrue(userService.add(expectedUser));
+        assertTrue(userServiceImpl.add(expectedUser));
     }
 
     @Test
     public void addFail() {
         lenient().when(userDAO.getById(31)).thenReturn(Optional.empty());
         when(userDAO.create(expectedUser)).thenReturn(0);
-        assertFalse(userService.add(expectedUser));
+        assertFalse(userServiceImpl.add(expectedUser));
     }
 
     @Test
     public void addByExistWrongId() {
         when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
         lenient().when(userDAO.create(expectedUser)).thenReturn(0);
-        assertFalse(userService.add(expectedUser));
+        assertFalse(userServiceImpl.add(expectedUser));
     }
 
     @Test
     public void addByNull() {
-        assertFalse(userService.add(null));
+        assertFalse(userServiceImpl.add(null));
     }
 
     @Test
     public void update() {
         when(userDAO.update(expectedUser, 1)).thenReturn(Optional.of(expectedUser));
-        assertEquals(Optional.of(expectedUser), userService.update(expectedUser, 1));
+        assertEquals(Optional.of(expectedUser), userServiceImpl.update(expectedUser, 1));
     }
 
     @Test
     public void updateWrongId() {
         when(userDAO.update(expectedUser, -1)).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), userService.update(expectedUser, -1));
+        assertEquals(Optional.empty(), userServiceImpl.update(expectedUser, -1));
     }
 
     @Test
     public void updateByNull() {
-        assertEquals(Optional.empty(), userService.update(null, 1));
+        assertEquals(Optional.empty(), userServiceImpl.update(null, 1));
     }
 }

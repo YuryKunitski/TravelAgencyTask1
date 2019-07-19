@@ -2,13 +2,13 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.HotelDAOImpl;
 import by.epam.kunitski.travelagency.entity.Hotel;
-import by.epam.kunitski.travelagency.service.EntityService;
+import by.epam.kunitski.travelagency.service.HotelService;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-public class HotelService implements EntityService<Hotel> {
+public class HotelServiceImpl implements HotelService {
 
     @Inject
     private HotelDAOImpl hotelDAO;

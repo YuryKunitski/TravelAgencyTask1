@@ -2,13 +2,13 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.UserDAOImpl;
 import by.epam.kunitski.travelagency.entity.User;
-import by.epam.kunitski.travelagency.service.EntityService;
+import by.epam.kunitski.travelagency.service.UserService;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-public class UserService implements EntityService<User> {
+public class UserServiceImpl implements UserService {
 
     @Inject
     private UserDAOImpl userDAO;
