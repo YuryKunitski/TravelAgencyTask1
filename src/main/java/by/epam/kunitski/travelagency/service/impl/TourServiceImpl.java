@@ -33,18 +33,14 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public boolean add(Tour entity) {
-        if (entity == null || tourDAO.getById(entity.getId()).isPresent()) {
-            return false;
-        } else {
-            return tourDAO.create(entity) > 0;
-        }
+    public boolean add(Tour tour) {
+        return tourDAO.create(tour) > 0;
     }
 
     @Override
-    public Optional<Tour> update(Tour entity, int id) {
-        if (entity != null) {
-            return tourDAO.update(entity, id);
+    public Optional<Tour> update(Tour tour, int id) {
+        if (tour != null) {
+            return tourDAO.update(tour, id);
         } else {
             return Optional.empty();
         }

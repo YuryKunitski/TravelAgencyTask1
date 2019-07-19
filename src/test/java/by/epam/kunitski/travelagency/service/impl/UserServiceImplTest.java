@@ -30,7 +30,6 @@ public class UserServiceImplTest {
     public void findAll() {
         when(userDAO.getAll()).thenReturn(new ArrayList<>());
         assertEquals(new ArrayList<>(), userServiceImpl.findAll());
-
     }
 
     @Test
@@ -76,13 +75,6 @@ public class UserServiceImplTest {
     public void addFail() {
         lenient().when(userDAO.getById(31)).thenReturn(Optional.empty());
         when(userDAO.create(expectedUser)).thenReturn(0);
-        assertFalse(userServiceImpl.add(expectedUser));
-    }
-
-    @Test
-    public void addByExistWrongId() {
-        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
-        lenient().when(userDAO.create(expectedUser)).thenReturn(0);
         assertFalse(userServiceImpl.add(expectedUser));
     }
 

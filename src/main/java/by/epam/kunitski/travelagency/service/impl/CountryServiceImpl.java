@@ -21,7 +21,6 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public Optional<Country> findById(int id) {
         return countryDAO.getById(id);
-
     }
 
     @Override
@@ -34,18 +33,15 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public boolean add(Country entity) {
-        if (entity == null || countryDAO.getById(entity.getId()).isPresent()) {
-            return false;
-        } else {
-            return countryDAO.create(entity) > 0;
-        }
+    public boolean add(Country country) {
+        return countryDAO.create(country) > 0;
+
     }
 
     @Override
-    public Optional<Country> update(Country entity, int id) {
-        if (entity != null) {
-            return countryDAO.update(entity, id);
+    public Optional<Country> update(Country country, int id) {
+        if (country != null) {
+            return countryDAO.update(country, id);
         } else {
             return Optional.empty();
         }

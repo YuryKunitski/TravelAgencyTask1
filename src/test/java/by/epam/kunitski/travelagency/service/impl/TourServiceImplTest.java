@@ -86,13 +86,6 @@ public class TourServiceImplTest {
     }
 
     @Test
-    public void addByExistWrongId() {
-        when(tourDAO.getById(1)).thenReturn(Optional.of(expectedTour));
-        lenient().when(tourDAO.create(expectedTour)).thenReturn(0);
-        assertFalse(tourServiceImpl.add(expectedTour));
-    }
-
-    @Test
     public void addByNull() {
         assertFalse(tourServiceImpl.add(null));
     }

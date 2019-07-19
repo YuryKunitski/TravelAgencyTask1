@@ -79,13 +79,6 @@ public class CountryServiceImplTest {
     }
 
     @Test
-    public void addByExistWrongId() {
-        when(countryDAO.getById(1)).thenReturn(Optional.of(expectedCountry));
-        lenient().when(countryDAO.create(expectedCountry)).thenReturn(0);
-        assertFalse(countryService.add(expectedCountry));
-    }
-
-    @Test
     public void addByNull() {
         assertFalse(countryService.add(null));
     }

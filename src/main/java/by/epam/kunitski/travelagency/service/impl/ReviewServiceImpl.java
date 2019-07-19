@@ -33,18 +33,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public boolean add(Review entity) {
-        if (entity == null || reviewDAO.getById(entity.getId()).isPresent()) {
-            return false;
-        } else {
-            return reviewDAO.create(entity) > 0;
-        }
+    public boolean add(Review review) {
+        return reviewDAO.create(review) > 0;
     }
 
     @Override
-    public Optional<Review> update(Review entity, int id) {
-        if (entity != null) {
-            return reviewDAO.update(entity, id);
+    public Optional<Review> update(Review review, int id) {
+        if (review != null) {
+            return reviewDAO.update(review, id);
         } else {
             return Optional.empty();
         }

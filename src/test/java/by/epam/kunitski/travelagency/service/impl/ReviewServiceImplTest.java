@@ -82,13 +82,6 @@ public class ReviewServiceImplTest {
     }
 
     @Test
-    public void addByExistWrongId() {
-        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
-        lenient().when(reviewDAO.create(expectedReview)).thenReturn(0);
-        assertFalse(reviewServiceImpl.add(expectedReview));
-    }
-
-    @Test
     public void addByNull() {
         assertFalse(reviewServiceImpl.add(null));
     }

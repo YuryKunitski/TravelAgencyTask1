@@ -84,13 +84,6 @@ public class HotelServiceImplTest {
     }
 
     @Test
-    public void addByExistWrongId() {
-        when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
-        lenient().when(hotelDAO.create(expectedHotel)).thenReturn(0);
-        assertFalse(hotelServiceImpl.add(expectedHotel));
-    }
-
-    @Test
     public void addByNull() {
         assertFalse(hotelServiceImpl.add(null));
     }

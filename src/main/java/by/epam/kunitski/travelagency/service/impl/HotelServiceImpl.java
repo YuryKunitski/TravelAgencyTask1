@@ -33,18 +33,14 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public boolean add(Hotel entity) {
-        if (entity == null || hotelDAO.getById(entity.getId()).isPresent()) {
-            return false;
-        } else {
-            return hotelDAO.create(entity) > 0;
-        }
+    public boolean add(Hotel hotel) {
+        return hotelDAO.create(hotel) > 0;
     }
 
     @Override
-    public Optional<Hotel> update(Hotel entity, int id) {
-        if (entity != null) {
-            return hotelDAO.update(entity, id);
+    public Optional<Hotel> update(Hotel hotel, int id) {
+        if (hotel != null) {
+            return hotelDAO.update(hotel, id);
         } else {
             return Optional.empty();
         }

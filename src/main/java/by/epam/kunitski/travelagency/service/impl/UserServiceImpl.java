@@ -33,18 +33,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean add(User entity) {
-        if (entity == null || userDAO.getById(entity.getId()).isPresent()) {
-            return false;
-        } else {
-            return userDAO.create(entity) > 0;
-        }
+    public boolean add(User user) {
+        return userDAO.create(user) > 0;
     }
 
     @Override
-    public Optional<User> update(User entity, int id) {
-        if (entity != null) {
-            return userDAO.update(entity, id);
+    public Optional<User> update(User user, int id) {
+        if (user != null) {
+            return userDAO.update(user, id);
         } else {
             return Optional.empty();
         }
