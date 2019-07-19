@@ -4,6 +4,7 @@ import by.epam.kunitski.travelagency.dao.CountryDAO;
 import by.epam.kunitski.travelagency.entity.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class CountryDAOImpl implements CountryDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private RowMapper<Country> ROW_MAPPER_COUNTRY;
 
     private static final String SQL_GET_ALL = "SELECT * FROM country";
     private static final String SQL_GET_BY_ID = "SELECT * FROM country WHERE id = ?";

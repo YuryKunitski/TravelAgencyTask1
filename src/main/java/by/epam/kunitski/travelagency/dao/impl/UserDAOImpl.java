@@ -4,6 +4,7 @@ import by.epam.kunitski.travelagency.dao.UserDAO;
 import by.epam.kunitski.travelagency.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class UserDAOImpl implements UserDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private RowMapper<User> ROW_MAPPER_USER;
 
     private static final String SQL_GET_ALL = "SELECT * FROM public.\"user\"";
     private static final String SQL_GET_BY_ID = "SELECT * FROM public.\"user\" WHERE id = ?";
@@ -44,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> update(User user, int id) {
-            jdbcTemplate.update(SQL_UPDATE, user.getLogin(), user.getPassword(), id);
-            return getById(id);
+        jdbcTemplate.update(SQL_UPDATE, user.getLogin(), user.getPassword(), id);
+        return getById(id);
     }
 }

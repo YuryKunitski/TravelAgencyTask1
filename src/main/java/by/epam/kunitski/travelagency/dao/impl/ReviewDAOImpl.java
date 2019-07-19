@@ -4,6 +4,7 @@ import by.epam.kunitski.travelagency.dao.ReviewDAO;
 import by.epam.kunitski.travelagency.entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class ReviewDAOImpl implements ReviewDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private RowMapper<Review> ROW_MAPPER_REVIEW;
 
     private static final String SQL_GET_ALL = "SELECT * FROM review";
     private static final String SQL_GET_BY_ID = "SELECT * FROM review WHERE id = ?";

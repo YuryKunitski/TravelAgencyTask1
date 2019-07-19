@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public class TourDAOImpl implements TourDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private RowMapper<Tour> ROW_MAPPER_TOUR;
 
     private static final String SQL_GET_ALL = "SELECT * FROM public.tour";
     private static final String SQL_GET_BY_ID = "SELECT * FROM public.tour WHERE id = ?";
