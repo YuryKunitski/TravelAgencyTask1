@@ -66,37 +66,23 @@ public class UserServiceImplTest {
 
     @Test
     public void add() {
-        lenient().when(userDAO.getById(30)).thenReturn(Optional.empty());
-        when(userDAO.create(expectedUser)).thenReturn(1);
-        assertTrue(userServiceImpl.add(expectedUser));
-    }
-
-    @Test
-    public void addFail() {
-        lenient().when(userDAO.getById(31)).thenReturn(Optional.empty());
-        when(userDAO.create(expectedUser)).thenReturn(0);
-        assertFalse(userServiceImpl.add(expectedUser));
+        when(userDAO.create(expectedUser)).thenReturn(expectedUser);
+        User actualUser = userServiceImpl.add(expectedUser);
     }
 
     @Test
     public void addByNull() {
-        assertFalse(userServiceImpl.add(null));
+        assertEquals(new User() ,userServiceImpl.add(null));
     }
 
     @Test
     public void update() {
         when(userDAO.update(expectedUser, 1)).thenReturn(Optional.of(expectedUser));
-        assertEquals(Optional.of(expectedUser), userServiceImpl.update(expectedUser, 1));
-    }
-
-    @Test
-    public void updateWrongId() {
-        when(userDAO.update(expectedUser, -1)).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), userServiceImpl.update(expectedUser, -1));
+        assertEquals(expectedUser, userServiceImpl.update(expectedUser, 1));
     }
 
     @Test
     public void updateByNull() {
-        assertEquals(Optional.empty(), userServiceImpl.update(null, 1));
+        assertEquals(new User(), userServiceImpl.update(null, 1));
     }
 }

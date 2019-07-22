@@ -13,7 +13,7 @@ public interface TourDAO {
 
     int delete(int id);
 
-    int create(Tour tour);
+    Tour create(Tour tour);
 
     Optional<Tour> update(Tour tour, int id);
 }

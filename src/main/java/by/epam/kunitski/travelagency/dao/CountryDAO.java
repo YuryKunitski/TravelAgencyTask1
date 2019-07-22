@@ -13,7 +13,7 @@ public interface CountryDAO {
 
     int delete(int id);
 
-    int create(Country country);
+    Country create(Country country);
 
     Optional<Country> update(Country country, int id);
 }

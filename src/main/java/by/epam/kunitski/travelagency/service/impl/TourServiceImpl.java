@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.impl.TourDAOImpl;
+import by.epam.kunitski.travelagency.dao.TourDAO;
 import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.service.TourService;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class TourServiceImpl implements TourService {
 
     @Inject
-    private TourDAOImpl tourDAO;
+    private TourDAO tourDAO;
 
     @Override
     public List<Tour> findAll() {
@@ -33,16 +33,21 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public boolean add(Tour tour) {
-        return tourDAO.create(tour) > 0;
+    public Tour add(Tour tour) {
+        if (tour != null) {
+            return tourDAO.create(tour);
+        } else {
+            return new Tour();
+        }
     }
 
     @Override
-    public Optional<Tour> update(Tour tour, int id) {
+    public Tour update(Tour tour, int id) {
         if (tour != null) {
-            return tourDAO.update(tour, id);
+            return tourDAO.update(tour, id).isPresent() ? tourDAO.update(tour, id).get() : new Tour();
         } else {
-            return Optional.empty();
+            return new Tour();
         }
     }
+
 }

@@ -73,38 +73,26 @@ public class TourServiceImplTest {
 
     @Test
     public void add() {
-        lenient().when(tourDAO.getById(30)).thenReturn(Optional.empty());
-        when(tourDAO.create(expectedTour)).thenReturn(1);
-        assertTrue(tourServiceImpl.add(expectedTour));
-    }
-
-    @Test
-    public void addFail() {
-        lenient().when(tourDAO.getById(30)).thenReturn(Optional.empty());
-        when(tourDAO.create(expectedTour)).thenReturn(0);
-        assertFalse(tourServiceImpl.add(expectedTour));
+        when(tourDAO.create(expectedTour)).thenReturn(expectedTour);
+        Tour actualTour = tourServiceImpl.add(expectedTour);
+        expectedTour.setId(1001);
+        assertEquals(expectedTour, actualTour);
     }
 
     @Test
     public void addByNull() {
-        assertFalse(tourServiceImpl.add(null));
+        assertEquals(new Tour() ,tourServiceImpl.add(null));
     }
 
     @Test
     public void update() {
         when(tourDAO.update(expectedTour, 1)).thenReturn(Optional.of(expectedTour));
-        assertEquals(Optional.of(expectedTour), tourServiceImpl.update(expectedTour, 1));
-    }
-
-    @Test
-    public void updateWrongId() {
-        when(tourDAO.update(expectedTour, -1)).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), tourServiceImpl.update(expectedTour, -1));
+        assertEquals(expectedTour, tourServiceImpl.update(expectedTour, 1));
     }
 
     @Test
     public void updateByNull() {
-        assertEquals(Optional.empty(), tourServiceImpl.update(null, 1));
+        assertEquals(new Tour(), tourServiceImpl.update(null, 1));
     }
 
 }

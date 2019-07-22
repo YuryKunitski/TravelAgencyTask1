@@ -11,8 +11,7 @@ public interface EntityService<T> {
 
     boolean delete(int id);
 
-    boolean add(T entity);
+    T add(T entity);
 
-    Optional<T> update(T entity, int id);
-
+    T update(T entity, int id);
 }

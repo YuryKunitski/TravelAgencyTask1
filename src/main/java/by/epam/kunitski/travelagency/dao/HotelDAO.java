@@ -13,7 +13,7 @@ public interface HotelDAO {
 
     int delete(int id);
 
-    int create(Hotel hotel);
+    Hotel create(Hotel hotel);
 
     Optional<Hotel> update(Hotel hotel, int id);
 }

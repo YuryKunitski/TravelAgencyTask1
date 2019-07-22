@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.impl.ReviewDAOImpl;
+import by.epam.kunitski.travelagency.dao.ReviewDAO;
 import by.epam.kunitski.travelagency.entity.Review;
 import by.epam.kunitski.travelagency.service.ReviewService;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class ReviewServiceImpl implements ReviewService {
 
     @Inject
-    private ReviewDAOImpl reviewDAO;
+    private ReviewDAO reviewDAO;
 
     @Override
     public List<Review> findAll() {
@@ -33,16 +33,20 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public boolean add(Review review) {
-        return reviewDAO.create(review) > 0;
+    public Review add(Review review) {
+        if (review != null) {
+            return reviewDAO.create(review);
+        } else {
+            return new Review();
+        }
     }
 
     @Override
-    public Optional<Review> update(Review review, int id) {
+    public Review update(Review review, int id) {
         if (review != null) {
-            return reviewDAO.update(review, id);
+            return reviewDAO.update(review, id).isPresent() ? reviewDAO.update(review, id).get() : new Review();
         } else {
-            return Optional.empty();
+            return new Review();
         }
     }
 }

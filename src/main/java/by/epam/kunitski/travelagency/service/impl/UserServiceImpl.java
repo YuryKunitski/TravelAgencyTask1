@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.impl.UserDAOImpl;
+import by.epam.kunitski.travelagency.dao.UserDAO;
 import by.epam.kunitski.travelagency.entity.User;
 import by.epam.kunitski.travelagency.service.UserService;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Inject
-    private UserDAOImpl userDAO;
+    private UserDAO userDAO;
 
     @Override
     public List<User> findAll() {
@@ -33,16 +33,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean add(User user) {
-        return userDAO.create(user) > 0;
+    public User add(User user) {
+        if (user != null) {
+            return userDAO.create(user);
+        } else {
+            return new User();
+        }
     }
 
     @Override
-    public Optional<User> update(User user, int id) {
+    public User update(User user, int id) {
         if (user != null) {
-            return userDAO.update(user, id);
+            return userDAO.update(user, id).isPresent() ? userDAO.update(user, id).get() : new User();
         } else {
-            return Optional.empty();
+            return new User();
         }
     }
+
 }

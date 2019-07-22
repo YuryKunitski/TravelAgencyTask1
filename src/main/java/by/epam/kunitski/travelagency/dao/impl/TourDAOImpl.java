@@ -6,9 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,9 +52,30 @@ public class TourDAOImpl implements TourDAO {
     }
 
     @Override
-    public int create(Tour tour) {
-        return jdbcTemplate.update(SQL_CREATE, tour.getPhoto(), tour.getDate(), tour.getDuration(), tour.getDescription(),
-                tour.getCost(), tour.getHotel_id(), tour.getCountry_id(), tour.getTour_type().toString());
+    public Tour create(Tour tour) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    @Override
+                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                        PreparedStatement pst =
+                                con.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
+                        pst.setString(1, tour.getPhoto());
+                        pst.setDate(2, Date.valueOf(tour.getDate()));
+                        pst.setInt(3, tour.getDuration());
+                        pst.setString(4, tour.getDescription());
+                        pst.setDouble(5, tour.getCost());
+                        pst.setInt(6, tour.getHotel_id());
+                        pst.setInt(7, tour.getCountry_id());
+                        pst.setString(8, tour.getTour_type().toString());
+                        return pst;
+                    }
+                },
+                keyHolder);
+        if (keyHolder.getKey() != null) {
+            tour.setId(keyHolder.getKey().intValue());
+        }
+        return tour;
     }
 
     @Override

@@ -13,7 +13,7 @@ public interface UserDAO {
 
     int delete(int id);
 
-    int create(User user);
+    User create(User user);
 
     Optional<User> update(User user, int id);
 }

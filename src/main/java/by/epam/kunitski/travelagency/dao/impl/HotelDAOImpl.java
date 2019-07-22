@@ -4,9 +4,16 @@ import by.epam.kunitski.travelagency.dao.HotelDAO;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,9 +49,28 @@ public class HotelDAOImpl implements HotelDAO {
     }
 
     @Override
-    public int create(Hotel hotel) {
-        return jdbcTemplate.update(SQL_CREATE, hotel.getName(), hotel.getStars(), hotel.getWebsite(), hotel.getLatitude(),
-                hotel.getLongitude(), hotel.getFeatures().toString());
+    public Hotel create(Hotel hotel) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    @Override
+                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                        PreparedStatement pst =
+                                con.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
+                        pst.setString(1, hotel.getName());
+                        pst.setInt(2, hotel.getStars());
+                        pst.setString(3, hotel.getWebsite());
+                        pst.setDouble(4, hotel.getLatitude());
+                        pst.setDouble(5, hotel.getLongitude());
+                        pst.setString(6, hotel.getFeatures().toString());
+                        return pst;
+                    }
+                },
+                keyHolder);
+        if (keyHolder.getKey() != null) {
+            hotel.setId(keyHolder.getKey().intValue());
+        }
+        return hotel;
     }
 
     @Override

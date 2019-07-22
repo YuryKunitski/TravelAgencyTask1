@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.impl.HotelDAOImpl;
+import by.epam.kunitski.travelagency.dao.HotelDAO;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import by.epam.kunitski.travelagency.service.HotelService;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class HotelServiceImpl implements HotelService {
 
     @Inject
-    private HotelDAOImpl hotelDAO;
+    private HotelDAO hotelDAO;
 
     @Override
     public List<Hotel> findAll() {
@@ -33,16 +33,21 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public boolean add(Hotel hotel) {
-        return hotelDAO.create(hotel) > 0;
+    public Hotel add(Hotel hotel) {
+        if (hotel != null) {
+            return hotelDAO.create(hotel);
+        } else {
+            return new Hotel();
+        }
     }
 
     @Override
-    public Optional<Hotel> update(Hotel hotel, int id) {
+    public Hotel update(Hotel hotel, int id) {
         if (hotel != null) {
-            return hotelDAO.update(hotel, id);
+            return hotelDAO.update(hotel, id).isPresent() ? hotelDAO.update(hotel, id).get() : new Hotel();
         } else {
-            return Optional.empty();
+            return new Hotel();
         }
     }
+
 }

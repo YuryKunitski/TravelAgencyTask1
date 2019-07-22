@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.config.TestConfig;
+import by.epam.kunitski.travelagency.config.TestConfig;
 import by.epam.kunitski.travelagency.entity.Review;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -19,7 +19,8 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ReviewDAOImplTest {
 
-    private Optional<Review> expectedReview;
+    private Review expReview = new Review(1, LocalDate.of(2018, 8, 22)
+            , "Curabitur convallis.", 1, 1);
 
     @Autowired
     private ReviewDAOImpl reviewDAO;
@@ -43,10 +44,8 @@ public class ReviewDAOImplTest {
 
     @Test
     public void getById() {
-        expectedReview = Optional.of(new Review(1, LocalDate.of(2018, 8, 22)
-                , "Curabitur convallis.", 1, 1));
-        Optional<Review> actualUser = reviewDAO.getById(1);
-        assertEquals(expectedReview, actualUser);
+        Review actualUser = reviewDAO.getById(1).get();
+        assertEquals(expReview, actualUser);
     }
 
     @Test
@@ -69,23 +68,21 @@ public class ReviewDAOImplTest {
 
     @Test
     public void create() {
-        int actualResult = reviewDAO.create(new Review(1, LocalDate.of(2018, 8, 22)
-                , "Curabitur convallis.", 1, 1));
-        assertEquals(1, actualResult);
+        Review actualReview = reviewDAO.create(expReview);
+        assertEquals(expReview, actualReview);
     }
 
     @Test
     public void update() {
-        expectedReview = Optional.of(new Review(1, LocalDate.of(2018, 8, 22), "Curabitur convallis.", 1, 1));
-        Optional<Review> reviewActual = reviewDAO.update(new Review(10, LocalDate.of(2018, 8, 22), "Curabitur convallis.", 1, 1), 1);
-        assertEquals(expectedReview, reviewActual);
+        Review reviewActual = reviewDAO.update(expReview, 1).get();
+        assertEquals(expReview, reviewActual);
     }
 
-    @Test
-    public void updateForWrongId() {
-        Optional<Review> reviewActual = reviewDAO.update(new Review(10, LocalDate.of(2018, 8
-                , 22), "Curabitur convallis.", 1, 1), -1);
-        assertEquals(Optional.empty(), reviewActual);
-    }
+//    @Test
+//    public void updateForWrongId() {
+//        Optional<Review> reviewActual = reviewDAO.update(new Review(10, LocalDate.of(2018, 8
+//                , 22), "Curabitur convallis.", 1, 1), -1);
+//        assertEquals(Optional.empty(), reviewActual);
+//    }
 
 }

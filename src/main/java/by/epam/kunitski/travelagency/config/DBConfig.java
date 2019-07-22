@@ -1,6 +1,5 @@
-package by.epam.kunitski.travelagency.dao.config;
+package by.epam.kunitski.travelagency.config;
 
-import by.epam.kunitski.travelagency.dao.impl.CountryDAOImpl;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan(basePackages = "by.epam.kunitski")
+@ComponentScan(basePackages = "by.epam.kunitski.travelagency")
 class DBConfig {
 
     private static final String CP_PROPERTIES = "/hikari.properties";

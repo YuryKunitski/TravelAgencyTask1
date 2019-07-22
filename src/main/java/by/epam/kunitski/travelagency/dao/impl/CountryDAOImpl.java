@@ -4,9 +4,16 @@ import by.epam.kunitski.travelagency.dao.CountryDAO;
 import by.epam.kunitski.travelagency.entity.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,13 +49,28 @@ public class CountryDAOImpl implements CountryDAO {
     }
 
     @Override
-    public int create(Country country) {
-        return jdbcTemplate.update(SQL_CREATE, country.getName());
+    public Country create(Country country) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    @Override
+                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                        PreparedStatement pst =
+                                con.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
+                        pst.setString(1, country.getName());
+                        return pst;
+                    }
+                },
+                keyHolder);
+        if (keyHolder.getKey() != null) {
+            country.setId(keyHolder.getKey().intValue());
+        }
+        return country;
     }
 
     @Override
     public Optional<Country> update(Country country, int id) {
         jdbcTemplate.update(SQL_UPDATE, country.getName(), id);
-        return getById(id);
+        return  getById(id);
     }
 }

@@ -4,9 +4,13 @@ import by.epam.kunitski.travelagency.dao.ReviewDAO;
 import by.epam.kunitski.travelagency.entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +46,26 @@ public class ReviewDAOImpl implements ReviewDAO {
     }
 
     @Override
-    public int create(Review review) {
-        return jdbcTemplate.update(SQL_CREATE, review.getDate(), review.getText(), review.getUserID(), review.getTourID());
+    public Review create(Review review) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    @Override
+                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                        PreparedStatement pst =
+                                con.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
+                        pst.setDate(1, Date.valueOf(review.getDate()));
+                        pst.setString(2, review.getText());
+                        pst.setInt(3, review.getUserID());
+                        pst.setInt(4, review.getTourID());
+                        return pst;
+                    }
+                },
+                keyHolder);
+        if (keyHolder.getKey() != null) {
+            review.setId(keyHolder.getKey().intValue());
+        }
+        return review;
     }
 
     @Override

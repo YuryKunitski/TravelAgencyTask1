@@ -4,9 +4,16 @@ import by.epam.kunitski.travelagency.dao.UserDAO;
 import by.epam.kunitski.travelagency.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +49,24 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public int create(User user) {
-        return jdbcTemplate.update(SQL_CREATE, user.getLogin(), user.getPassword());
+    public User create(User user) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    @Override
+                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                        PreparedStatement pst =
+                                con.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
+                        pst.setString(1, user.getLogin());
+                        pst.setString(2, user.getPassword());
+                        return pst;
+                    }
+                },
+                keyHolder);
+        if (keyHolder.getKey() != null) {
+            user.setId(keyHolder.getKey().intValue());
+        }
+        return user;
     }
 
     @Override

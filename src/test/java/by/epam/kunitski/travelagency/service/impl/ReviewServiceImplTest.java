@@ -53,7 +53,7 @@ public class ReviewServiceImplTest {
         when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
         assertTrue(reviewServiceImpl.delete(1));
     }
-    
+
     @Test
     public void deleteFail() {
         when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
@@ -69,37 +69,25 @@ public class ReviewServiceImplTest {
 
     @Test
     public void add() {
-        lenient().when(reviewDAO.getById(30)).thenReturn(Optional.empty());
-        when(reviewDAO.create(expectedReview)).thenReturn(1);
-        assertTrue(reviewServiceImpl.add(expectedReview));
-    }
-
-    @Test
-    public void addFail() {
-        lenient().when(reviewDAO.getById(30)).thenReturn(Optional.empty());
-        when(reviewDAO.create(expectedReview)).thenReturn(0);
-        assertFalse(reviewServiceImpl.add(expectedReview));
+        when(reviewDAO.create(expectedReview)).thenReturn(expectedReview);
+        Review actualReview = reviewServiceImpl.add(expectedReview);
+        expectedReview.setId(1001);
+        assertEquals(expectedReview, actualReview);
     }
 
     @Test
     public void addByNull() {
-        assertFalse(reviewServiceImpl.add(null));
+        assertEquals(new Review(), reviewServiceImpl.add(null));
     }
 
     @Test
     public void update() {
         when(reviewDAO.update(expectedReview, 1)).thenReturn(Optional.of(expectedReview));
-        assertEquals(Optional.of(expectedReview), reviewServiceImpl.update(expectedReview, 1));
-    }
-
-    @Test
-    public void updateWrongId() {
-        when(reviewDAO.update(expectedReview, -1)).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), reviewServiceImpl.update(expectedReview, -1));
+        assertEquals(expectedReview, reviewServiceImpl.update(expectedReview, 1));
     }
 
     @Test
     public void updateByNull() {
-        assertEquals(Optional.empty(), reviewServiceImpl.update(null, 1));
+        assertEquals(new Review(), reviewServiceImpl.update(null, 1));
     }
 }

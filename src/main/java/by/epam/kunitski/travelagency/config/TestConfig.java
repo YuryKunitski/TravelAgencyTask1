@@ -1,4 +1,4 @@
-package by.epam.kunitski.travelagency.dao.config;
+package by.epam.kunitski.travelagency.config;
 
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
@@ -10,7 +10,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan(basePackages = "by.epam.kunitski")
+@ComponentScan(basePackages = "by.epam.kunitski.travelagency")
 public class TestConfig {
 
     @Bean("dataSource")

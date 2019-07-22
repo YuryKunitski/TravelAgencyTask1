@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.config.TestConfig;
+import by.epam.kunitski.travelagency.config.TestConfig;
 import by.epam.kunitski.travelagency.entity.Country;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CountryDAOImplTest {
 
-    private Optional<Country> expectedCountry;
+    private Country expCountry = new Country(0, "Belarus");
 
     @Autowired
     private CountryDAOImpl countryDAO;
@@ -42,8 +42,8 @@ public class CountryDAOImplTest {
 
     @Test
     public void getById() {
-        expectedCountry = Optional.of(new Country(1, "China"));
-        Optional<Country> actualCountry = countryDAO.getById(1);
+        Country expectedCountry = new Country(1, "China");
+        Country actualCountry = countryDAO.getById(1).get();
         assertEquals(expectedCountry, actualCountry);
     }
 
@@ -67,22 +67,15 @@ public class CountryDAOImplTest {
 
     @Test
     public void create() {
-        int actualResult = countryDAO.create(new Country(1, "Belarus"));
-        assertEquals(1, actualResult);
+        Country actualCountry = countryDAO.create(expCountry);
+        assertEquals(expCountry.getId(), actualCountry.getId());
     }
 
     @Test
     public void update() {
-        expectedCountry = Optional.of(new Country(1, "Belarus"));
-        Optional<Country> actualCountry = countryDAO.update(new Country(10, "Belarus"), 1);
+        Country expectedCountry = new Country(1, "Belarus");
+        Country actualCountry = countryDAO.update(new Country(10, "Belarus"), 1).get();
         assertEquals(expectedCountry, actualCountry);
-    }
-
-    @Test
-    public void updateForWrongId() {
-        Optional<Country> actualCountry = countryDAO.update(new Country(10, "Belarus"), -1);
-        assertEquals(Optional.empty(), actualCountry);
-
     }
 
 }

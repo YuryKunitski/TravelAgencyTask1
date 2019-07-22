@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.config.TestConfig;
+import by.epam.kunitski.travelagency.config.TestConfig;
 import by.epam.kunitski.travelagency.entity.User;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserDAOImplTest {
 
-    private Optional<User> expectedUser;
+    private User expUser = new User(1, "Saundra", "CDHjDf5Tnr");
 
     @Autowired
     private UserDAOImpl userDAO;
@@ -42,9 +42,8 @@ public class UserDAOImplTest {
 
     @Test
     public void getById() {
-        expectedUser = Optional.of(new User(2, "Flor", "T39TOUmA4"));
-        Optional<User> actualUser = userDAO.getById(2);
-        assertEquals(expectedUser, actualUser);
+        User actualUser = userDAO.getById(1).get();
+        assertEquals(expUser, actualUser);
     }
 
     @Test
@@ -55,8 +54,8 @@ public class UserDAOImplTest {
 
     @Test
     public void create() {
-        int actualResult = userDAO.create(new User(1, "Smit", "a5C4mtyg"));
-        assertEquals(1, actualResult);
+        User actualUser = userDAO.create(expUser);
+        assertEquals(expUser, actualUser);
     }
 
     @Test
@@ -73,15 +72,14 @@ public class UserDAOImplTest {
 
     @Test
     public void update() {
-        expectedUser = Optional.of(new User(1, "Jonny", "a5C4mtyg"));
-        Optional<User> userActual = userDAO.update(new User(1, "Jonny", "a5C4mtyg"), 1);
-        assertEquals(expectedUser, userActual);
+        User userActual = userDAO.update(expUser, 1).get();
+        assertEquals(expUser, userActual);
     }
-
-    @Test
-    public void updateForWrongId() {
-        Optional<User> userActual = userDAO.update(new User(1, "Lisa", "eee"), -1);
-        assertEquals(Optional.empty(), userActual);
-    }
+//
+//    @Test
+//    public void updateForWrongId() {
+//        Optional<User> userActual = userDAO.update(new User(1, "Lisa", "eee"), -1);
+//        assertEquals(Optional.empty(), userActual);
+//    }
 
 }

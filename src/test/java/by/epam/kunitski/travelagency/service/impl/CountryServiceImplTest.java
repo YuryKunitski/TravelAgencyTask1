@@ -66,37 +66,25 @@ public class CountryServiceImplTest {
 
     @Test
     public void add() {
-        lenient().when(countryDAO.getById(30)).thenReturn(Optional.empty());
-        when(countryDAO.create(expectedCountry)).thenReturn(1);
-        assertTrue(countryService.add(expectedCountry));
-    }
-
-    @Test
-    public void addFail() {
-        lenient().when(countryDAO.getById(30)).thenReturn(Optional.empty());
-        when(countryDAO.create(expectedCountry)).thenReturn(0);
-        assertFalse(countryService.add(expectedCountry));
+        expectedCountry.setId(26);
+        when(countryDAO.create(expectedCountry)).thenReturn(expectedCountry);
+        Country actualCountry = countryService.add(expectedCountry);
+        assertEquals(expectedCountry, actualCountry);
     }
 
     @Test
     public void addByNull() {
-        assertFalse(countryService.add(null));
+        assertEquals(new Country(), countryService.add(null));
     }
 
     @Test
     public void update() {
         when(countryDAO.update(expectedCountry, 1)).thenReturn(Optional.of(expectedCountry));
-        assertEquals(Optional.of(expectedCountry), countryService.update(expectedCountry, 1));
-    }
-
-    @Test
-    public void updateWrongId() {
-        when(countryDAO.update(expectedCountry, -1)).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), countryService.update(expectedCountry, -1));
+        assertEquals(expectedCountry, countryService.update(expectedCountry, 1));
     }
 
     @Test
     public void updateByNull() {
-        assertEquals(Optional.empty(), countryService.update(null, 1));
+        assertEquals(new Country(), countryService.update(null, 1));
     }
 }

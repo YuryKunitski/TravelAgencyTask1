@@ -1,12 +1,12 @@
 create table country (
-	id INT,
+	id INT auto_increment,
 	name VARCHAR(50)
 );
 
 
 
 create table "user" (
-	id INT,
+	id INT auto_increment,
 	login VARCHAR(50),
 	password VARCHAR(50)
 );
@@ -14,7 +14,7 @@ create table "user" (
 
 
 create table hotel (
-	id INT,
+	id INT auto_increment,
 	name VARCHAR(50),
 	stars INT,
 	website VARCHAR(50),
@@ -26,7 +26,7 @@ create table hotel (
 
 
 create table tour (
-	id INT,
+	id INT auto_increment,
 	photo VARCHAR(500),
 	date TIMESTAMP,
 	duration INT,
@@ -46,7 +46,7 @@ create table user_tour (
 
 
 create table review (
-	id INT,
+	id INT auto_increment,
 	date TIMESTAMP,
 	text TEXT,
 	user_id INT,

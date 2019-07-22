@@ -13,7 +13,6 @@ import java.util.Optional;
 
 import static by.epam.kunitski.travelagency.entity.Hotel.FeatureType.CHILDREN_AREA;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -71,37 +70,28 @@ public class HotelServiceImplTest {
 
     @Test
     public void add() {
-        lenient().when(hotelDAO.getById(30)).thenReturn(Optional.empty());
-        when(hotelDAO.create(expectedHotel)).thenReturn(1);
-        assertTrue(hotelServiceImpl.add(expectedHotel));
-    }
-
-    @Test
-    public void addFail() {
-        lenient().when(hotelDAO.getById(30)).thenReturn(Optional.empty());
-        when(hotelDAO.create(expectedHotel)).thenReturn(0);
-        assertFalse(hotelServiceImpl.add(expectedHotel));
+        expectedHotel.setId(100);
+        when(hotelDAO.create(expectedHotel)).thenReturn(expectedHotel);
+        expectedHotel.setId(0);
+        Hotel actualHotel = hotelServiceImpl.add(expectedHotel);
+        assertEquals(expectedHotel, actualHotel);
     }
 
     @Test
     public void addByNull() {
-        assertFalse(hotelServiceImpl.add(null));
+        assertEquals(new Hotel(), hotelServiceImpl.add(null));
     }
 
     @Test
     public void update() {
-        when(hotelDAO.update(expectedHotel, 1)).thenReturn(Optional.of(expectedHotel));
-        assertEquals(Optional.of(expectedHotel), hotelServiceImpl.update(expectedHotel, 1));
-    }
-
-    @Test
-    public void updateWrongId() {
-        when(hotelDAO.update(expectedHotel, -1)).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), hotelServiceImpl.update(expectedHotel, -1));
+        when(hotelDAO.update(expectedHotel, 10)).thenReturn(Optional.of(expectedHotel));
+        Hotel actualHotel = hotelServiceImpl.update(expectedHotel, 10);
+        expectedHotel.setId(10);
+        assertEquals(expectedHotel, actualHotel);
     }
 
     @Test
     public void updateByNull() {
-        assertEquals(Optional.empty(), hotelServiceImpl.update(null, 1));
+        assertEquals(new Hotel(), hotelServiceImpl.update(null, 1));
     }
 }

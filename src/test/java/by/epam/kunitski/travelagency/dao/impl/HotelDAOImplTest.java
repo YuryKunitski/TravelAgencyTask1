@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.config.TestConfig;
+import by.epam.kunitski.travelagency.config.TestConfig;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -19,14 +19,14 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class HotelDAOImplTest {
 
-    private Optional<Hotel> expectedHotel;
+    private Hotel expHotel = new Hotel(1, "Choloepus hoffmani", 2, "kvassman0@wikimedia.org"
+            , 8.2673715, 48.9086571, CHILDREN_AREA);
 
     @Autowired
     private HotelDAOImpl hotelDAO;
 
     @Autowired
-    private
-    Flyway flyway;
+    private Flyway flyway;
 
     @Before
     public void init() {
@@ -43,10 +43,8 @@ public class HotelDAOImplTest {
 
     @Test
     public void getById() {
-        expectedHotel = Optional.of(new Hotel(1, "Choloepus hoffmani", 2, "kvassman0@wikimedia.org"
-                , 8.2673715, 48.9086571, CHILDREN_AREA));
-        Optional<Hotel> actualUser = hotelDAO.getById(1);
-        assertEquals(expectedHotel, actualUser);
+        Hotel actualHotel = hotelDAO.getById(1).get();
+        assertEquals(expHotel, actualHotel);
     }
 
     @Test
@@ -69,25 +67,15 @@ public class HotelDAOImplTest {
 
     @Test
     public void create() {
-        int actualResult = hotelDAO.create(new Hotel(1, "Choloepus hoffmani", 2
-                , "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA));
-        assertEquals(1, actualResult);
+        Hotel actualHotel = hotelDAO.create(expHotel);
+        assertEquals(expHotel, actualHotel);
     }
 
     @Test
     public void update() {
-        expectedHotel = Optional.of(new Hotel(1, "Reverance", 2, "kvassman0@wikimedia.org"
-                , 8.2673715, 48.9086571, CHILDREN_AREA));
-        Optional<Hotel> hotelActual = hotelDAO.update(new Hotel(10, "Reverance", 2
-                , "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA), 1);
-        assertEquals(expectedHotel, hotelActual);
-    }
-
-    @Test
-    public void updateForWrongId() {
-        Optional<Hotel> hotelActual = hotelDAO.update(new Hotel(10, "Reverance", 2
-                , "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA), -1);
-        assertEquals(Optional.empty(), hotelActual);
+//        expectedHotel = Optional.of(expHotel);
+        Hotel hotelActual = hotelDAO.update(expHotel, 1).get();
+        assertEquals(expHotel, hotelActual);
     }
 
 }
