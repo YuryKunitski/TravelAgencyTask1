@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(User user, int id) {
         if (user != null) {
-            return userDAO.update(user, id).isPresent() ? userDAO.update(user, id).get() : new User();
+            return userDAO.update(user, id).get();
         } else {
             throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'user' is null");
         }

@@ -45,7 +45,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public Hotel update(Hotel hotel, int id) {
         if (hotel != null) {
-            return hotelDAO.update(hotel, id).isPresent() ? hotelDAO.update(hotel, id).get() : new Hotel();
+            return hotelDAO.update(hotel, id).get();
         } else {
             throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'hotel' is null");
         }

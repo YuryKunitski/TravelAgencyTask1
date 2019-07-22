@@ -45,7 +45,7 @@ public class TourServiceImpl implements TourService {
     @Override
     public Tour update(Tour tour, int id) {
         if (tour != null) {
-            return tourDAO.update(tour, id).isPresent() ? tourDAO.update(tour, id).get() : new Tour();
+            return tourDAO.update(tour, id).get();
         } else {
             throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'tour' is null");
         }

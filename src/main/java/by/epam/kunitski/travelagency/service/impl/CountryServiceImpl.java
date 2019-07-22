@@ -46,7 +46,7 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public Country update(Country country, int id) {
         if (country != null) {
-            return countryDAO.update(country, id).isPresent() ? countryDAO.update(country, id).get() : new Country();
+            return countryDAO.update(country, id).get();
         } else {
             throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'country' is null");
         }

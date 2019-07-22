@@ -45,7 +45,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Review update(Review review, int id) {
         if (review != null) {
-            return reviewDAO.update(review, id).isPresent() ? reviewDAO.update(review, id).get() : new Review();
+            return reviewDAO.update(review, id).get();
         } else {
             throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'review' is null");
         }
