@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.CountryDAO;
 import by.epam.kunitski.travelagency.entity.Country;
+import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.CountryService;
 
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ public class CountryServiceImpl implements CountryService {
         if (country != null) {
             return countryDAO.create(country);
         } else {
-            return new Country();
+            throw new EntityNullValueRuntimeException("Method add() of " + this.getClass() + " got input value 'country' is null");
         }
 
     }
@@ -47,7 +48,7 @@ public class CountryServiceImpl implements CountryService {
         if (country != null) {
             return countryDAO.update(country, id).isPresent() ? countryDAO.update(country, id).get() : new Country();
         } else {
-            return new Country();
+            throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'country' is null");
         }
     }
 

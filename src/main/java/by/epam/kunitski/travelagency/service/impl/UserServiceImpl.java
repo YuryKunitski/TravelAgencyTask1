@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.UserDAO;
 import by.epam.kunitski.travelagency.entity.User;
+import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.UserService;
 
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             return userDAO.create(user);
         } else {
-            return new User();
+            throw new EntityNullValueRuntimeException("Method add() of " + this.getClass() + " got input value 'user' is null");
         }
     }
 
@@ -46,7 +47,7 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             return userDAO.update(user, id).isPresent() ? userDAO.update(user, id).get() : new User();
         } else {
-            return new User();
+            throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'user' is null");
         }
     }
 

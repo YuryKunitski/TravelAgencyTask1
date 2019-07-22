@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.HotelDAO;
 import by.epam.kunitski.travelagency.entity.Hotel;
+import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.HotelService;
 
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ public class HotelServiceImpl implements HotelService {
         if (hotel != null) {
             return hotelDAO.create(hotel);
         } else {
-            return new Hotel();
+            throw new EntityNullValueRuntimeException("Method add() of " + this.getClass() + " got input value 'hotel' is null");
         }
     }
 
@@ -46,7 +47,7 @@ public class HotelServiceImpl implements HotelService {
         if (hotel != null) {
             return hotelDAO.update(hotel, id).isPresent() ? hotelDAO.update(hotel, id).get() : new Hotel();
         } else {
-            return new Hotel();
+            throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'hotel' is null");
         }
     }
 

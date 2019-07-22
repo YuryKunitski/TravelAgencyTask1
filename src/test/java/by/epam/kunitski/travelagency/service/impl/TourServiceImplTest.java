@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import by.epam.kunitski.travelagency.dao.impl.TourDAOImpl;
 import by.epam.kunitski.travelagency.entity.Tour;
+import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,7 +16,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -79,9 +79,9 @@ public class TourServiceImplTest {
         assertEquals(expectedTour, actualTour);
     }
 
-    @Test
+    @Test(expected = EntityNullValueRuntimeException.class)
     public void addByNull() {
-        assertEquals(new Tour() ,tourServiceImpl.add(null));
+        tourServiceImpl.add(null);
     }
 
     @Test
@@ -90,9 +90,9 @@ public class TourServiceImplTest {
         assertEquals(expectedTour, tourServiceImpl.update(expectedTour, 1));
     }
 
-    @Test
+    @Test(expected = EntityNullValueRuntimeException.class)
     public void updateByNull() {
-        assertEquals(new Tour(), tourServiceImpl.update(null, 1));
+        tourServiceImpl.update(null, 1);
     }
 
 }

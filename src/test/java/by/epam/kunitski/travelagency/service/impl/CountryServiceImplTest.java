@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.CountryDAOImpl;
 import by.epam.kunitski.travelagency.entity.Country;
+import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -72,9 +73,9 @@ public class CountryServiceImplTest {
         assertEquals(expectedCountry, actualCountry);
     }
 
-    @Test
+    @Test(expected = EntityNullValueRuntimeException.class)
     public void addByNull() {
-        assertEquals(new Country(), countryService.add(null));
+        countryService.add(null);
     }
 
     @Test
@@ -83,8 +84,8 @@ public class CountryServiceImplTest {
         assertEquals(expectedCountry, countryService.update(expectedCountry, 1));
     }
 
-    @Test
+    @Test(expected = EntityNullValueRuntimeException.class)
     public void updateByNull() {
-        assertEquals(new Country(), countryService.update(null, 1));
+        countryService.update(null, 1);
     }
 }

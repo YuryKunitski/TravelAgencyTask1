@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.ReviewDAO;
 import by.epam.kunitski.travelagency.entity.Review;
+import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.ReviewService;
 
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ public class ReviewServiceImpl implements ReviewService {
         if (review != null) {
             return reviewDAO.create(review);
         } else {
-            return new Review();
+            throw new EntityNullValueRuntimeException("Method add() of " + this.getClass() + " got input value 'review' is null");
         }
     }
 
@@ -46,7 +47,7 @@ public class ReviewServiceImpl implements ReviewService {
         if (review != null) {
             return reviewDAO.update(review, id).isPresent() ? reviewDAO.update(review, id).get() : new Review();
         } else {
-            return new Review();
+            throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'review' is null");
         }
     }
 }

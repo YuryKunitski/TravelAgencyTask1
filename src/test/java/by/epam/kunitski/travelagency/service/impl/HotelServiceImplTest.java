@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.HotelDAOImpl;
 import by.epam.kunitski.travelagency.entity.Hotel;
+import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -77,9 +78,9 @@ public class HotelServiceImplTest {
         assertEquals(expectedHotel, actualHotel);
     }
 
-    @Test
+    @Test(expected = EntityNullValueRuntimeException.class)
     public void addByNull() {
-        assertEquals(new Hotel(), hotelServiceImpl.add(null));
+        hotelServiceImpl.add(null);
     }
 
     @Test
@@ -90,8 +91,8 @@ public class HotelServiceImplTest {
         assertEquals(expectedHotel, actualHotel);
     }
 
-    @Test
+    @Test(expected = EntityNullValueRuntimeException.class)
     public void updateByNull() {
-        assertEquals(new Hotel(), hotelServiceImpl.update(null, 1));
+        hotelServiceImpl.update(null, 1);
     }
 }

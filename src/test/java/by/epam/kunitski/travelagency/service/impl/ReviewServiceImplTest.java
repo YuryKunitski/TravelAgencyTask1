@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.ReviewDAOImpl;
 import by.epam.kunitski.travelagency.entity.Review;
+import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -75,9 +75,9 @@ public class ReviewServiceImplTest {
         assertEquals(expectedReview, actualReview);
     }
 
-    @Test
+    @Test(expected = EntityNullValueRuntimeException.class)
     public void addByNull() {
-        assertEquals(new Review(), reviewServiceImpl.add(null));
+        reviewServiceImpl.add(null);
     }
 
     @Test
@@ -86,8 +86,8 @@ public class ReviewServiceImplTest {
         assertEquals(expectedReview, reviewServiceImpl.update(expectedReview, 1));
     }
 
-    @Test
+    @Test(expected = EntityNullValueRuntimeException.class)
     public void updateByNull() {
-        assertEquals(new Review(), reviewServiceImpl.update(null, 1));
+        reviewServiceImpl.update(null, 1);
     }
 }

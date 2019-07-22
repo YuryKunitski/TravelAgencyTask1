@@ -1,8 +1,10 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import static org.junit.Assert.*;
+
 import by.epam.kunitski.travelagency.dao.impl.UserDAOImpl;
 import by.epam.kunitski.travelagency.entity.User;
+import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -12,7 +14,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -70,9 +71,9 @@ public class UserServiceImplTest {
         User actualUser = userServiceImpl.add(expectedUser);
     }
 
-    @Test
+    @Test(expected = EntityNullValueRuntimeException.class)
     public void addByNull() {
-        assertEquals(new User() ,userServiceImpl.add(null));
+        userServiceImpl.add(null);
     }
 
     @Test
@@ -81,8 +82,8 @@ public class UserServiceImplTest {
         assertEquals(expectedUser, userServiceImpl.update(expectedUser, 1));
     }
 
-    @Test
+    @Test(expected = EntityNullValueRuntimeException.class)
     public void updateByNull() {
-        assertEquals(new User(), userServiceImpl.update(null, 1));
+        userServiceImpl.update(null, 1);
     }
 }
