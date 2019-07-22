@@ -2,7 +2,10 @@ package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.ReviewDAO;
 import by.epam.kunitski.travelagency.entity.Review;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +19,8 @@ import java.util.Optional;
 
 @Repository
 public class ReviewDAOImpl implements ReviewDAO {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(ReviewDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -36,8 +41,16 @@ public class ReviewDAOImpl implements ReviewDAO {
 
     @Override
     public Optional<Review> getById(int id) {
-        List<Review> reviewList = jdbcTemplate.query(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_REVIEW);
-        return reviewList.isEmpty() ? Optional.empty() : Optional.of(reviewList.get(0));
+
+        Optional<Review> reviewOptional = null;
+
+        try {
+            reviewOptional = Optional.of(jdbcTemplate.queryForObject(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_REVIEW));
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.error("Couldn't find review with id " + id);
+            reviewOptional = Optional.empty();
+        }
+        return reviewOptional;
     }
 
     @Override

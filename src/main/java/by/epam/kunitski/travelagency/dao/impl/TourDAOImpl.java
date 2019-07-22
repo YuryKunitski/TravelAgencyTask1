@@ -5,6 +5,7 @@ import by.epam.kunitski.travelagency.entity.Tour;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Repository
 public class TourDAOImpl implements TourDAO {
+
     private final static Logger LOGGER = LoggerFactory.getLogger(TourDAOImpl.class);
 
     @Autowired
@@ -41,8 +43,16 @@ public class TourDAOImpl implements TourDAO {
 
     @Override
     public Optional<Tour> getById(int id) {
-        List<Tour> tourList = jdbcTemplate.query(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_TOUR);
-        return tourList.isEmpty() ? Optional.empty() : Optional.of(tourList.get(0));
+
+        Optional<Tour> tourOptional = null;
+
+        try {
+            tourOptional = Optional.of(jdbcTemplate.queryForObject(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_TOUR));
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.error("Couldn't find tour with id " + id);
+            tourOptional = Optional.empty();
+        }
+        return tourOptional;
 
     }
 

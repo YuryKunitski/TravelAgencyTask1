@@ -2,7 +2,10 @@ package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.HotelDAO;
 import by.epam.kunitski.travelagency.entity.Hotel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +22,8 @@ import java.util.Optional;
 
 @Repository
 public class HotelDAOImpl implements HotelDAO {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(HotelDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -39,8 +44,16 @@ public class HotelDAOImpl implements HotelDAO {
 
     @Override
     public Optional<Hotel> getById(int id) {
-        List<Hotel> hotelList = jdbcTemplate.query(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_HOTEL);
-        return hotelList.isEmpty() ? Optional.empty() : Optional.of(hotelList.get(0));
+
+        Optional<Hotel> hotelOptional = null;
+
+        try {
+            hotelOptional = Optional.of(jdbcTemplate.queryForObject(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_HOTEL));
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.error("Couldn't find hotel with id " + id);
+            hotelOptional = Optional.empty();
+        }
+        return hotelOptional;
     }
 
     @Override

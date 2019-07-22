@@ -2,7 +2,10 @@ package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.CountryDAO;
 import by.epam.kunitski.travelagency.entity.Country;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +22,8 @@ import java.util.Optional;
 
 @Repository
 public class CountryDAOImpl implements CountryDAO {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(CountryDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -39,8 +44,16 @@ public class CountryDAOImpl implements CountryDAO {
 
     @Override
     public Optional<Country> getById(int id) {
-        List<Country> countryList = jdbcTemplate.query(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_COUNTRY);
-        return countryList.isEmpty() ? Optional.empty() : Optional.of(countryList.get(0));
+
+        Optional<Country> countryOptional = null;
+
+        try {
+           countryOptional = Optional.of(jdbcTemplate.queryForObject(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_COUNTRY));
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.error("Couldn't find country with id " + id);
+            countryOptional = Optional.empty();
+        }
+        return countryOptional;
     }
 
     @Override
@@ -71,6 +84,6 @@ public class CountryDAOImpl implements CountryDAO {
     @Override
     public Optional<Country> update(Country country, int id) {
         jdbcTemplate.update(SQL_UPDATE, country.getName(), id);
-        return  getById(id);
+        return getById(id);
     }
 }

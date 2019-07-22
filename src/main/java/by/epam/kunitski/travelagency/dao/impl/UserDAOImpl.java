@@ -1,8 +1,12 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.UserDAO;
+import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +23,8 @@ import java.util.Optional;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -39,8 +45,16 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> getById(int id) {
-        List<User> userList = jdbcTemplate.query(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_USER);
-        return userList.isEmpty() ? Optional.empty() : Optional.of(userList.get(0));
+
+        Optional<User> userOptional = null;
+
+        try {
+            userOptional = Optional.of(jdbcTemplate.queryForObject(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_USER));
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.error("Couldn't find user with id " + id);
+            userOptional = Optional.empty();
+        }
+        return userOptional;
     }
 
     @Override
