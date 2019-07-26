@@ -1,8 +1,6 @@
 package by.epam.kunitski.travelagency.entity;
 
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,13 +16,11 @@ public class Review {
     private LocalDate date;
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "user_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private User userID;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "tour_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Tour tourID;
 }

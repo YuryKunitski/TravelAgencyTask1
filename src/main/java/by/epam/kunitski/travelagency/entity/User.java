@@ -19,10 +19,10 @@ public class User {
     private String login;
     private String password;
 
-    @OneToMany(mappedBy = "userID")//, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userID", cascade=CascadeType.ALL)
     private Set<Review> reviewList = new HashSet<>();
 
-    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)//, fetch = FetchType.LAZY)
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(name="user_tour", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="tour_id") )
     private Set<Tour> tourList = new HashSet<>();
 

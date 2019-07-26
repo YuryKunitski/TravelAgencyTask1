@@ -1,8 +1,6 @@
 package by.epam.kunitski.travelagency.entity;
 
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,23 +23,21 @@ public class Tour {
     private String description;
     private Double cost;
 
-    @ManyToOne()//fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "hotel_id")
-    @OnDelete(action = OnDeleteAction.CASCADE )
     private Hotel hotel_id;
 
-    @ManyToOne()//fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "country_id")
-    @OnDelete(action = OnDeleteAction.CASCADE )
     private Country country_id;
 
     @Enumerated(EnumType.STRING)
     private TourType tour_type;
 
-    @OneToMany(mappedBy = "tourID")//, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tourID", cascade = CascadeType.ALL)
     private Set<Review> reviewList = new HashSet<>();
 
-    @ManyToMany(mappedBy="tourList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy="tourList")
     private Set<User> userList = new HashSet<>();
 
    public enum TourType {

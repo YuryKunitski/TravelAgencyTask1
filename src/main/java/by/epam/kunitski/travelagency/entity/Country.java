@@ -18,7 +18,7 @@ public class Country {
     private int id;
     private String name;
 
-    @OneToMany(mappedBy = "country_id")
+    @OneToMany(mappedBy = "country_id", cascade=CascadeType.ALL)
     private Set<Tour> tourList = new HashSet<>();
 
 }

@@ -25,7 +25,7 @@ public class Hotel {
     @Enumerated(EnumType.STRING)
     private FeatureType features;
 
-    @OneToMany(mappedBy = "hotel_id")
+    @OneToMany(mappedBy = "hotel_id", cascade=CascadeType.ALL)
     private Set<Tour> tourList = new HashSet<>();;
 
    public enum FeatureType{
