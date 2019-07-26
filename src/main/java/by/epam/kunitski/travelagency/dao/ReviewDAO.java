@@ -11,9 +11,9 @@ public interface ReviewDAO {
 
     Optional<Review> getById(int id);
 
-    int delete(int id);
+    boolean delete(int id);
 
     Review create(Review review);
 
-    Optional<Review> update(Review review, int id);
+    Review update(Review review);
 }

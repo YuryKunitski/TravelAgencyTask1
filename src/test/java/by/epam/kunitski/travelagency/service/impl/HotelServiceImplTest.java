@@ -1,5 +1,6 @@
 package by.epam.kunitski.travelagency.service.impl;
 
+import by.epam.kunitski.travelagency.dao.HotelDAO;
 import by.epam.kunitski.travelagency.dao.impl.HotelDAOImpl;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
@@ -19,11 +20,11 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class HotelServiceImplTest {
 
-    private Hotel expectedHotel = new Hotel(1, "Choloepus hoffmani", 2
-            , "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA);
+    private Hotel expectedHotel = new Hotel(); //(1, "Choloepus hoffmani", 2
+//            , "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA);
 
     @Mock
-    private HotelDAOImpl hotelDAO;
+    private HotelDAO hotelDAO;
 
     @InjectMocks
     private HotelServiceImpl hotelServiceImpl;
@@ -51,21 +52,21 @@ public class HotelServiceImplTest {
     @Test
     public void delete() {
 
-        when(hotelDAO.delete(1)).thenReturn(1);
-        when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
+        when(hotelDAO.delete(1)).thenReturn(true);
+//        when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
         assertTrue(hotelServiceImpl.delete(1));
     }
 
     @Test
     public void deleteFail() {
-        when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
-        when(hotelDAO.delete(1)).thenReturn(0);
+//        when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
+//        when(hotelDAO.delete(1)).thenReturn(0);
         assertFalse(hotelServiceImpl.delete(1));
     }
 
     @Test
     public void deleteByWrongId() {
-        when(hotelDAO.getById(-1)).thenReturn(Optional.empty());
+//        when(hotelDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(hotelServiceImpl.delete(-1));
     }
 
@@ -85,7 +86,7 @@ public class HotelServiceImplTest {
 
     @Test
     public void update() {
-        when(hotelDAO.update(expectedHotel, 10)).thenReturn(Optional.of(expectedHotel));
+        when(hotelDAO.update(expectedHotel)).thenReturn(expectedHotel);
         Hotel actualHotel = hotelServiceImpl.update(expectedHotel, 10);
         expectedHotel.setId(10);
         assertEquals(expectedHotel, actualHotel);

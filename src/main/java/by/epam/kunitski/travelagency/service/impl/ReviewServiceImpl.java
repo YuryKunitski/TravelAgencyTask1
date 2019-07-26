@@ -26,11 +26,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public boolean delete(int id) {
-        if (reviewDAO.getById(id).isPresent()) {
-            return reviewDAO.delete(id) > 0;
-        } else {
-            return false;
-        }
+        return reviewDAO.delete(id);
     }
 
     @Override
@@ -45,7 +41,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Review update(Review review, int id) {
         if (review != null) {
-            return reviewDAO.update(review, id).get();
+            return reviewDAO.update(review);
         } else {
             throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'review' is null");
         }

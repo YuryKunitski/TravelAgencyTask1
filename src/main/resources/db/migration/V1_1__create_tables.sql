@@ -1,17 +1,16 @@
-create table country (
-	id INT auto_increment,
-	name VARCHAR(50)
+CREATE TYPE features AS ENUM (
+    'swimming_pool',
+    'free_wifi',
+    'parking',
+    'children_area',
+    'restaurant'
 );
 
-
-
-create table "user" (
-	id INT auto_increment,
-	login VARCHAR(50),
-	password VARCHAR(50)
+CREATE TYPE tour_type AS ENUM (
+    'econom',
+    'all_inclusive',
+    'only_breakfast'
 );
-
-
 
 create table hotel (
 	id INT auto_increment,
@@ -23,12 +22,29 @@ create table hotel (
 	features VARCHAR(50)
 );
 
+create table "user" (
+	id INT auto_increment,
+	login VARCHAR(50),
+	password VARCHAR(50)
+);
 
+create table country (
+	id INT NOT NULL auto_increment,
+	name VARCHAR(50) NOT NULL
+);
+
+create table review (
+	id INT auto_increment,
+	date DATE,
+	text TEXT,
+	user_id INT,
+	tour_id INT
+);
 
 create table tour (
 	id INT auto_increment,
 	photo VARCHAR(500),
-	date TIMESTAMP,
+	date DATE,
 	duration INT,
 	description TEXT,
 	cost DOUBLE,
@@ -37,18 +53,25 @@ create table tour (
 	tour_type VARCHAR(50)
 );
 
-
-
 create table user_tour (
 	user_id INT,
 	tour_id INT
 );
 
+ALTER TABLE review
+    ADD CONSTRAINT review_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE;
 
-create table review (
-	id INT auto_increment,
-	date TIMESTAMP,
-	text TEXT,
-	user_id INT,
-	tour_id INT
-);
+ALTER TABLE review
+        ADD CONSTRAINT review_tour_id_fkey FOREIGN KEY (tour_id) REFERENCES tour(id) ON DELETE CASCADE;
+
+ALTER TABLE user_tour
+    ADD CONSTRAINT user_tour_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE;
+
+ALTER TABLE tour
+    ADD CONSTRAINT tour_country_id_fkey FOREIGN KEY (country_id) REFERENCES country(id) ON DELETE CASCADE;
+
+ALTER TABLE tour
+    ADD CONSTRAINT tour_hotel_id_fkey FOREIGN KEY (hotel_id) REFERENCES hotel(id) ON DELETE CASCADE;
+
+ALTER TABLE user_tour
+    ADD CONSTRAINT user_tour_tour_id_fkey FOREIGN KEY (tour_id) REFERENCES tour(id) ON DELETE CASCADE;

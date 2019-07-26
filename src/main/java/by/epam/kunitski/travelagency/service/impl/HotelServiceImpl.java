@@ -26,11 +26,11 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public boolean delete(int id) {
-        if (hotelDAO.getById(id).isPresent()) {
-            return hotelDAO.delete(id) > 0;
-        } else {
-            return false;
-        }
+//        if (hotelDAO.getById(id).isPresent()) {
+//            return hotelDAO.delete(id) > 0;
+//        } else {
+            return hotelDAO.delete(id);
+//        }
     }
 
     @Override
@@ -45,7 +45,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public Hotel update(Hotel hotel, int id) {
         if (hotel != null) {
-            return hotelDAO.update(hotel, id).get();
+            return hotelDAO.update(hotel);
         } else {
             throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'hotel' is null");
         }

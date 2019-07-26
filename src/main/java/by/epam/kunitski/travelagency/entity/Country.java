@@ -1,24 +1,24 @@
 package by.epam.kunitski.travelagency.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString(exclude = "tourList")
+@EqualsAndHashCode(exclude = "tourList")
 @Entity
 @Table(name = "country")
 public class Country {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
+    @OneToMany(mappedBy = "country_id")
+    private Set<Tour> tourList = new HashSet<>();
 
 }

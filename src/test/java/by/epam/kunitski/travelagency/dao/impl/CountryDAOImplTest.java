@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.config.TestConfig;
+import by.epam.kunitski.travelagency.config.JpaTestConfig;
+import by.epam.kunitski.travelagency.dao.CountryDAO;
 import by.epam.kunitski.travelagency.entity.Country;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -14,21 +15,23 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@ContextConfiguration(classes = TestConfig.class)
+@ContextConfiguration(classes = JpaTestConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CountryDAOImplTest {
 
-    private Country expCountry = new Country(0, "Belarus");
+    private Country expCountry = new Country();
 
     @Autowired
-    private CountryDAOImpl countryDAO;
+    private CountryDAO countryDAO;
 
     @Autowired
-    private
-    Flyway flyway;
+    private Flyway flyway;
 
     @Before
     public void init() {
+
+        expCountry.setName("Belarus");
+
         flyway.clean();
         flyway.migrate();
     }
@@ -40,11 +43,15 @@ public class CountryDAOImplTest {
         assertEquals(sizeExpected, sizeActual);
     }
 
+
     @Test
     public void getById() {
-        Country expectedCountry = new Country(1, "China");
+
+        expCountry.setId(1);
+        expCountry.setName("China");
+
         Country actualCountry = countryDAO.getById(1).get();
-        assertEquals(expectedCountry, actualCountry);
+        assertEquals(expCountry, actualCountry);
     }
 
     @Test
@@ -55,27 +62,26 @@ public class CountryDAOImplTest {
 
     @Test
     public void delete() {
-        int actual = countryDAO.delete(25);
-        assertEquals(1, actual);
+        assertTrue(countryDAO.delete(1));
     }
 
     @Test
     public void deleteForWrongId() {
-        int actual = countryDAO.delete(-1);
-        assertEquals(0, actual);
+        assertFalse(countryDAO.delete(-1));
     }
 
     @Test
     public void create() {
         Country actualCountry = countryDAO.create(expCountry);
-        assertEquals(expCountry.getId(), actualCountry.getId());
+        int generatedId = 26;
+        assertEquals(generatedId, actualCountry.getId());
     }
 
     @Test
     public void update() {
-        Country expectedCountry = new Country(1, "Belarus");
-        Country actualCountry = countryDAO.update(new Country(10, "Belarus"), 1).get();
-        assertEquals(expectedCountry, actualCountry);
+        expCountry.setId(10);
+        Country actualCountry = countryDAO.update(expCountry);
+        assertEquals(expCountry, actualCountry);
     }
 
 }

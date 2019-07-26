@@ -26,11 +26,11 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public boolean delete(int id) {
-        if (countryDAO.getById(id).isPresent()) {
-            return countryDAO.delete(id) > 0;
-        } else {
+//        if (countryDAO.getById(id).isPresent()) {
+//            return countryDAO.delete(id) > 0;
+//        } else {
             return false;
-        }
+//        }
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public Country update(Country country, int id) {
         if (country != null) {
-            return countryDAO.update(country, id).get();
+            return countryDAO.update(country);
         } else {
             throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'country' is null");
         }

@@ -1,5 +1,6 @@
 package by.epam.kunitski.travelagency.service.impl;
 
+import by.epam.kunitski.travelagency.dao.ReviewDAO;
 import by.epam.kunitski.travelagency.dao.impl.ReviewDAOImpl;
 import by.epam.kunitski.travelagency.entity.Review;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
@@ -19,11 +20,11 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewServiceImplTest {
 
-    private Review expectedReview = new Review(1, LocalDate.of(2018, 8, 22)
-            , "Curabitur convallis.", 1, 1);
+    private Review expectedReview = new Review(); //1, LocalDate.of(2018, 8, 22)
+//            , "Curabitur convallis.", 1, 1);
 
     @Mock
-    private ReviewDAOImpl reviewDAO;
+    private ReviewDAO reviewDAO;
 
     @InjectMocks
     private ReviewServiceImpl reviewServiceImpl;
@@ -49,21 +50,21 @@ public class ReviewServiceImplTest {
 
     @Test
     public void delete() {
-        when(reviewDAO.delete(1)).thenReturn(1);
-        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
+        when(reviewDAO.delete(1)).thenReturn(true);
+//        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
         assertTrue(reviewServiceImpl.delete(1));
     }
 
     @Test
     public void deleteFail() {
-        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
-        when(reviewDAO.delete(1)).thenReturn(0);
+//        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
+//        when(reviewDAO.delete(1)).thenReturn(0);
         assertFalse(reviewServiceImpl.delete(1));
     }
 
     @Test
     public void deleteByWrongId() {
-        when(reviewDAO.getById(-1)).thenReturn(Optional.empty());
+//        when(reviewDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(reviewServiceImpl.delete(-1));
     }
 
@@ -82,7 +83,7 @@ public class ReviewServiceImplTest {
 
     @Test
     public void update() {
-        when(reviewDAO.update(expectedReview, 1)).thenReturn(Optional.of(expectedReview));
+        when(reviewDAO.update(expectedReview)).thenReturn(expectedReview);
         assertEquals(expectedReview, reviewServiceImpl.update(expectedReview, 1));
     }
 

@@ -11,9 +11,9 @@ public interface TourDAO {
 
     Optional<Tour> getById(int id);
 
-    int delete(int id);
+    boolean delete(int id);
 
     Tour create(Tour tour);
 
-    Optional<Tour> update(Tour tour, int id);
+    Tour update(Tour tour);
 }

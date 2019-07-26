@@ -26,11 +26,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public boolean delete(int id) {
-        if (tourDAO.getById(id).isPresent()) {
-            return tourDAO.delete(id) > 0;
-        } else {
-            return false;
-        }
+        return tourDAO.delete(id);
     }
 
     @Override
@@ -45,7 +41,7 @@ public class TourServiceImpl implements TourService {
     @Override
     public Tour update(Tour tour, int id) {
         if (tour != null) {
-            return tourDAO.update(tour, id).get();
+            return tourDAO.update(tour);
         } else {
             throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'tour' is null");
         }

@@ -11,9 +11,9 @@ public interface HotelDAO {
 
     Optional<Hotel> getById(int id);
 
-    int delete(int id);
+    boolean delete(int id);
 
     Hotel create(Hotel hotel);
 
-    Optional<Hotel> update(Hotel hotel, int id);
+    Hotel update(Hotel hotel);
 }

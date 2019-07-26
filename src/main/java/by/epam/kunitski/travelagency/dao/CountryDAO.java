@@ -11,9 +11,9 @@ public interface CountryDAO {
 
     Optional<Country> getById(int id);
 
-    int delete(int id);
+    boolean delete(int id);
 
     Country create(Country country);
 
-    Optional<Country> update(Country country, int id);
+    Country update(Country country);
 }

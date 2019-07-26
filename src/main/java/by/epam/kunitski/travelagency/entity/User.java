@@ -1,25 +1,29 @@
 package by.epam.kunitski.travelagency.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString(exclude = {"reviewList", "tourList"})
+@EqualsAndHashCode(exclude = {"reviewList", "tourList"})
 @Entity
-@Table(name = "user")
+@Table(name = "public.\"user\"")
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String login;
     private String password;
+
+    @OneToMany(mappedBy = "userID")//, cascade = CascadeType.ALL)
+    private Set<Review> reviewList = new HashSet<>();
+
+    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)//, fetch = FetchType.LAZY)
+    @JoinTable(name="user_tour", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="tour_id") )
+    private Set<Tour> tourList = new HashSet<>();
 
 }

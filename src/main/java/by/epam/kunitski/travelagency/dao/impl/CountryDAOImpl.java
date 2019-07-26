@@ -4,86 +4,57 @@ import by.epam.kunitski.travelagency.dao.CountryDAO;
 import by.epam.kunitski.travelagency.entity.Country;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Transactional
 @Repository
 public class CountryDAOImpl implements CountryDAO {
 
     private final Logger LOGGER = LoggerFactory.getLogger(CountryDAOImpl.class);
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private RowMapper<Country> ROW_MAPPER_COUNTRY;
-
-    private static final String SQL_GET_ALL = "SELECT * FROM country";
-    private static final String SQL_GET_BY_ID = "SELECT * FROM country WHERE id = ?";
-    private static final String SQL_CREATE = "insert into country (name) values (?)";
-    private static final String SQL_UPDATE = "update country set name = ? where id = ?;";
-    private static final String SQL_DELETE = "delete from country where id = ?;";
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public List<Country> getAll() {
-        return jdbcTemplate.query(SQL_GET_ALL, ROW_MAPPER_COUNTRY);
+        return entityManager.createQuery("Select c From Country c", Country.class).getResultList();
     }
 
     @Override
     public Optional<Country> getById(int id) {
-
-        Optional<Country> countryOptional = null;
-
-        try {
-           countryOptional = Optional.of(jdbcTemplate.queryForObject(SQL_GET_BY_ID, new Object[]{id}, ROW_MAPPER_COUNTRY));
-        } catch (EmptyResultDataAccessException e) {
-            LOGGER.error("Couldn't find country with id " + id);
-            countryOptional = Optional.empty();
-        }
-        return countryOptional;
+        return Optional.ofNullable(entityManager.find(Country.class, id));
     }
 
     @Override
-    public int delete(int id) {
-        return jdbcTemplate.update(SQL_DELETE, id);
+    public boolean delete(int id) {
+        boolean result = false;
+
+        try {
+            Country country = getById(id).get();
+            entityManager.remove(country);
+            result = true;
+        } catch (NoSuchElementException e) {
+            LOGGER.error("Couldn't delete country with id" + id);
+        }
+        return result;
     }
 
     @Override
     public Country create(Country country) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(
-                new PreparedStatementCreator() {
-                    @Override
-                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                        PreparedStatement pst =
-                                con.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
-                        pst.setString(1, country.getName());
-                        return pst;
-                    }
-                },
-                keyHolder);
-        if (keyHolder.getKey() != null) {
-            country.setId(keyHolder.getKey().intValue());
-        }
+        entityManager.persist(country);
+        entityManager.flush();
         return country;
     }
 
     @Override
-    public Optional<Country> update(Country country, int id) {
-        jdbcTemplate.update(SQL_UPDATE, country.getName(), id);
-        return getById(id);
+    public Country update(Country country) {
+        return entityManager.merge(country);
     }
 }

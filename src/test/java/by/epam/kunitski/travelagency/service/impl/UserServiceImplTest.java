@@ -2,9 +2,11 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import static org.junit.Assert.*;
 
+import by.epam.kunitski.travelagency.dao.UserDAO;
 import by.epam.kunitski.travelagency.dao.impl.UserDAOImpl;
 import by.epam.kunitski.travelagency.entity.User;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
+import by.epam.kunitski.travelagency.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,10 +21,10 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 
-    private User expectedUser = new User(1, "Saundra", "CDHjDf5Tnr");
+    private User expectedUser = new User(); //(1, "Saundra", "CDHjDf5Tnr");
 
     @Mock
-    private UserDAOImpl userDAO;
+    private UserDAO userDAO;
 
     @InjectMocks
     private UserServiceImpl userServiceImpl;
@@ -47,21 +49,21 @@ public class UserServiceImplTest {
 
     @Test
     public void delete() {
-        when(userDAO.delete(1)).thenReturn(1);
-        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
+        when(userDAO.delete(1)).thenReturn(true);
+//        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
         assertTrue(userServiceImpl.delete(1));
     }
 
     @Test
     public void deleteFail() {
-        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
-        when(userDAO.delete(1)).thenReturn(0);
+//        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
+//        when(userDAO.delete(1)).thenReturn(0);
         assertFalse(userServiceImpl.delete(1));
     }
 
     @Test
     public void deleteByWrongId() {
-        when(userDAO.getById(-1)).thenReturn(Optional.empty());
+//        when(userDAO.getById(-1)).thenReturn(Optional.empty());
         assertFalse(userServiceImpl.delete(-1));
     }
 
@@ -78,7 +80,7 @@ public class UserServiceImplTest {
 
     @Test
     public void update() {
-        when(userDAO.update(expectedUser, 1)).thenReturn(Optional.of(expectedUser));
+        when(userDAO.update(expectedUser)).thenReturn(expectedUser);
         assertEquals(expectedUser, userServiceImpl.update(expectedUser, 1));
     }
 

@@ -26,11 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean delete(int id) {
-        if (userDAO.getById(id).isPresent()) {
-            return userDAO.delete(id) > 0;
-        } else {
-            return false;
-        }
+        return userDAO.delete(id);
     }
 
     @Override
@@ -45,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(User user, int id) {
         if (user != null) {
-            return userDAO.update(user, id).get();
+            return userDAO.update(user);
         } else {
             throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'user' is null");
         }

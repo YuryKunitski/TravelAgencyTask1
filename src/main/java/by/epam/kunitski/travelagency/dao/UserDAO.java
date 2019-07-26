@@ -11,9 +11,9 @@ public interface UserDAO {
 
     Optional<User> getById(int id);
 
-    int delete(int id);
+    boolean delete(int id);
 
     User create(User user);
 
-    Optional<User> update(User user, int id);
+    User update(User user);
 }
