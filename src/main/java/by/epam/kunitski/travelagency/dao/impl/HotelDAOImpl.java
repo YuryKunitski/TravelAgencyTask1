@@ -1,7 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.HotelDAO;
-import by.epam.kunitski.travelagency.entity.Country;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -28,7 +24,7 @@ public class HotelDAOImpl extends AbstractEntityDao<Hotel> implements HotelDAO {
 
     @Override
     public List<Hotel> getAll() {
-        return super.getAll(entityManager, Hotel.class);
+        return super.getAll(Hotel.class);
     }
 
     @Override

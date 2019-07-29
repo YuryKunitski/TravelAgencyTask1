@@ -9,9 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -27,7 +24,7 @@ public class CountryDAOImpl extends AbstractEntityDao<Country> implements Countr
 
     @Override
     public List<Country> getAll() {
-        return super.getAll(entityManager, Country.class);
+        return getAll(Country.class);
     }
 
     @Override
