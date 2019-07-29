@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.UserDAO;
+import by.epam.kunitski.travelagency.entity.Country;
 import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.entity.User;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl extends AbstractEntityDao<User> implements UserDAO {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
 
@@ -28,13 +29,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAll() {
-
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
-        Root<User> root = criteriaQuery.from(User.class);
-        criteriaQuery.select(root);
-
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return super.getAll(entityManager, User.class);
     }
 
     @Override

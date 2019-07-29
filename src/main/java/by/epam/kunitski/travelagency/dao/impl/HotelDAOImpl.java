@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public class HotelDAOImpl implements HotelDAO {
+public class HotelDAOImpl extends AbstractEntityDao<Hotel> implements HotelDAO {
 
     private final Logger LOGGER = LoggerFactory.getLogger(HotelDAOImpl.class);
 
@@ -28,13 +28,7 @@ public class HotelDAOImpl implements HotelDAO {
 
     @Override
     public List<Hotel> getAll() {
-
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Hotel> criteriaQuery = builder.createQuery(Hotel.class);
-        Root<Hotel> root = criteriaQuery.from(Hotel.class);
-        criteriaQuery.select(root);
-
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return super.getAll(entityManager, Hotel.class);
     }
 
     @Override

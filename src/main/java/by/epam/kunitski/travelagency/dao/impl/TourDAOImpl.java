@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.TourDAO;
+import by.epam.kunitski.travelagency.entity.Country;
 import by.epam.kunitski.travelagency.entity.Review;
 import by.epam.kunitski.travelagency.entity.Tour;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public class TourDAOImpl implements TourDAO {
+public class TourDAOImpl extends AbstractEntityDao<Tour> implements TourDAO {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(TourDAOImpl.class);
 
@@ -28,13 +29,7 @@ public class TourDAOImpl implements TourDAO {
 
     @Override
     public List<Tour> getAll() {
-
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Tour> criteriaQuery = builder.createQuery(Tour.class);
-        Root<Tour> root = criteriaQuery.from(Tour.class);
-        criteriaQuery.select(root);
-
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return super.getAll(entityManager, Tour.class);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.ReviewDAO;
+import by.epam.kunitski.travelagency.entity.Country;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import by.epam.kunitski.travelagency.entity.Review;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public class ReviewDAOImpl implements ReviewDAO {
+public class ReviewDAOImpl extends AbstractEntityDao<Review> implements ReviewDAO {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ReviewDAOImpl.class);
 
@@ -29,13 +30,7 @@ public class ReviewDAOImpl implements ReviewDAO {
 
     @Override
     public List<Review> getAll() {
-
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Review> criteriaQuery = builder.createQuery(Review.class);
-        Root<Review> root = criteriaQuery.from(Review.class);
-        criteriaQuery.select(root);
-
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return super.getAll(entityManager, Review.class);
     }
 
     @Override

@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public class CountryDAOImpl implements CountryDAO {
+public class CountryDAOImpl extends AbstractEntityDao<Country> implements CountryDAO {
 
     private final Logger LOGGER = LoggerFactory.getLogger(CountryDAOImpl.class);
 
@@ -27,14 +27,7 @@ public class CountryDAOImpl implements CountryDAO {
 
     @Override
     public List<Country> getAll() {
-
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Country> criteriaQuery = builder.createQuery(Country.class);
-        Root<Country> root = criteriaQuery.from(Country.class);
-        criteriaQuery.select(root);
-        return entityManager.createQuery(criteriaQuery).getResultList();
-
-       // return entityManager.createQuery("Select c From Country c", Country.class).getResultList();
+        return super.getAll(entityManager, Country.class);
     }
 
     @Override
