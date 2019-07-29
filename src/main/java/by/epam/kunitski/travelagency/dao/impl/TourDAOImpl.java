@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.TourDAO;
+import by.epam.kunitski.travelagency.entity.Review;
 import by.epam.kunitski.travelagency.entity.Tour;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -24,7 +28,13 @@ public class TourDAOImpl implements TourDAO {
 
     @Override
     public List<Tour> getAll() {
-        return entityManager.createQuery("Select c From Tour c", Tour.class).getResultList();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tour> criteriaQuery = builder.createQuery(Tour.class);
+        Root<Tour> root = criteriaQuery.from(Tour.class);
+        criteriaQuery.select(root);
+
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     @Override

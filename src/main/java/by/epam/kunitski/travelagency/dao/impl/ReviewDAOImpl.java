@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.ReviewDAO;
+import by.epam.kunitski.travelagency.entity.Hotel;
 import by.epam.kunitski.travelagency.entity.Review;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -25,7 +29,13 @@ public class ReviewDAOImpl implements ReviewDAO {
 
     @Override
     public List<Review> getAll() {
-        return entityManager.createQuery("Select c From Review c", Review.class).getResultList();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Review> criteriaQuery = builder.createQuery(Review.class);
+        Root<Review> root = criteriaQuery.from(Review.class);
+        criteriaQuery.select(root);
+
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     @Override

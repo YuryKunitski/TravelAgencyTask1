@@ -40,6 +40,7 @@ public class CountryDAOImplTest {
     public void getAll() {
         int sizeExpected = 25;
         int sizeActual = countryDAO.getAll().size();
+        System.out.println(countryDAO.getAll());
         assertEquals(sizeExpected, sizeActual);
     }
 

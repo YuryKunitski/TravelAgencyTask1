@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -24,7 +27,14 @@ public class CountryDAOImpl implements CountryDAO {
 
     @Override
     public List<Country> getAll() {
-        return entityManager.createQuery("Select c From Country c", Country.class).getResultList();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Country> criteriaQuery = builder.createQuery(Country.class);
+        Root<Country> root = criteriaQuery.from(Country.class);
+        criteriaQuery.select(root);
+        return entityManager.createQuery(criteriaQuery).getResultList();
+
+       // return entityManager.createQuery("Select c From Country c", Country.class).getResultList();
     }
 
     @Override
