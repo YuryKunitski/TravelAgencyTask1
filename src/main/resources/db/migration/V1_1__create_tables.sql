@@ -13,7 +13,7 @@ CREATE TYPE tour_type AS ENUM (
 );
 
 create table hotel (
-	id INT auto_increment,
+	id serial NOT NULL UNIQUE,
 	name VARCHAR(50),
 	stars INT,
 	website VARCHAR(50),
@@ -23,18 +23,18 @@ create table hotel (
 );
 
 create table "user" (
-	id INT auto_increment,
+	id serial NOT NULL UNIQUE,
 	login VARCHAR(50),
 	password VARCHAR(50)
 );
 
 create table country (
-	id INT NOT NULL auto_increment,
+	id serial NOT NULL UNIQUE,
 	name VARCHAR(50) NOT NULL
 );
 
 create table review (
-	id INT auto_increment,
+	id serial NOT NULL UNIQUE,
 	date DATE,
 	text TEXT,
 	user_id INT,
@@ -42,7 +42,7 @@ create table review (
 );
 
 create table tour (
-	id INT auto_increment,
+	id serial NOT NULL UNIQUE,
 	photo VARCHAR(500),
 	date DATE,
 	duration INT,

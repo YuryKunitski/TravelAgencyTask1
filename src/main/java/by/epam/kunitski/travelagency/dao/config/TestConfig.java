@@ -12,7 +12,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan(basePackages = "by.epam.kunitski.travelagency")
+@ComponentScan(basePackages = "by.epam.kunitski.travelagency.config")
 public class TestConfig {
 
     @Bean
