@@ -19,7 +19,6 @@ public class TestConfig {
     public DataSource dataSource() {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         EmbeddedDatabase database = builder.setType(EmbeddedDatabaseType.H2)
-                .addScript("db/migration/V1_0__create_shema.sql")
                 .addScript("db/migration/V1_1__create_tables.sql")
                 .addScript("db/migration/V1_2__input_DB.sql")
                 .build();

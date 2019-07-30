@@ -14,23 +14,26 @@ CREATE TYPE tour_type AS ENUM (
 
 create table hotel (
 	id serial NOT NULL UNIQUE,
-	name VARCHAR(50),
-	stars INT,
-	website VARCHAR(50),
-	latitude VARCHAR(50),
-	longitude VARCHAR(50),
-	features VARCHAR(50)
+	name VARCHAR(50) NOT NULL,
+	stars INT NOT NULL,
+	website VARCHAR(50) NOT NULL,
+	latitude VARCHAR(50) NOT NULL,
+	longitude VARCHAR(50) NOT NULL,
+	features VARCHAR(50) NOT NULL
+	CONSTRAINT Hotel_pkey PRIMARY KEY (id)
 );
 
 create table "user" (
 	id serial NOT NULL UNIQUE,
-	login VARCHAR(50),
-	password VARCHAR(50)
+	login VARCHAR(50) NOT NULL,
+	password VARCHAR(50) NOT NULL,
+	CONSTRAINT User_pkey PRIMARY KEY (id)
 );
 
 create table country (
 	id serial NOT NULL UNIQUE,
-	name VARCHAR(50) NOT NULL
+	name VARCHAR(50) NOT NULL,
+	CONSTRAINT country_pkey PRIMARY KEY (id)
 );
 
 create table review (
@@ -38,24 +41,26 @@ create table review (
 	date DATE,
 	text TEXT,
 	user_id INT,
-	tour_id INT
+	tour_id INT,
+	CONSTRAINT review_pkey PRIMARY KEY (id)
 );
 
 create table tour (
 	id serial NOT NULL UNIQUE,
-	photo VARCHAR(500),
-	date DATE,
-	duration INT,
-	description TEXT,
-	cost DOUBLE,
-	hotel_id INT,
-	country_id INT,
-	tour_type VARCHAR(50)
+	photo VARCHAR(500) NOT NULL,
+	date DATE NOT NULL,
+	duration INT NOT NULL,
+	description TEXT NOT NULL,
+	cost double NOT NULL,
+	hotel_id INT NOT NULL,
+	country_id INT NOT NULL,
+	tour_type VARCHAR(50) NOT NULL,
+	CONSTRAINT tour_pkey PRIMARY KEY (id)
 );
 
 create table user_tour (
-	user_id INT,
-	tour_id INT
+	user_id INT NOT NULL,
+	tour_id INT NOT NULL
 );
 
 ALTER TABLE review
