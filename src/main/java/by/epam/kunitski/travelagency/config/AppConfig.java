@@ -1,14 +1,11 @@
 package by.epam.kunitski.travelagency.config;
 
-import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.configuration.FluentConfiguration;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -23,17 +20,12 @@ import java.util.Properties;
 @Configuration
 @ComponentScan(basePackages = "by.epam.kunitski.travelagency")
 @EnableTransactionManagement
-public class JpaTestConfig {
+public class AppConfig {
 
     @Bean
     public DataSource dataSource() {
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        EmbeddedDatabase database = builder.setType(EmbeddedDatabaseType.H2)
-                .addScript("db/migration/V1_0__create_shema.sql")
-                .addScript("db/migration/V1_1__create_tables.sql")
-                .addScript("db/migration/V1_2__input_DB.sql")
-                .build();
-        return database;
+        HikariConfig hikariConfig = new HikariConfig("/hikari.properties");
+        return new HikariDataSource(hikariConfig);
     }
 
     @Bean
@@ -46,16 +38,6 @@ public class JpaTestConfig {
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
-    }
-
-
-    private Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "none");
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL82Dialect");
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-        properties.setProperty("hibernate.show_sql", "true");
-        return properties;
     }
 
     @Bean
@@ -72,12 +54,15 @@ public class JpaTestConfig {
         return em;
     }
 
-    @Bean(name = "flyway")
-    public Flyway getFlyway() {
-        FluentConfiguration flywayConfiguration = Flyway.configure().dataSource(dataSource());
-        flywayConfiguration.baselineOnMigrate(true);
-        return new Flyway(flywayConfiguration);
+    private Properties additionalProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "none");
+//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL82Dialect");
+//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        properties.setProperty("hibernate.show_sql", "true");
+        return properties;
     }
+
 
 //    @Bean
 //    public Validator validator(){

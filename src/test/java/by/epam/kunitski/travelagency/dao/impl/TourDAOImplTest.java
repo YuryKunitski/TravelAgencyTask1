@@ -1,7 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.config.JpaTestConfig;
 import by.epam.kunitski.travelagency.dao.EntityDAO;
+import by.epam.kunitski.travelagency.dao.config.TestConfig;
 import by.epam.kunitski.travelagency.entity.Tour;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@ContextConfiguration(classes = JpaTestConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TourDAOImplTest {
 
