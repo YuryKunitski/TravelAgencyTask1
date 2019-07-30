@@ -1,67 +1,40 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.ReviewDAO;
-import by.epam.kunitski.travelagency.entity.Country;
-import by.epam.kunitski.travelagency.entity.Hotel;
 import by.epam.kunitski.travelagency.entity.Review;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Transactional
-@Repository
-public class ReviewDAOImpl extends AbstractEntityDao<Review> implements ReviewDAO {
+@Repository("reviewDAOImpl")
+public class ReviewDAOImpl extends AbstractEntityDao<Review> {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(ReviewDAOImpl.class);
-
-    @PersistenceContext
-    private EntityManager entityManager;
+    public ReviewDAOImpl() {
+        super(Review.class);
+    }
 
     @Override
     public List<Review> getAll() {
-        return super.getAll(entityManager, Review.class);
+        return super.getAll();
     }
 
     @Override
     public Optional<Review> getById(int id) {
-        return Optional.ofNullable(entityManager.find(Review.class, id));
+        return super.getById(id);
     }
 
     @Override
     public boolean delete(int id) {
-        boolean result = false;
-
-        try {
-            Review review = getById(id).get();
-            entityManager.remove(review);
-            result = true;
-        } catch (NoSuchElementException e) {
-            LOGGER.error("Couldn't delete review with id" + id);
-        }
-        return result;
+        return super.delete(id);
     }
 
     @Override
     public Review create(Review review) {
-        entityManager.persist(review);
-        entityManager.flush();
-        return review;
+        return super.create(review);
     }
 
     @Override
     public Review update(Review review) {
-        return entityManager.merge(review);
+        return super.update(review);
     }
-
 }

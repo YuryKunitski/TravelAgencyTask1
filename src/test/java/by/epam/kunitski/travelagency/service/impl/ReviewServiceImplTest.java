@@ -1,6 +1,5 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.ReviewDAO;
 import by.epam.kunitski.travelagency.dao.impl.ReviewDAOImpl;
 import by.epam.kunitski.travelagency.entity.Review;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
@@ -24,7 +23,7 @@ public class ReviewServiceImplTest {
 //            , "Curabitur convallis.", 1, 1);
 
     @Mock
-    private ReviewDAO reviewDAO;
+    private ReviewDAOImpl reviewDAO;
 
     @InjectMocks
     private ReviewServiceImpl reviewServiceImpl;

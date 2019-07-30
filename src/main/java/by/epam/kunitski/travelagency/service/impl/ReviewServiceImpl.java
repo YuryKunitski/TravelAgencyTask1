@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.ReviewDAO;
+import by.epam.kunitski.travelagency.dao.impl.ReviewDAOImpl;
 import by.epam.kunitski.travelagency.entity.Review;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.ReviewService;
@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ReviewServiceImpl implements ReviewService {
 
     @Inject
-    private ReviewDAO reviewDAO;
+    private ReviewDAOImpl reviewDAO;
 
     @Override
     public List<Review> findAll() {

@@ -2,7 +2,6 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import static org.junit.Assert.*;
 
-import by.epam.kunitski.travelagency.dao.UserDAO;
 import by.epam.kunitski.travelagency.dao.impl.UserDAOImpl;
 import by.epam.kunitski.travelagency.entity.User;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
@@ -24,7 +23,7 @@ public class UserServiceImplTest {
     private User expectedUser = new User(); //(1, "Saundra", "CDHjDf5Tnr");
 
     @Mock
-    private UserDAO userDAO;
+    private UserDAOImpl userDAO;
 
     @InjectMocks
     private UserServiceImpl userServiceImpl;

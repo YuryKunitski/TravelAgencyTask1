@@ -1,66 +1,40 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.HotelDAO;
-import by.epam.kunitski.travelagency.entity.Country;
 import by.epam.kunitski.travelagency.entity.Hotel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Transactional
-@Repository
-public class HotelDAOImpl extends AbstractEntityDao<Hotel> implements HotelDAO {
+@Repository("hotelDAOImpl")
+public class HotelDAOImpl extends AbstractEntityDao<Hotel> {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(HotelDAOImpl.class);
-
-    @PersistenceContext
-    private EntityManager entityManager;
+    public HotelDAOImpl() {
+        super(Hotel.class);
+    }
 
     @Override
     public List<Hotel> getAll() {
-        return super.getAll(entityManager, Hotel.class);
+        return super.getAll();
     }
 
     @Override
     public Optional<Hotel> getById(int id) {
-        return Optional.ofNullable(entityManager.find(Hotel.class, id));
+        return super.getById(id);
     }
 
     @Override
     public boolean delete(int id) {
-
-        boolean result = false;
-
-        try {
-            Hotel hotel = getById(id).get();
-            entityManager.remove(hotel);
-            result = true;
-        } catch (NoSuchElementException e) {
-            LOGGER.error("Couldn't delete hotel with id" + id);
-        }
-        return result;
+        return super.delete(id);
     }
 
     @Override
     public Hotel create(Hotel hotel) {
-        entityManager.persist(hotel);
-        entityManager.flush();
-        return hotel;
+        return super.create(hotel);
     }
 
     @Override
     public Hotel update(Hotel hotel) {
-        return entityManager.merge(hotel);
+        return super.update(hotel);
     }
-
 }

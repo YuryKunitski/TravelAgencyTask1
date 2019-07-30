@@ -1,6 +1,5 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.CountryDAO;
 import by.epam.kunitski.travelagency.dao.impl.CountryDAOImpl;
 import by.epam.kunitski.travelagency.entity.Country;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
@@ -23,7 +22,7 @@ public class CountryServiceImplTest {
     private Country expectedCountry = new Country();
 
     @Mock
-    private CountryDAO countryDAO;
+    private CountryDAOImpl countryDAO;
 
     @InjectMocks
     private CountryServiceImpl countryService;

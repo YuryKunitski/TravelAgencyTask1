@@ -1,6 +1,5 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.HotelDAO;
 import by.epam.kunitski.travelagency.dao.impl.HotelDAOImpl;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
@@ -24,7 +23,7 @@ public class HotelServiceImplTest {
 //            , "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA);
 
     @Mock
-    private HotelDAO hotelDAO;
+    private HotelDAOImpl hotelDAO;
 
     @InjectMocks
     private HotelServiceImpl hotelServiceImpl;

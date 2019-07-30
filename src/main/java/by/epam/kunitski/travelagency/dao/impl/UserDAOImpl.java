@@ -1,65 +1,40 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.UserDAO;
-import by.epam.kunitski.travelagency.entity.Country;
-import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.entity.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Transactional
-@Repository
-public class UserDAOImpl extends AbstractEntityDao<User> implements UserDAO {
+@Repository("userDAOImpl")
+public class UserDAOImpl extends AbstractEntityDao<User> {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
-
-    @PersistenceContext
-    private EntityManager entityManager;
+    public UserDAOImpl(){
+        super(User.class);
+    }
 
     @Override
     public List<User> getAll() {
-        return super.getAll(entityManager, User.class);
+        return super.getAll();
     }
 
     @Override
     public Optional<User> getById(int id) {
-        return Optional.ofNullable(entityManager.find(User.class, id));
+        return super.getById(id);
     }
 
     @Override
     public boolean delete(int id) {
-        boolean result = false;
-
-        try {
-            User user = getById(id).get();
-            entityManager.remove(user);
-            result = true;
-        } catch (NoSuchElementException e) {
-            LOGGER.error("Couldn't delete country with id" + id);
-        }
-        return result;
+        return super.delete(id);
     }
 
     @Override
     public User create(User user) {
-        entityManager.persist(user);
-        entityManager.flush();
-        return user;
+        return super.create(user);
     }
 
     @Override
     public User update(User user) {
-        return entityManager.merge(user);
+        return super.update(user);
     }
 }

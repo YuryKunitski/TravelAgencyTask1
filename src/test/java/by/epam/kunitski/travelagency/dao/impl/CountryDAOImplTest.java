@@ -1,13 +1,14 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.config.JpaTestConfig;
-import by.epam.kunitski.travelagency.dao.CountryDAO;
+import by.epam.kunitski.travelagency.dao.EntityDAO;
 import by.epam.kunitski.travelagency.entity.Country;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -22,7 +23,8 @@ public class CountryDAOImplTest {
     private Country expCountry = new Country();
 
     @Autowired
-    private CountryDAO countryDAO;
+    @Qualifier("countryDAOImpl")
+    private EntityDAO<Country> countryDAO;
 
     @Autowired
     private Flyway flyway;
@@ -40,7 +42,6 @@ public class CountryDAOImplTest {
     public void getAll() {
         int sizeExpected = 25;
         int sizeActual = countryDAO.getAll().size();
-        System.out.println(countryDAO.getAll());
         assertEquals(sizeExpected, sizeActual);
     }
 

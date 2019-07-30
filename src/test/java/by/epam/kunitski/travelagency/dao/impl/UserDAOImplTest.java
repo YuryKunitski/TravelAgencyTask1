@@ -1,13 +1,14 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.config.JpaTestConfig;
-import by.epam.kunitski.travelagency.dao.UserDAO;
+import by.epam.kunitski.travelagency.dao.EntityDAO;
 import by.epam.kunitski.travelagency.entity.User;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -22,7 +23,8 @@ public class UserDAOImplTest {
     private User expUser = new User();
 
     @Autowired
-    private UserDAO userDAO;
+    @Qualifier("userDAOImpl")
+    private EntityDAO<User> userDAO;
 
     @Autowired
     private Flyway flyway;

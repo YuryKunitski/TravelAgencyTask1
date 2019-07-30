@@ -3,7 +3,6 @@ package by.epam.kunitski.travelagency.service.impl;
 import static by.epam.kunitski.travelagency.entity.Tour.TourType.ONLY_BREAKFAST;
 import static org.junit.Assert.*;
 
-import by.epam.kunitski.travelagency.dao.TourDAO;
 import by.epam.kunitski.travelagency.dao.impl.TourDAOImpl;
 import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
@@ -29,7 +28,7 @@ public class TourServiceImplTest {
 //            , 1, 1, ONLY_BREAKFAST);
 
     @Mock
-    private TourDAO tourDAO;
+    private TourDAOImpl tourDAO;
 
     @InjectMocks
     private TourServiceImpl tourServiceImpl;
