@@ -2,7 +2,6 @@ package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.entity.Hotel;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 

@@ -1,6 +1,5 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.EntityDAO;
 import by.epam.kunitski.travelagency.entity.Country;
 import org.springframework.stereotype.Repository;
 
