@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.HotelDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.impl.HotelSpecification;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
@@ -19,8 +20,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class HotelServiceImplTest {
 
-    private Hotel expectedHotel = new Hotel(); //(1, "Choloepus hoffmani", 2
-//            , "kvassman0@wikimedia.org", 8.2673715, 48.9086571, CHILDREN_AREA);
+    private Hotel expectedHotel = new Hotel();
 
     @Mock
     private HotelDAOImpl hotelDAO;
@@ -30,8 +30,10 @@ public class HotelServiceImplTest {
 
     @Test
     public void findAll() {
-        when(hotelDAO.getAll()).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), hotelServiceImpl.findAll());
+        HotelSpecification hotelSpecification = new HotelSpecification();
+
+        when(hotelDAO.getAll(hotelSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), hotelServiceImpl.findAll(hotelSpecification));
 
     }
 

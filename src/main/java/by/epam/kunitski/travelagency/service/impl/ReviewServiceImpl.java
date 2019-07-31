@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.ReviewDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Review;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.ReviewService;
@@ -15,8 +16,8 @@ public class ReviewServiceImpl implements ReviewService {
     private ReviewDAOImpl reviewDAO;
 
     @Override
-    public List<Review> findAll() {
-        return reviewDAO.getAll();
+    public List<Review> findAll(Specification<Review> reviewSpecification) {
+        return reviewDAO.getAll(reviewSpecification);
     }
 
     @Override

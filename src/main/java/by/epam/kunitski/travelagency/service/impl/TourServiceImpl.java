@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.TourDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.TourService;
@@ -15,8 +16,8 @@ public class TourServiceImpl implements TourService {
     private TourDAOImpl tourDAO;
 
     @Override
-    public List<Tour> findAll() {
-        return tourDAO.getAll();
+    public List<Tour> findAll(Specification<Tour> tourSpecification) {
+        return tourDAO.getAll(tourSpecification);
     }
 
     @Override

@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.EntityDAO;
 import by.epam.kunitski.travelagency.dao.config.TestConfig;
+import by.epam.kunitski.travelagency.dao.specification.impl.ReviewSpecification;
 import by.epam.kunitski.travelagency.entity.*;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -43,8 +44,10 @@ public class ReviewDAOImplTest {
 
     @Test
     public void getAll() {
+        ReviewSpecification reviewSpecification = new ReviewSpecification();
+
         int sizeExpected = 1000;
-        int sizeActual = reviewDAO.getAll().size();
+        int sizeActual = reviewDAO.getAll(reviewSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 

@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.EntityDAO;
 import by.epam.kunitski.travelagency.dao.config.TestConfig;
+import by.epam.kunitski.travelagency.dao.specification.impl.CountrySpecification;
 import by.epam.kunitski.travelagency.entity.Country;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -40,8 +41,9 @@ public class CountryDAOImplTest {
 
     @Test
     public void getAll() {
+        CountrySpecification countrySpecification = new CountrySpecification();
         int sizeExpected = 25;
-        int sizeActual = countryDAO.getAll().size();
+        int sizeActual = countryDAO.getAll(countrySpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 

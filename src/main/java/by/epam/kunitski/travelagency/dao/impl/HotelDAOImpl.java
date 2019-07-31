@@ -1,5 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -13,8 +14,8 @@ public class HotelDAOImpl extends AbstractEntityDao<Hotel> {
     }
 
     @Override
-    public List<Hotel> getAll() {
-        return super.getAll();
+    public List<Hotel> getAll(Specification<Hotel> hotelSpecification) {
+        return super.getAll(hotelSpecification);
     }
 
     @Override

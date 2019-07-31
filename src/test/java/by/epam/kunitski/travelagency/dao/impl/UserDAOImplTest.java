@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.EntityDAO;
 import by.epam.kunitski.travelagency.dao.config.TestConfig;
+import by.epam.kunitski.travelagency.dao.specification.impl.UserSpecification;
 import by.epam.kunitski.travelagency.entity.User;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -40,8 +41,10 @@ public class UserDAOImplTest {
 
     @Test
     public void getAll() {
+        UserSpecification userSpecification = new UserSpecification();
+
         int sizeExpected = 100;
-        int sizeActual = userDAO.getAll().size();
+        int sizeActual = userDAO.getAll(userSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 

@@ -4,6 +4,7 @@ import static by.epam.kunitski.travelagency.entity.Tour.TourType.ONLY_BREAKFAST;
 import static org.junit.Assert.*;
 
 import by.epam.kunitski.travelagency.dao.impl.TourDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.impl.TourSpecification;
 import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.TourService;
@@ -35,8 +36,10 @@ public class TourServiceImplTest {
 
     @Test
     public void findAll() {
-        when(tourDAO.getAll()).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), tourServiceImpl.findAll());
+        TourSpecification tourSpecification = new TourSpecification();
+
+        when(tourDAO.getAll(tourSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), tourServiceImpl.findAll(tourSpecification));
     }
 
     @Test

@@ -1,6 +1,8 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.CountryDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.Specification;
+import by.epam.kunitski.travelagency.dao.specification.impl.CountrySpecification;
 import by.epam.kunitski.travelagency.entity.Country;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
@@ -29,8 +31,10 @@ public class CountryServiceImplTest {
 
     @Test
     public void findAll() {
-        when(countryDAO.getAll()).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), countryService.findAll());
+        CountrySpecification countrySpecification = new CountrySpecification();
+
+        when(countryDAO.getAll(countrySpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), countryService.findAll(countrySpecification));
     }
 
     @Test

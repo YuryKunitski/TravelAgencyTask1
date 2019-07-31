@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.ReviewDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.impl.ReviewSpecification;
 import by.epam.kunitski.travelagency.entity.Review;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
@@ -30,8 +31,10 @@ public class ReviewServiceImplTest {
 
     @Test
     public void findAll() {
-        when(reviewDAO.getAll()).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), reviewServiceImpl.findAll());
+        ReviewSpecification reviewSpecification = new ReviewSpecification();
+
+        when(reviewDAO.getAll(reviewSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), reviewServiceImpl.findAll(reviewSpecification));
 
     }
 

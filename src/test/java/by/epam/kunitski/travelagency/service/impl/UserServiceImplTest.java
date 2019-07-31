@@ -3,6 +3,7 @@ package by.epam.kunitski.travelagency.service.impl;
 import static org.junit.Assert.*;
 
 import by.epam.kunitski.travelagency.dao.impl.UserDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.impl.UserSpecification;
 import by.epam.kunitski.travelagency.entity.User;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.UserService;
@@ -30,8 +31,10 @@ public class UserServiceImplTest {
 
     @Test
     public void findAll() {
-        when(userDAO.getAll()).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), userServiceImpl.findAll());
+        UserSpecification userSpecification = new UserSpecification();
+
+        when(userDAO.getAll(userSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), userServiceImpl.findAll(userSpecification));
     }
 
     @Test

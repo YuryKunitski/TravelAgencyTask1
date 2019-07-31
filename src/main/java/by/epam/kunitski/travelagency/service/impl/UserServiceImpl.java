@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.UserDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.User;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.UserService;
@@ -15,8 +16,8 @@ public class UserServiceImpl implements UserService {
     private UserDAOImpl userDAO;
 
     @Override
-    public List<User> findAll() {
-        return userDAO.getAll();
+    public List<User> findAll(Specification<User> userSpecification) {
+        return userDAO.getAll(userSpecification);
     }
 
     @Override

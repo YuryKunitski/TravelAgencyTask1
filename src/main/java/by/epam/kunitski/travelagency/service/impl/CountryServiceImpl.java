@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.CountryDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Country;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.CountryService;
@@ -15,8 +16,8 @@ public class CountryServiceImpl implements CountryService {
     private CountryDAOImpl countryDAO;
 
     @Override
-    public List<Country> findAll() {
-        return countryDAO.getAll();
+    public List<Country> findAll(Specification<Country> countrySpecification) {
+        return countryDAO.getAll(countrySpecification);
     }
 
     @Override

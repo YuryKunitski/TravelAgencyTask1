@@ -1,13 +1,16 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.EntityDAO;
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,14 +31,29 @@ abstract public class AbstractEntityDao<T> implements EntityDAO<T> {
     private EntityManager entityManager;
 
     @Override
-    public List<T> getAll() {
+    public List<T> getAll(Specification<T> specification) {
 
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = builder.createQuery(type);
+//        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<T> criteriaQuery = builder.createQuery(type);
+//        Root<T> root = criteriaQuery.from(type);
+//        criteriaQuery.select(root);
+//
+//        return entityManager.createQuery(criteriaQuery).getResultList();
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(type);
         Root<T> root = criteriaQuery.from(type);
-        criteriaQuery.select(root);
 
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        Predicate predicate = specification.toPredicate(root, criteriaBuilder);
+        System.out.println("Predicate - " + predicate);
+        criteriaQuery.where(criteriaBuilder.and(predicate));
+        System.out.println("CriteriaQuery - "+criteriaQuery);
+        System.out.println("entityManager - " + entityManager);
+        TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
+
+        return query.getResultList();
+
     }
 
     @Override

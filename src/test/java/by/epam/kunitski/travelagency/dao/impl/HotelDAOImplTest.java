@@ -2,6 +2,7 @@ package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.EntityDAO;
 import by.epam.kunitski.travelagency.dao.config.TestConfig;
+import by.epam.kunitski.travelagency.dao.specification.impl.HotelSpecification;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -11,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import java.util.Optional;
 
-import static by.epam.kunitski.travelagency.entity.Hotel.FeatureType.CHILDREN_AREA;
 import static org.junit.Assert.*;
 
 @ContextConfiguration(classes = TestConfig.class)
@@ -41,8 +40,10 @@ public class HotelDAOImplTest {
 
     @Test
     public void getAll() {
+        HotelSpecification hotelSpecification = new HotelSpecification();
+
         int sizeExpected = 100;
-        int sizeActual = hotelDAO.getAll().size();
+        int sizeActual = hotelDAO.getAll(hotelSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 

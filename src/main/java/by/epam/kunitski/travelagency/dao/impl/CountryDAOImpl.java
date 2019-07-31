@@ -1,5 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Country;
 import org.springframework.stereotype.Repository;
 
@@ -14,8 +15,8 @@ public class CountryDAOImpl extends AbstractEntityDao<Country> {
     }
 
     @Override
-    public List<Country> getAll() {
-        return super.getAll();
+    public List<Country> getAll(Specification<Country> countrySpecification) {
+        return super.getAll(countrySpecification);
     }
 
     @Override

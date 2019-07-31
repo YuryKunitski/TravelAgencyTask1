@@ -1,5 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Tour;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -13,8 +14,8 @@ public class TourDAOImpl extends AbstractEntityDao<Tour> {
     }
 
     @Override
-    public List<Tour> getAll() {
-        return super.getAll();
+    public List<Tour> getAll(Specification<Tour> tourSpecification) {
+        return super.getAll(tourSpecification);
     }
 
     @Override

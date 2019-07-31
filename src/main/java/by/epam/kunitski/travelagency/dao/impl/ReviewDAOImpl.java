@@ -1,5 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Review;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -13,8 +14,8 @@ public class ReviewDAOImpl extends AbstractEntityDao<Review> {
     }
 
     @Override
-    public List<Review> getAll() {
-        return super.getAll();
+    public List<Review> getAll(Specification<Review> reviewSpecification) {
+        return super.getAll(reviewSpecification);
     }
 
     @Override

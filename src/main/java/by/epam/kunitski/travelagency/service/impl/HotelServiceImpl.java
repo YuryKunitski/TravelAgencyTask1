@@ -1,6 +1,7 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.HotelDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.HotelService;
@@ -15,8 +16,8 @@ public class HotelServiceImpl implements HotelService {
     private HotelDAOImpl hotelDAO;
 
     @Override
-    public List<Hotel> findAll() {
-        return hotelDAO.getAll();
+    public List<Hotel> findAll(Specification<Hotel> hotelSpecification) {
+        return hotelDAO.getAll(hotelSpecification);
     }
 
     @Override
