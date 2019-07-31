@@ -13,7 +13,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static by.epam.kunitski.travelagency.entity.Hotel.FeatureType.CHILDREN_AREA;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
@@ -52,23 +51,14 @@ public class HotelServiceImplTest {
 
     @Test
     public void delete() {
-
         when(hotelDAO.delete(1)).thenReturn(true);
-//        when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
         assertTrue(hotelServiceImpl.delete(1));
     }
 
     @Test
     public void deleteFail() {
-//        when(hotelDAO.getById(1)).thenReturn(Optional.of(expectedHotel));
-//        when(hotelDAO.delete(1)).thenReturn(0);
+        when(hotelDAO.delete(1)).thenReturn(false);
         assertFalse(hotelServiceImpl.delete(1));
-    }
-
-    @Test
-    public void deleteByWrongId() {
-//        when(hotelDAO.getById(-1)).thenReturn(Optional.empty());
-        assertFalse(hotelServiceImpl.delete(-1));
     }
 
     @Test
@@ -88,13 +78,13 @@ public class HotelServiceImplTest {
     @Test
     public void update() {
         when(hotelDAO.update(expectedHotel)).thenReturn(expectedHotel);
-        Hotel actualHotel = hotelServiceImpl.update(expectedHotel, 10);
+        Hotel actualHotel = hotelServiceImpl.update(expectedHotel);
         expectedHotel.setId(10);
         assertEquals(expectedHotel, actualHotel);
     }
 
     @Test(expected = EntityNullValueRuntimeException.class)
     public void updateByNull() {
-        hotelServiceImpl.update(null, 1);
+        hotelServiceImpl.update(null);
     }
 }

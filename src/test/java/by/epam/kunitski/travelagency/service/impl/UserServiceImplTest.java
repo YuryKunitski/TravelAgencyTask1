@@ -6,7 +6,6 @@ import by.epam.kunitski.travelagency.dao.impl.UserDAOImpl;
 import by.epam.kunitski.travelagency.dao.specification.impl.UserSpecification;
 import by.epam.kunitski.travelagency.entity.User;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
-import by.epam.kunitski.travelagency.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,7 +20,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 
-    private User expectedUser = new User(); //(1, "Saundra", "CDHjDf5Tnr");
+    private User expectedUser = new User();
 
     @Mock
     private UserDAOImpl userDAO;
@@ -52,21 +51,13 @@ public class UserServiceImplTest {
     @Test
     public void delete() {
         when(userDAO.delete(1)).thenReturn(true);
-//        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
         assertTrue(userServiceImpl.delete(1));
     }
 
     @Test
     public void deleteFail() {
-//        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
-//        when(userDAO.delete(1)).thenReturn(0);
+        when(userDAO.delete(1)).thenReturn(false);
         assertFalse(userServiceImpl.delete(1));
-    }
-
-    @Test
-    public void deleteByWrongId() {
-//        when(userDAO.getById(-1)).thenReturn(Optional.empty());
-        assertFalse(userServiceImpl.delete(-1));
     }
 
     @Test
@@ -83,11 +74,11 @@ public class UserServiceImplTest {
     @Test
     public void update() {
         when(userDAO.update(expectedUser)).thenReturn(expectedUser);
-        assertEquals(expectedUser, userServiceImpl.update(expectedUser, 1));
+        assertEquals(expectedUser, userServiceImpl.update(expectedUser));
     }
 
     @Test(expected = EntityNullValueRuntimeException.class)
     public void updateByNull() {
-        userServiceImpl.update(null, 1);
+        userServiceImpl.update(null);
     }
 }

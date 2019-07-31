@@ -27,11 +27,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public boolean delete(int id) {
-//        if (hotelDAO.getById(id).isPresent()) {
-//            return hotelDAO.delete(id) > 0;
-//        } else {
-            return hotelDAO.delete(id);
-//        }
+       return hotelDAO.delete(id);
     }
 
     @Override
@@ -44,7 +40,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public Hotel update(Hotel hotel, int id) {
+    public Hotel update(Hotel hotel) {
         if (hotel != null) {
             return hotelDAO.update(hotel);
         } else {

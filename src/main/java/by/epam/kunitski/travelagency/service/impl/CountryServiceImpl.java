@@ -27,11 +27,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public boolean delete(int id) {
-//        if (countryDAO.getById(id).isPresent()) {
-//            return countryDAO.delete(id) > 0;
-//        } else {
-            return false;
-//        }
+        return countryDAO.delete(id);
     }
 
     @Override
@@ -45,7 +41,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Country update(Country country, int id) {
+    public Country update(Country country) {
         if (country != null) {
             return countryDAO.update(country);
         } else {

@@ -15,5 +15,5 @@ public interface EntityService<T> {
 
     T add(T entity);
 
-    T update(T entity, int id);
+    T update(T entity);
 }

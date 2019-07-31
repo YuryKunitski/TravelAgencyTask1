@@ -40,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review update(Review review, int id) {
+    public Review update(Review review) {
         if (review != null) {
             return reviewDAO.update(review);
         } else {

@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Setter
 public class TourSpecification extends AbstractSpecification<Tour> {
@@ -76,14 +75,8 @@ public class TourSpecification extends AbstractSpecification<Tour> {
 
         //filter for user
         if (userID != null) {
-
             Join<Tour, User> joinUser = root.join("userList");
             Predicate predicateUser = cb.equal(joinUser.get("id"), userID);
-//            Join<Tour, User> joinUser = root.join("userList");
-//            Path<User> userPath = joinUser.get("id");
-//            Predicate predicateUser = cb.equal(userPath, userTour);
-//            predicates.add(predicateUser);
-//            Predicate predicateUser = cb.equal(root.get("user_id"), userTour);
             predicates.add(predicateUser);
         }
 

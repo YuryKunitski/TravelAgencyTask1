@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user, int id) {
+    public User update(User user) {
         if (user != null) {
             return userDAO.update(user);
         } else {

@@ -1,7 +1,6 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.CountryDAOImpl;
-import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.dao.specification.impl.CountrySpecification;
 import by.epam.kunitski.travelagency.entity.Country;
 import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
@@ -51,22 +50,14 @@ public class CountryServiceImplTest {
 
     @Test
     public void delete() {
-//        when(countryDAO.delete(1)).thenReturn(1);
-//        when(countryDAO.getById(1)).thenReturn(Optional.of(expectedCountry));
-//        assertTrue(countryService.delete(1));
+        when(countryDAO.delete(1)).thenReturn(true);
+        assertTrue(countryService.delete(1));
     }
 
     @Test
     public void deleteFail() {
-//        when(countryDAO.getById(1)).thenReturn(Optional.of(expectedCountry));
-//        when(countryDAO.delete(1)).thenReturn(0);
-//        assertFalse(countryService.delete(1));
-    }
-
-    @Test
-    public void deleteByWrongId() {
-//        when(countryDAO.getById(-1)).thenReturn(Optional.empty());
-        assertFalse(countryService.delete(-1));
+        when(countryDAO.delete(1)).thenReturn(false);
+        assertFalse(countryService.delete(1));
     }
 
     @Test
@@ -84,12 +75,12 @@ public class CountryServiceImplTest {
 
     @Test
     public void update() {
-//        when(countryDAO.update(expectedCountry, 1)).thenReturn(Optional.of(expectedCountry));
-//        assertEquals(expectedCountry, countryService.update(expectedCountry, 1));
+        when(countryDAO.update(expectedCountry)).thenReturn(expectedCountry);
+        assertEquals(expectedCountry, countryService.update(expectedCountry));
     }
 
     @Test(expected = EntityNullValueRuntimeException.class)
     public void updateByNull() {
-        countryService.update(null, 1);
+        countryService.update(null);
     }
 }

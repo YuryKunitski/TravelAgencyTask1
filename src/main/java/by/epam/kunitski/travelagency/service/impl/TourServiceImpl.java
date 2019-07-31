@@ -40,7 +40,7 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public Tour update(Tour tour, int id) {
+    public Tour update(Tour tour) {
         if (tour != null) {
             return tourDAO.update(tour);
         } else {
