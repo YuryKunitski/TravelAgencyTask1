@@ -12,40 +12,40 @@ CREATE TYPE tour_type AS ENUM (
     'only_breakfast'
 );
 
-create table hotel (
+create table IF NOT EXISTS hotel (
 	id serial NOT NULL UNIQUE,
 	name VARCHAR(50) NOT NULL,
 	stars INT NOT NULL,
 	website VARCHAR(50) NOT NULL,
 	latitude VARCHAR(50) NOT NULL,
 	longitude VARCHAR(50) NOT NULL,
-	features VARCHAR(50) NOT NULL
-	CONSTRAINT Hotel_pkey PRIMARY KEY (id)
+	features VARCHAR(50) NOT NULL,
+	CONSTRAINT hotel_pkey PRIMARY KEY (id)
 );
 
-create table "user" (
+create table IF NOT EXISTS "user" (
 	id serial NOT NULL UNIQUE,
 	login VARCHAR(50) NOT NULL,
 	password VARCHAR(50) NOT NULL,
-	CONSTRAINT User_pkey PRIMARY KEY (id)
+	CONSTRAINT user_pkey PRIMARY KEY (id)
 );
 
-create table country (
+create table IF NOT EXISTS country (
 	id serial NOT NULL UNIQUE,
 	name VARCHAR(50) NOT NULL,
 	CONSTRAINT country_pkey PRIMARY KEY (id)
 );
 
-create table review (
+create table IF NOT EXISTS review (
 	id serial NOT NULL UNIQUE,
-	date DATE,
-	text TEXT,
-	user_id INT,
-	tour_id INT,
+	date DATE NOT NULL,
+	text TEXT NOT NULL,
+	user_id INT NOT NULL,
+	tour_id INT NOT NULL,
 	CONSTRAINT review_pkey PRIMARY KEY (id)
 );
 
-create table tour (
+create table IF NOT EXISTS tour (
 	id serial NOT NULL UNIQUE,
 	photo VARCHAR(500) NOT NULL,
 	date DATE NOT NULL,
@@ -58,7 +58,7 @@ create table tour (
 	CONSTRAINT tour_pkey PRIMARY KEY (id)
 );
 
-create table user_tour (
+create table IF NOT EXISTS user_tour (
 	user_id INT NOT NULL,
 	tour_id INT NOT NULL
 );

@@ -32,7 +32,7 @@ public class CountryDAOImplTest {
     @Before
     public void init() {
 
-        expCountry.setName("Belarus");
+        expCountry = InitEntity.initCountry();
 
         flyway.clean();
         flyway.migrate();

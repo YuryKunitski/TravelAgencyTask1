@@ -33,7 +33,7 @@ public class TourDAOImplTest {
     @Before
     public void init() {
 
-        expTour.setPhoto("http://dummyimage.com/147x238.jpg/MyHolidayPhoto_1");
+        expTour = InitEntity.initTour();
 
         flyway.clean();
         flyway.migrate();

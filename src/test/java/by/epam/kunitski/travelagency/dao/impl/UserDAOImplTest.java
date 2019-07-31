@@ -32,7 +32,7 @@ public class UserDAOImplTest {
     @Before
     public void init() {
 
-        expUser.setLogin("Smit");
+        expUser = InitEntity.initUser();
 
         flyway.clean();
         flyway.migrate();

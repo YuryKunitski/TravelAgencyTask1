@@ -2,7 +2,7 @@ package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.EntityDAO;
 import by.epam.kunitski.travelagency.dao.config.TestConfig;
-import by.epam.kunitski.travelagency.entity.Review;
+import by.epam.kunitski.travelagency.entity.*;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
+import static by.epam.kunitski.travelagency.entity.Hotel.FeatureType.CHILDREN_AREA;
+import static by.epam.kunitski.travelagency.entity.Tour.TourType.ECONOM;
 import static org.junit.Assert.*;
 
 @ContextConfiguration(classes = TestConfig.class)
@@ -32,7 +35,7 @@ public class ReviewDAOImplTest {
     @Before
     public void init() {
 
-        expReview.setText("Excelent");
+        expReview = InitEntity.initReview();
 
         flyway.clean();
         flyway.migrate();

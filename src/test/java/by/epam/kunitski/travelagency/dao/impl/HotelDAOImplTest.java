@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Optional;
 
+import static by.epam.kunitski.travelagency.entity.Hotel.FeatureType.CHILDREN_AREA;
 import static org.junit.Assert.*;
 
 @ContextConfiguration(classes = TestConfig.class)
@@ -32,7 +33,7 @@ public class HotelDAOImplTest {
     @Before
     public void init() {
 
-        expHotel.setName("Turist");
+        expHotel = InitEntity.initHotel();
 
         flyway.clean();
         flyway.migrate();
