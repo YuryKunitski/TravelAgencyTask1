@@ -43,7 +43,6 @@ abstract public class AbstractEntityDao<T> implements EntityDAO<T> {
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
 
         return query.getResultList();
-
     }
 
     @Override
