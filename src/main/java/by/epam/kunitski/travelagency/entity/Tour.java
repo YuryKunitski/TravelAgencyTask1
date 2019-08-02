@@ -1,8 +1,12 @@
 package by.epam.kunitski.travelagency.entity;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,20 +21,33 @@ public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotNull
     private String photo;
+
+    @NotNull
     private LocalDate date;
+
+    @Range(min = 1, max = 99)
     private int duration;
+
+    @Size(min = 1, max = 500)
     private String description;
+
+    @Positive
     private Double cost;
 
+    @Positive
     @ManyToOne()
     @JoinColumn(name = "hotel_id")
     private Hotel hotel_id;
 
+    @Positive
     @ManyToOne()
     @JoinColumn(name = "country_id")
     private Country country_id;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private TourType tour_type;
 

@@ -3,6 +3,7 @@ package by.epam.kunitski.travelagency.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +17,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Size(min = 3, max = 20)
     private String login;
+
+    @Size(min = 3, max = 20)
     private String password;
 
     @OneToMany(mappedBy = "userID", cascade=CascadeType.ALL)
