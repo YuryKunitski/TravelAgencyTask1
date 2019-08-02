@@ -3,19 +3,20 @@ package by.epam.kunitski.travelagency.service.impl;
 import by.epam.kunitski.travelagency.dao.impl.CountryDAOImpl;
 import by.epam.kunitski.travelagency.dao.specification.impl.CountrySpecification;
 import by.epam.kunitski.travelagency.entity.Country;
-import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class CountryServiceImplTest {
@@ -24,6 +25,12 @@ public class CountryServiceImplTest {
 
     @Mock
     private CountryDAOImpl countryDAO;
+
+    @Mock
+    private Validator validator;
+
+    @Mock
+    Set<ConstraintViolation<Country>> expViolations;
 
     @InjectMocks
     private CountryServiceImpl countryService;
@@ -61,25 +68,55 @@ public class CountryServiceImplTest {
     }
 
     @Test
-    public void add() {
-        expectedCountry.setId(26);
+    public void addValid() {
+        when(validator.validate(expectedCountry)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(true);
         when(countryDAO.create(expectedCountry)).thenReturn(expectedCountry);
-        Country actualCountry = countryService.add(expectedCountry);
-        assertEquals(expectedCountry, actualCountry);
-    }
 
-    @Test(expected = EntityNullValueRuntimeException.class)
-    public void addByNull() {
-        countryService.add(null);
+        countryService.add(expectedCountry);
+
+        verify(countryDAO, times(1)).create(expectedCountry);
     }
 
     @Test
-    public void update() {
-        when(countryDAO.update(expectedCountry)).thenReturn(expectedCountry);
-        assertEquals(expectedCountry, countryService.update(expectedCountry));
+    public void addNotValid() {
+
+        when(validator.validate(expectedCountry)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(false);
+
+        countryService.add(expectedCountry);
+
+        verify(countryDAO, times(0)).create(expectedCountry);
     }
 
-    @Test(expected = EntityNullValueRuntimeException.class)
+    @Test
+    public void addByNull() {
+        assertTrue(countryService.add(null).isEmpty());
+    }
+
+    @Test
+    public void updateValid() {
+        when(validator.validate(expectedCountry)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(true);
+        when(countryDAO.update(expectedCountry)).thenReturn(expectedCountry);
+
+        countryService.update(expectedCountry);
+
+        verify(countryDAO, times(1)).update(expectedCountry);
+    }
+
+    @Test
+    public void updateNotValid() {
+        when(validator.validate(expectedCountry)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(false);
+
+        countryService.update(expectedCountry);
+
+
+        verify(countryDAO, times(0)).update(expectedCountry);
+    }
+
+    @Test
     public void updateByNull() {
         countryService.update(null);
     }

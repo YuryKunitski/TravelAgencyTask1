@@ -3,6 +3,7 @@ package by.epam.kunitski.travelagency.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -23,12 +24,12 @@ public class Review {
     @Size(min = 1, max = 500)
     private String text;
 
-    @Positive
+    @NotNull
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User userID;
 
-    @Positive
+    @NotNull
     @ManyToOne()
     @JoinColumn(name = "tour_id")
     private Tour tourID;

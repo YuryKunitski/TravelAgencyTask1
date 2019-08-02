@@ -1,26 +1,33 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import by.epam.kunitski.travelagency.dao.impl.TourDAOImpl;
 import by.epam.kunitski.travelagency.dao.specification.impl.TourSpecification;
 import by.epam.kunitski.travelagency.entity.Tour;
-import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.Optional;
-
-import static org.mockito.Mockito.when;
+import java.util.Set;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TourServiceImplTest {
 
     private Tour expectedTour = new Tour();
+
+    @Mock
+    private Validator validator;
+
+    @Mock
+    Set<ConstraintViolation<Tour>> expViolations;
 
     @Mock
     private TourDAOImpl tourDAO;
@@ -62,25 +69,53 @@ public class TourServiceImplTest {
     }
 
     @Test
-    public void add() {
+    public void addValid() {
+        when(validator.validate(expectedTour)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(true);
         when(tourDAO.create(expectedTour)).thenReturn(expectedTour);
-        Tour actualTour = tourServiceImpl.add(expectedTour);
-        expectedTour.setId(1001);
-        assertEquals(expectedTour, actualTour);
+
+        tourServiceImpl.add(expectedTour);
+
+        verify(tourDAO, times(1)).create(expectedTour);
     }
 
-    @Test(expected = EntityNullValueRuntimeException.class)
+    @Test
+    public void addNotValid() {
+        when(validator.validate(expectedTour)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(false);
+
+        tourServiceImpl.add(expectedTour);
+
+        verify(tourDAO, times(0)).create(expectedTour);
+    }
+
+    @Test
     public void addByNull() {
         tourServiceImpl.add(null);
     }
 
     @Test
-    public void update() {
+    public void updateValid() {
+        when(validator.validate(expectedTour)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(true);
         when(tourDAO.update(expectedTour)).thenReturn(expectedTour);
-        assertEquals(expectedTour, tourServiceImpl.update(expectedTour));
+
+        tourServiceImpl.update(expectedTour);
+
+        verify(tourDAO, times(1)).update(expectedTour);
     }
 
-    @Test(expected = EntityNullValueRuntimeException.class)
+    @Test
+    public void updateNotValid() {
+        when(validator.validate(expectedTour)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(false);
+
+        tourServiceImpl.update(expectedTour);
+
+        verify(tourDAO, times(0)).update(expectedTour);
+    }
+
+    @Test
     public void updateByNull() {
         tourServiceImpl.update(null);
     }

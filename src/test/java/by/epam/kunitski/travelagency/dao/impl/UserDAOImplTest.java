@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -61,6 +62,7 @@ public class UserDAOImplTest {
         assertEquals(Optional.empty(), actualUser);
     }
 
+    @Transactional
     @Test
     public void create() {
         User actualUser = userDAO.create(expUser);
@@ -68,16 +70,19 @@ public class UserDAOImplTest {
         assertEquals(generatedId, actualUser.getId());
     }
 
+    @Transactional
     @Test
     public void delete() {
        assertTrue(userDAO.delete(100));
     }
 
+    @Transactional
     @Test
     public void deleteForWrongId() {
        assertFalse(userDAO.delete(-1));
     }
 
+    @Transactional
     @Test
     public void update() {
         expUser.setId(10);

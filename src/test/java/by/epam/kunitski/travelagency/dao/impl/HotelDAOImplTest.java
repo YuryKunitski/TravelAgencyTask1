@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -62,23 +64,26 @@ public class HotelDAOImplTest {
         assertEquals(Optional.empty(), actualHotel);
     }
 
+    @Transactional
     @Test
     public void delete() {
         assertTrue(hotelDAO.delete(100));
     }
 
+    @Transactional
     @Test
     public void deleteForWrongId() {
        assertFalse(hotelDAO.delete(-1));
     }
 
+    @Transactional
     @Test
     public void create() {
         Hotel actualHotel = hotelDAO.create(expHotel);
         int generatedId = 101;
         assertEquals(generatedId, actualHotel.getId());
     }
-
+    @Transactional
     @Test
     public void update() {
         expHotel.setId(10);

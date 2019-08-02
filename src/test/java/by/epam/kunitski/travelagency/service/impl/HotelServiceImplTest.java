@@ -3,23 +3,31 @@ package by.epam.kunitski.travelagency.service.impl;
 import by.epam.kunitski.travelagency.dao.impl.HotelDAOImpl;
 import by.epam.kunitski.travelagency.dao.specification.impl.HotelSpecification;
 import by.epam.kunitski.travelagency.entity.Hotel;
-import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HotelServiceImplTest {
 
     private Hotel expectedHotel = new Hotel();
+
+    @Mock
+    private Validator validator;
+
+    @Mock
+    Set<ConstraintViolation<Hotel>> expViolations;
 
     @Mock
     private HotelDAOImpl hotelDAO;
@@ -62,28 +70,53 @@ public class HotelServiceImplTest {
     }
 
     @Test
-    public void add() {
-        expectedHotel.setId(100);
+    public void addValid() {
+        when(validator.validate(expectedHotel)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(true);
         when(hotelDAO.create(expectedHotel)).thenReturn(expectedHotel);
-        expectedHotel.setId(0);
-        Hotel actualHotel = hotelServiceImpl.add(expectedHotel);
-        assertEquals(expectedHotel, actualHotel);
+
+        hotelServiceImpl.add(expectedHotel);
+
+        verify(hotelDAO, times(1)).create(expectedHotel);
     }
 
-    @Test(expected = EntityNullValueRuntimeException.class)
+    @Test
+    public void addNotValid() {
+        when(validator.validate(expectedHotel)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(false);
+
+        hotelServiceImpl.add(expectedHotel);
+
+        verify(hotelDAO, times(0)).create(expectedHotel);
+    }
+
+    @Test
     public void addByNull() {
         hotelServiceImpl.add(null);
     }
 
     @Test
-    public void update() {
+    public void updateValid() {
+        when(validator.validate(expectedHotel)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(true);
         when(hotelDAO.update(expectedHotel)).thenReturn(expectedHotel);
-        Hotel actualHotel = hotelServiceImpl.update(expectedHotel);
-        expectedHotel.setId(10);
-        assertEquals(expectedHotel, actualHotel);
+
+        hotelServiceImpl.update(expectedHotel);
+
+        verify(hotelDAO, times(1)).update(expectedHotel);
     }
 
-    @Test(expected = EntityNullValueRuntimeException.class)
+    @Test
+    public void updateNotValid() {
+        when(validator.validate(expectedHotel)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(false);
+
+        hotelServiceImpl.update(expectedHotel);
+
+        verify(hotelDAO, times(0)).update(expectedHotel);
+    }
+
+    @Test
     public void updateByNull() {
         hotelServiceImpl.update(null);
     }

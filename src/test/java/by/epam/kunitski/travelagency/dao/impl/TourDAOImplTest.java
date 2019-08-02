@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -66,16 +67,19 @@ public class TourDAOImplTest {
         assertEquals(Optional.empty(), actualTour);
     }
 
+    @Transactional
     @Test
     public void delete() {
         assertTrue(tourDAO.delete(1));
     }
 
+    @Transactional
     @Test
     public void deleteForWrongId() {
         assertFalse(tourDAO.delete(-1));
     }
 
+    @Transactional
     @Test
     public void create() {
         Tour actualTour = tourDAO.create(expTour);
@@ -83,6 +87,7 @@ public class TourDAOImplTest {
         assertEquals(generatedId, actualTour.getId());
     }
 
+    @Transactional
     @Test
     public void update() {
         expTour.setId(10);

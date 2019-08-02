@@ -12,12 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.time.LocalDate;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
-import static by.epam.kunitski.travelagency.entity.Hotel.FeatureType.CHILDREN_AREA;
-import static by.epam.kunitski.travelagency.entity.Tour.TourType.ECONOM;
 import static org.junit.Assert.*;
 
 @ContextConfiguration(classes = TestConfig.class)
@@ -64,16 +61,19 @@ public class ReviewDAOImplTest {
         assertEquals(Optional.empty(), reviewActual);
     }
 
+    @Transactional
     @Test
     public void delete() {
        assertTrue(reviewDAO.delete(1));
     }
 
+    @Transactional
     @Test
     public void deleteForWrongId() {
        assertFalse(reviewDAO.delete(-1));
     }
 
+    @Transactional
     @Test
     public void create() {
         Review actualReview = reviewDAO.create(expReview);
@@ -81,6 +81,7 @@ public class ReviewDAOImplTest {
         assertEquals(generatedId, actualReview.getId());
     }
 
+    @Transactional
     @Test
     public void update() {
         expReview.setId(10);

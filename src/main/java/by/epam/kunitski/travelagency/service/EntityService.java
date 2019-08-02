@@ -2,8 +2,10 @@ package by.epam.kunitski.travelagency.service;
 
 import by.epam.kunitski.travelagency.dao.specification.Specification;
 
+import javax.validation.ConstraintViolation;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface EntityService<T> {
 
@@ -13,7 +15,7 @@ public interface EntityService<T> {
 
     boolean delete(int id);
 
-    T add(T entity);
+    Set<ConstraintViolation<T>> add(T entity);
 
-    T update(T entity);
+    Set<ConstraintViolation<T>> update(T entity);
 }

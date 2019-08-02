@@ -37,12 +37,12 @@ public class Tour {
     @Positive
     private Double cost;
 
-    @Positive
+    @NotNull
     @ManyToOne()
     @JoinColumn(name = "hotel_id")
     private Hotel hotel_id;
 
-    @Positive
+    @NotNull
     @ManyToOne()
     @JoinColumn(name = "country_id")
     private Country country_id;

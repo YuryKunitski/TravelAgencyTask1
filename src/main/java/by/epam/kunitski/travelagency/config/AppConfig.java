@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Properties;
 
 @EnableAspectJAutoProxy
@@ -56,6 +59,12 @@ public class AppConfig {
         return em;
     }
 
+    @Bean
+    public Validator validator(){
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        return factory.getValidator();
+    }
+
     private Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "none");
@@ -66,9 +75,5 @@ public class AppConfig {
     }
 
 
-//    @Bean
-//    public Validator validator(){
-//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-//        return factory.getValidator();
-//    }
+
 }

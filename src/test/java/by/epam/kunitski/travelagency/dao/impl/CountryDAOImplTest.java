@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -64,16 +65,19 @@ public class CountryDAOImplTest {
         assertEquals(Optional.empty(), actualCountry);
     }
 
+    @Transactional
     @Test
     public void delete() {
         assertTrue(countryDAO.delete(1));
     }
 
+    @Transactional
     @Test
     public void deleteForWrongId() {
         assertFalse(countryDAO.delete(-1));
     }
 
+    @Transactional
     @Test
     public void create() {
         Country actualCountry = countryDAO.create(expCountry);
@@ -81,6 +85,7 @@ public class CountryDAOImplTest {
         assertEquals(generatedId, actualCountry.getId());
     }
 
+    @Transactional
     @Test
     public void update() {
         expCountry.setId(10);

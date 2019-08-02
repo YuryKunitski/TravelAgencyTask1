@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Transactional
+//@Transactional
 abstract public class AbstractEntityDao<T> implements EntityDAO<T> {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractEntityDao.class);
