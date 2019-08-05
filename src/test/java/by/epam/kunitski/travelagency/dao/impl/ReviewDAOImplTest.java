@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -49,6 +50,26 @@ public class ReviewDAOImplTest {
     }
 
     @Test
+    public void getAllByTour() {
+        ReviewSpecification reviewSpecification = new ReviewSpecification();
+        reviewSpecification.setTourReview(expReview.getTourID());
+
+        int sizeExpected = 1;
+        int sizeActual = reviewDAO.getAll(reviewSpecification).size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
+    public void getAllByUser() {
+        ReviewSpecification reviewSpecification = new ReviewSpecification();
+        reviewSpecification.setUserReview(expReview.getUserID());
+
+        int sizeExpected = 10;
+        int sizeActual = reviewDAO.getAll(reviewSpecification).size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
     public void getById() {
         expReview.setText("Pellentesque ultrices mattis odio.");
         Review actualUser = reviewDAO.getById(1).get();
@@ -64,13 +85,13 @@ public class ReviewDAOImplTest {
     @Transactional
     @Test
     public void delete() {
-       assertTrue(reviewDAO.delete(1));
+        assertTrue(reviewDAO.delete(1));
     }
 
     @Transactional
     @Test
     public void deleteForWrongId() {
-       assertFalse(reviewDAO.delete(-1));
+        assertFalse(reviewDAO.delete(-1));
     }
 
     @Transactional

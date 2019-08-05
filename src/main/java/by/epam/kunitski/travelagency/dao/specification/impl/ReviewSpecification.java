@@ -23,11 +23,13 @@ public class ReviewSpecification extends AbstractSpecification<Review> {
 
         List<Predicate> predicates = new ArrayList<>();
 
+        //filter for a specific tour
         if (tourReview != null) {
             Predicate predicateTour = cb.equal(root.get("tourID"), tourReview);
             predicates.add(predicateTour);
         }
 
+        //filter for a specific user
         if (userReview != null) {
             Predicate predicateUser = cb.equal(root.get("userID"), userReview);
             predicates.add(predicateUser);

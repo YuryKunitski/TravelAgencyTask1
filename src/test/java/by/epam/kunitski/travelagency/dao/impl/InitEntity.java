@@ -55,7 +55,7 @@ public class InitEntity {
         Tour tour = new Tour();
         tour.setId(1);
         tour.setPhoto("http://dummyimage.com/190x216.jpg/ff4444/ffffff");
-        tour.setDate(LocalDate.of(2018, 8, 14));
+        tour.setDate(LocalDate.of(2019, 8, 14));
         tour.setDuration(1);
         tour.setDescription("Integer non velit.");
         tour.setCost(1839.65);
@@ -72,7 +72,7 @@ public class InitEntity {
         return review;
     }
 
-    static Tour initTour(){
+    static Tour initTour() {
         Tour tour = new Tour();
 
         Hotel hotel = new Hotel();
@@ -89,7 +89,7 @@ public class InitEntity {
         country.setName("China");
 
         tour.setPhoto("http://dummyimage.com/190x216.jpg/ff4444/ffffff");
-        tour.setDate(LocalDate.of(2018, 8, 14));
+        tour.setDate(LocalDate.of(2019, 8, 14));
         tour.setDuration(1);
         tour.setDescription("Integer non velit.");
         tour.setCost(1839.65);
@@ -100,7 +100,7 @@ public class InitEntity {
         return tour;
     }
 
-    static User initUser(){
+    static User initUser() {
         User user = new User();
 
         user.setLogin("Saundra");
