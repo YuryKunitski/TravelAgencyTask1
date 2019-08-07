@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 @ContextConfiguration(classes = DaoConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserDAOImplTest {

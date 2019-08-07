@@ -30,8 +30,8 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class DaoConfig {
 
-    @Bean
-    @Profile("dev")
+    @Bean("dataSource")
+    @Profile("test")
     public DataSource dataSourceTest() {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         EmbeddedDatabase database = builder.setType(EmbeddedDatabaseType.H2)
@@ -42,16 +42,16 @@ public class DaoConfig {
     }
 
     @Bean(name = "flyway")
-    public Flyway getFlyway() {
-        FluentConfiguration flywayConfiguration = Flyway.configure().dataSource(dataSourceTest());
+    public Flyway getFlyway(DataSource dataSource) {
+        FluentConfiguration flywayConfiguration = Flyway.configure().dataSource(dataSource);
         flywayConfiguration.baselineOnMigrate(true);
         return new Flyway(flywayConfiguration);
     }
 
 
     @Bean
-    @Profile("production")
-    public DataSource dataSourcePg() {
+    @Profile("!test")
+    public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig("/hikari.properties");
         return new HikariDataSource(hikariConfig);
     }
