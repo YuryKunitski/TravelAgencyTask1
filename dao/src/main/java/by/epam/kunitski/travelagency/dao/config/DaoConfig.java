@@ -48,7 +48,6 @@ public class DaoConfig {
         return new Flyway(flywayConfiguration);
     }
 
-
     @Bean
     @Profile("!test")
     public DataSource dataSource() {

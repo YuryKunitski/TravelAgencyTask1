@@ -17,6 +17,7 @@
     </modules>
 
     <build>
+        <finalName>TravelAgency</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -39,7 +40,7 @@
                 <version>2.2</version>
                 <configuration>
                     <port>8081</port>
-                    <path>/</path>
+                    <path>/TravelAgency</path>
                 </configuration>
             </plugin>
 

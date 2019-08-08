@@ -168,7 +168,7 @@ public class TourDAOImplTest {
         TourSpecification tourSpecification = new TourSpecification();
         tourSpecification.setUserID(11);
 
-        int sizeExpected = 10;
+        int sizeExpected = 11;
         int sizeActual = tourDAO.getAll(tourSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }

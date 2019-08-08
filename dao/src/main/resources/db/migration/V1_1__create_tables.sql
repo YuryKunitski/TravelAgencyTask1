@@ -1,15 +1,15 @@
 CREATE TYPE features AS ENUM (
-    'swimming_pool',
-    'free_wifi',
-    'parking',
-    'children_area',
-    'restaurant'
+    'SWIMMING_POOL',
+    'FREE_WIFI',
+    'PARKING',
+    'CHILDREN_AREA',
+    'RESTAURANT'
 );
 
 CREATE TYPE tour_type AS ENUM (
-    'econom',
-    'all_inclusive',
-    'only_breakfast'
+    'ECONOM',
+    'ALL_INCLUSIVE',
+    'ONLY_BREAKFAST'
 );
 
 create table IF NOT EXISTS hotel (
@@ -19,7 +19,7 @@ create table IF NOT EXISTS hotel (
 	website VARCHAR(50) NOT NULL,
 	latitude VARCHAR(50) NOT NULL,
 	longitude VARCHAR(50) NOT NULL,
-	features VARCHAR(50) NOT NULL,
+	features features NOT NULL,
 	CONSTRAINT hotel_pkey PRIMARY KEY (id)
 );
 
@@ -54,7 +54,7 @@ create table IF NOT EXISTS tour (
 	cost double NOT NULL,
 	hotel_id INT NOT NULL,
 	country_id INT NOT NULL,
-	tour_type VARCHAR(50) NOT NULL,
+	tour_type tour_type NOT NULL,
 	CONSTRAINT tour_pkey PRIMARY KEY (id)
 );
 
