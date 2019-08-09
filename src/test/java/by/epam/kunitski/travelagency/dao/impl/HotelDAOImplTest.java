@@ -42,10 +42,17 @@ public class HotelDAOImplTest {
 
     @Test
     public void getAll() {
+        int sizeExpected = 100;
+        int sizeActual = hotelDAO.getAll().size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
+    public void getAllByCriteria() {
         HotelSpecification hotelSpecification = new HotelSpecification();
 
         int sizeExpected = 100;
-        int sizeActual = hotelDAO.getAll(hotelSpecification).size();
+        int sizeActual = hotelDAO.getAllByCriteria(hotelSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 

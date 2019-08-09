@@ -14,8 +14,13 @@ public class ReviewDAOImpl extends AbstractEntityDao<Review> {
     }
 
     @Override
-    public List<Review> getAll(Specification<Review> reviewSpecification) {
-        return super.getAll(reviewSpecification);
+    public List<Review> getAll() {
+        return super.getAll();
+    }
+
+    @Override
+    public List<Review> getAllByCriteria(Specification<Review> reviewSpecification) {
+        return super.getAllByCriteria(reviewSpecification);
     }
 
     @Override

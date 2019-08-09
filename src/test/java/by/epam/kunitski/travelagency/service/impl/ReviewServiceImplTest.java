@@ -39,8 +39,8 @@ public class ReviewServiceImplTest {
     public void findAll() {
         ReviewSpecification reviewSpecification = new ReviewSpecification();
 
-        when(reviewDAO.getAll(reviewSpecification)).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), reviewServiceImpl.findAll(reviewSpecification));
+        when(reviewDAO.getAllByCriteria(reviewSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), reviewServiceImpl.findAllByCriteria(reviewSpecification));
 
     }
 

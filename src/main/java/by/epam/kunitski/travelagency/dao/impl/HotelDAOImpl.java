@@ -14,8 +14,13 @@ public class HotelDAOImpl extends AbstractEntityDao<Hotel> {
     }
 
     @Override
-    public List<Hotel> getAll(Specification<Hotel> hotelSpecification) {
-        return super.getAll(hotelSpecification);
+    public List<Hotel> getAll() {
+        return super.getAll();
+    }
+
+    @Override
+    public List<Hotel> getAllByCriteria(Specification<Hotel> hotelSpecification) {
+        return super.getAllByCriteria(hotelSpecification);
     }
 
     @Override

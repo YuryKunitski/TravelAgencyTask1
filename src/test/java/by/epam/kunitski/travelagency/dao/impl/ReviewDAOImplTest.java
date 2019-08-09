@@ -42,10 +42,8 @@ public class ReviewDAOImplTest {
 
     @Test
     public void getAll() {
-        ReviewSpecification reviewSpecification = new ReviewSpecification();
-
         int sizeExpected = 1000;
-        int sizeActual = reviewDAO.getAll(reviewSpecification).size();
+        int sizeActual = reviewDAO.getAll().size();
         assertEquals(sizeExpected, sizeActual);
     }
 
@@ -55,7 +53,7 @@ public class ReviewDAOImplTest {
         reviewSpecification.setTourReview(expReview.getTourID());
 
         int sizeExpected = 1;
-        int sizeActual = reviewDAO.getAll(reviewSpecification).size();
+        int sizeActual = reviewDAO.getAllByCriteria(reviewSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 
@@ -65,7 +63,7 @@ public class ReviewDAOImplTest {
         reviewSpecification.setUserReview(expReview.getUserID());
 
         int sizeExpected = 10;
-        int sizeActual = reviewDAO.getAll(reviewSpecification).size();
+        int sizeActual = reviewDAO.getAllByCriteria(reviewSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 

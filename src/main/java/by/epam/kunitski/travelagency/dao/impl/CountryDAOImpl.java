@@ -15,8 +15,13 @@ public class CountryDAOImpl extends AbstractEntityDao<Country> {
     }
 
     @Override
-    public List<Country> getAll(Specification<Country> countrySpecification) {
-        return super.getAll(countrySpecification);
+    public List<Country> getAll() {
+        return super.getAll();
+    }
+
+    @Override
+    public List<Country> getAllByCriteria(Specification<Country> countrySpecification) {
+        return super.getAllByCriteria(countrySpecification);
     }
 
     @Override

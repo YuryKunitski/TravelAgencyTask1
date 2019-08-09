@@ -42,9 +42,16 @@ public class CountryDAOImplTest {
 
     @Test
     public void getAll() {
+        int sizeExpected = 25;
+        int sizeActual = countryDAO.getAll().size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
+    public void getAllByCriteria() {
         CountrySpecification countrySpecification = new CountrySpecification();
         int sizeExpected = 25;
-        int sizeActual = countryDAO.getAll(countrySpecification).size();
+        int sizeActual = countryDAO.getAllByCriteria(countrySpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 

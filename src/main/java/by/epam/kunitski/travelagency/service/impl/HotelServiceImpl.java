@@ -28,8 +28,13 @@ public class HotelServiceImpl implements HotelService {
     private EntityDAO<Hotel> hotelDAO;
 
     @Override
-    public List<Hotel> findAll(Specification<Hotel> hotelSpecification) {
-        return hotelDAO.getAll(hotelSpecification);
+    public List<Hotel> findAll(){
+        return hotelDAO.getAll();
+    }
+
+    @Override
+    public List<Hotel> findAllByCriteria(Specification<Hotel> hotelSpecification) {
+        return hotelDAO.getAllByCriteria(hotelSpecification);
     }
 
     @Override

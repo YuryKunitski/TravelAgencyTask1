@@ -2,9 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.EntityDAO;
 import by.epam.kunitski.travelagency.dao.specification.Specification;
-import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.entity.User;
-import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,8 +28,13 @@ public class UserServiceImpl implements UserService {
     private EntityDAO<User> userDAO;
 
     @Override
-    public List<User> findAll(Specification<User> userSpecification) {
-        return userDAO.getAll(userSpecification);
+    public List<User> findAll(){
+        return userDAO.getAll();
+    }
+
+    @Override
+    public List<User> findAllByCriteria(Specification<User> userSpecification) {
+        return userDAO.getAllByCriteria(userSpecification);
     }
 
     @Override

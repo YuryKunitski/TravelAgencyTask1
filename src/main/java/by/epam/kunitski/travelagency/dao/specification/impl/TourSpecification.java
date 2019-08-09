@@ -1,10 +1,9 @@
 package by.epam.kunitski.travelagency.dao.specification.impl;
 
 import by.epam.kunitski.travelagency.dao.specification.AbstractSpecification;
-import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.entity.Country;
 import by.epam.kunitski.travelagency.entity.Hotel;
-import by.epam.kunitski.travelagency.entity.User;
+import by.epam.kunitski.travelagency.entity.Tour;
 import lombok.Setter;
 
 import javax.persistence.criteria.*;
@@ -72,13 +71,6 @@ public class TourSpecification extends AbstractSpecification<Tour> {
         Path<Double> dblCostPath = root.get("cost");
         Optional<Predicate> predicateTourCost = getRangePredicate(minCost, maxCost, dblCostPath, cb);
         predicateTourCost.ifPresent(predicates::add);
-
-        //filter for user
-        if (userID != null) {
-            Join<Tour, User> joinUser = root.join("userList");
-            Predicate predicateUser = cb.equal(joinUser.get("id"), userID);
-            predicates.add(predicateUser);
-        }
 
         Predicate result = null;
         result = cb.and(predicates.toArray(new Predicate[0]));

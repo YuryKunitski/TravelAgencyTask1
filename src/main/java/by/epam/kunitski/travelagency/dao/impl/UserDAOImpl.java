@@ -15,8 +15,13 @@ public class UserDAOImpl extends AbstractEntityDao<User> {
     }
 
     @Override
-    public List<User> getAll(Specification<User> userSpecification) {
-        return super.getAll(userSpecification);
+    public List<User> getAll() {
+        return super.getAll();
+    }
+
+    @Override
+    public List<User> getAllByCriteria(Specification<User> userSpecification) {
+        return super.getAllByCriteria(userSpecification);
     }
 
     @Override

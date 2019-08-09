@@ -4,7 +4,6 @@ import by.epam.kunitski.travelagency.dao.EntityDAO;
 import by.epam.kunitski.travelagency.dao.specification.Specification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-//@Transactional
 abstract public class AbstractEntityDao<T> implements EntityDAO<T> {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractEntityDao.class);
@@ -29,10 +27,21 @@ abstract public class AbstractEntityDao<T> implements EntityDAO<T> {
     }
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Override
-    public List<T> getAll(Specification<T> specification) {
+    public List<T> getAll() {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<T> criteria = builder.createQuery(type);
+        Root<T> root = criteria.from(type);
+        criteria.select(root);
+
+        return entityManager.createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public List<T> getAllByCriteria(Specification<T> specification) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(type);

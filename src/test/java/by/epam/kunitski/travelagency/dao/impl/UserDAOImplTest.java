@@ -42,10 +42,17 @@ public class UserDAOImplTest {
 
     @Test
     public void getAll() {
+        int sizeExpected = 100;
+        int sizeActual = userDAO.getAll().size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
+    public void getAllByCriteria() {
         UserSpecification userSpecification = new UserSpecification();
 
         int sizeExpected = 100;
-        int sizeActual = userDAO.getAll(userSpecification).size();
+        int sizeActual = userDAO.getAllByCriteria(userSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 
