@@ -1,7 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.HotelDAO;
-import by.epam.kunitski.travelagency.dao.config.TestConfig;
+import by.epam.kunitski.travelagency.dao.config.AppConfig;
 import by.epam.kunitski.travelagency.dao.specification.impl.HotelSpecification;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import org.flywaydb.core.Flyway;
@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +18,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@ContextConfiguration(classes = TestConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("test")
 public class HotelDAOImplTest {
 
     private Hotel expHotel = new Hotel();
@@ -78,7 +80,7 @@ public class HotelDAOImplTest {
     @Transactional
     @Test
     public void deleteForWrongId() {
-       assertFalse(hotelDAO.delete(-1));
+        assertFalse(hotelDAO.delete(-1));
     }
 
     @Transactional
@@ -88,6 +90,7 @@ public class HotelDAOImplTest {
         int generatedId = 101;
         assertEquals(generatedId, actualHotel.getId());
     }
+
     @Transactional
     @Test
     public void update() {

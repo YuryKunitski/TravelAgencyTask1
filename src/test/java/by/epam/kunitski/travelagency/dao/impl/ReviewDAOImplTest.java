@@ -1,13 +1,14 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.ReviewDAO;
-import by.epam.kunitski.travelagency.dao.config.TestConfig;
+import by.epam.kunitski.travelagency.dao.config.AppConfig;
 import by.epam.kunitski.travelagency.entity.Review;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +17,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@ContextConfiguration(classes = TestConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("test")
 public class ReviewDAOImplTest {
 
     private Review expReview = new Review();
