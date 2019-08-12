@@ -3,9 +3,7 @@ package by.epam.kunitski.travelagency.web.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
@@ -16,8 +14,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/")
-                .addResourceLocations("/uui/");
+        registry.addResourceHandler("/uui/**")
+                .addResourceLocations("/");
     }
 
     @Bean
@@ -42,6 +40,19 @@ public class WebConfig implements WebMvcConfigurer {
         config.setDefaultEncoding("UTF-8");
         config.setTemplateLoaderPath("/WEB-INF/views/");
         return config;
+    }
+
+        //11 <=> <mvc:view-controller ... />
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("index");
+
+    }
+        // <=> <mvc:default-servlet-handler/>
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
     }
 
 }

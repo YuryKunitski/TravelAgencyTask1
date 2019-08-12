@@ -1,22 +1,34 @@
 package by.epam.kunitski.travelagency.web.config;
 
-import by.epam.kunitski.travelagency.dao.config.DaoConfig;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
-    protected Class<?>[] getRootConfigClasses () {
-        return new Class<?>[]{DaoConfig.class};
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class<?>[]{};
     }
 
     @Override
-    protected Class<?>[] getServletConfigClasses () {
+    protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[]{WebConfig.class};
     }
 
     @Override
-    protected String[] getServletMappings () {
+    protected String[] getServletMappings() {
         return new String[]{"/"};
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter cef = new CharacterEncodingFilter();
+        cef.setEncoding("UTF-8");
+        cef.setForceEncoding(true);
+
+        return new Filter[]{new HiddenHttpMethodFilter(), cef};
     }
 }
