@@ -24,7 +24,6 @@ public class HotelServiceImpl implements HotelService {
     private Validator validator;
 
     @Autowired
-    @Qualifier("hotelDAOImpl")
     private EntityDAO<Hotel> hotelDAO;
 
     @Override

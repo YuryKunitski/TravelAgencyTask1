@@ -1,15 +1,13 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.EntityDAO;
+import by.epam.kunitski.travelagency.dao.ReviewDAO;
 import by.epam.kunitski.travelagency.dao.config.TestConfig;
-import by.epam.kunitski.travelagency.dao.specification.impl.ReviewSpecification;
-import by.epam.kunitski.travelagency.entity.*;
+import by.epam.kunitski.travelagency.entity.Review;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +23,7 @@ public class ReviewDAOImplTest {
     private Review expReview = new Review();
 
     @Autowired
-    @Qualifier("reviewDAOImpl")
-    private EntityDAO<Review> reviewDAO;
+    private ReviewDAO reviewDAO;
 
     @Autowired
     private Flyway flyway;
@@ -48,22 +45,16 @@ public class ReviewDAOImplTest {
     }
 
     @Test
-    public void getAllByTour() {
-        ReviewSpecification reviewSpecification = new ReviewSpecification();
-        reviewSpecification.setTourReview(expReview.getTourID());
-
+    public void getAllByTourId() {
         int sizeExpected = 1;
-        int sizeActual = reviewDAO.getAllByCriteria(reviewSpecification).size();
+        int sizeActual = reviewDAO.getAllByTourId(1).size();
         assertEquals(sizeExpected, sizeActual);
     }
 
     @Test
-    public void getAllByUser() {
-        ReviewSpecification reviewSpecification = new ReviewSpecification();
-        reviewSpecification.setUserReview(expReview.getUserID());
-
+    public void getAllByUserId() {
         int sizeExpected = 10;
-        int sizeActual = reviewDAO.getAllByCriteria(reviewSpecification).size();
+        int sizeActual = reviewDAO.getAllByUserId(1).size();
         assertEquals(sizeExpected, sizeActual);
     }
 

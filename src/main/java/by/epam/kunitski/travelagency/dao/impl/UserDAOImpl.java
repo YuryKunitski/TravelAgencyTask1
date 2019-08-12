@@ -1,5 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
+import by.epam.kunitski.travelagency.dao.UserDAO;
 import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.User;
 import org.springframework.stereotype.Repository;
@@ -7,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("userDAOImpl")
-public class UserDAOImpl extends AbstractEntityDao<User> {
+@Repository
+public class UserDAOImpl extends AbstractEntityDao<User> implements UserDAO {
 
     public UserDAOImpl(){
         super(User.class);

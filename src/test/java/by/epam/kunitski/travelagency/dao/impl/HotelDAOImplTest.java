@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.EntityDAO;
+import by.epam.kunitski.travelagency.dao.HotelDAO;
 import by.epam.kunitski.travelagency.dao.config.TestConfig;
 import by.epam.kunitski.travelagency.dao.specification.impl.HotelSpecification;
 import by.epam.kunitski.travelagency.entity.Hotel;
@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +24,7 @@ public class HotelDAOImplTest {
     private Hotel expHotel = new Hotel();
 
     @Autowired
-    @Qualifier("hotelDAOImpl")
-    private EntityDAO<Hotel> hotelDAO;
+    private HotelDAO hotelDAO;
 
     @Autowired
     private Flyway flyway;

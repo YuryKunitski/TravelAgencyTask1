@@ -5,7 +5,6 @@ import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.User;
 import by.epam.kunitski.travelagency.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +23,6 @@ public class UserServiceImpl implements UserService {
     private Validator validator;
 
     @Autowired
-    @Qualifier("userDAOImpl")
     private EntityDAO<User> userDAO;
 
     @Override

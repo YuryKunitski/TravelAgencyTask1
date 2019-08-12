@@ -1,13 +1,14 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
+import by.epam.kunitski.travelagency.dao.HotelDAO;
 import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("hotelDAOImpl")
-public class HotelDAOImpl extends AbstractEntityDao<Hotel> {
+@Repository
+public class HotelDAOImpl extends AbstractEntityDao<Hotel> implements HotelDAO {
 
     public HotelDAOImpl() {
         super(Hotel.class);

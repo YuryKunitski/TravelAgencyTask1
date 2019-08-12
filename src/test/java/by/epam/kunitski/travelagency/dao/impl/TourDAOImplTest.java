@@ -1,5 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
+import by.epam.kunitski.travelagency.dao.TourDAO;
 import by.epam.kunitski.travelagency.dao.config.TestConfig;
 import by.epam.kunitski.travelagency.dao.specification.impl.TourSpecification;
 import by.epam.kunitski.travelagency.entity.Tour;
@@ -8,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +27,7 @@ public class TourDAOImplTest {
     private Tour expTour = new Tour();
 
     @Autowired
-    @Qualifier("tourDAOImpl")
-    private TourDAOImpl tourDAO;
+    private TourDAO tourDAO;
 
     @Autowired
     private
@@ -47,6 +46,13 @@ public class TourDAOImplTest {
     public void getAll() {
         int sizeExpected = 1000;
         int sizeActual = tourDAO.getAll().size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
+    public void getAllByUserId() {
+        int sizeExpected = 10;
+        int sizeActual = tourDAO.getAllByUserId(1).size();
         assertEquals(sizeExpected, sizeActual);
     }
 
@@ -157,15 +163,6 @@ public class TourDAOImplTest {
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
-
-    @Test
-    public void getAllByUserId() {
-        int sizeExpected = 10;
-        int sizeActual = tourDAO.getAllByUserId(1).size();
-
-        assertEquals(sizeExpected, sizeActual);
-    }
-
 
     @Test
     public void getById() {

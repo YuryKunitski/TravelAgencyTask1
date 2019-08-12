@@ -1,9 +1,9 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
+import by.epam.kunitski.travelagency.dao.TourDAO;
 import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.entity.User;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
@@ -11,9 +11,8 @@ import javax.persistence.criteria.*;
 import java.util.List;
 import java.util.Optional;
 
-@EnableAspectJAutoProxy(proxyTargetClass = true)
-@Repository("tourDAOImpl")
-public class TourDAOImpl extends AbstractEntityDao<Tour> {
+@Repository
+public class TourDAOImpl extends AbstractEntityDao<Tour> implements TourDAO {
 
     public TourDAOImpl(){
         super(Tour.class);
@@ -29,6 +28,7 @@ public class TourDAOImpl extends AbstractEntityDao<Tour> {
         return super.getAllByCriteria(tourSpecification);
     }
 
+    @Override
     public List<Tour> getAllByUserId(int userId){
         CriteriaBuilder cb = super.entityManager.getCriteriaBuilder();
 
@@ -63,3 +63,5 @@ public class TourDAOImpl extends AbstractEntityDao<Tour> {
         return super.update(tour);
     }
 }
+
+
