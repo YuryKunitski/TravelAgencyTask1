@@ -1,7 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.EntityDAO;
-import by.epam.kunitski.travelagency.dao.config.DaoConfig;
+import by.epam.kunitski.travelagency.dao.config.AppConfig;
 import by.epam.kunitski.travelagency.dao.specification.impl.TourSpecification;
 import by.epam.kunitski.travelagency.entity.Tour;
 import org.flywaydb.core.Flyway;
@@ -23,7 +23,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 @ActiveProfiles("test")
-@ContextConfiguration(classes = DaoConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TourDAOImplTest {
 

@@ -1,3 +1,4 @@
+<#import "/spring.ftl" as spring/>
 <header>
     <div class="uui-header">
         <nav>
@@ -27,6 +28,7 @@
                     </div>
                 </div>
             </div>
+
             <!---->
             <a href="#" class="brand-logo">
                 <span class="logo">
@@ -50,5 +52,6 @@
                 </li>
             </ul>
         </nav>
+        <a href="tours?lang=en">English </a> | <a href="tours?lang=ru">Russian </a>
     </div>
 </header>

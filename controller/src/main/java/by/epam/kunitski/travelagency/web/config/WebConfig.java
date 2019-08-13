@@ -1,11 +1,21 @@
 package by.epam.kunitski.travelagency.web.config;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+
+import java.util.Locale;
 
 @EnableWebMvc
 @Configuration
@@ -14,11 +24,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uui/**")
-                .addResourceLocations("/");
+        registry.addResourceHandler("/uui/**")   //URLs for matching resources
+                .addResourceLocations("/"); //root folder - /src/main/webapp
     }
 
-    @Bean
+    @Bean(name = "viewResolver")
     public FreeMarkerViewResolver freemarkerViewResolver() {
         FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
         viewResolver.setCache(true);
@@ -34,25 +44,33 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public FreeMarkerConfigurer freemarkerConfig() {
         FreeMarkerConfigurer config = new FreeMarkerConfigurer();
-//        Properties properties = new Properties();
-//        properties.put("auto_import", "spring.ftl as spring");
-//        config.setFreemarkerSettings(properties);
         config.setDefaultEncoding("UTF-8");
         config.setTemplateLoaderPath("/WEB-INF/views/");
         return config;
     }
 
-        //11 <=> <mvc:view-controller ... />
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
-
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("/i18n/messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
-        // <=> <mvc:default-servlet-handler/>
+
+    @Bean
+    public LocaleResolver localeResolver(){
+        CookieLocaleResolver resolver = new CookieLocaleResolver();
+        resolver.setDefaultLocale(new Locale("en"));
+        resolver.setCookieName("myLocaleCookie");
+        resolver.setCookieMaxAge(4800);
+        return resolver;
+    }
 
     @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("lang");
+        registry.addInterceptor(interceptor);
     }
 
 }

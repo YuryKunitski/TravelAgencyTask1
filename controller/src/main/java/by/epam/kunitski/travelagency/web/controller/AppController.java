@@ -20,7 +20,7 @@ public class AppController {
     public String handleRequest(Model model) {
 
         TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setMaxCost(400.0);
+        tourSpecification.setMaxCost(600.0);
         tourSpecification.setMaxDuration(5);
 
         model.addAttribute("tours", tourService.findAll(tourSpecification));

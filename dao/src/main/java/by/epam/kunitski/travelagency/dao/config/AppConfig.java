@@ -28,7 +28,7 @@ import java.util.Properties;
 @Configuration
 @ComponentScan(basePackages = "by.epam.kunitski.travelagency")
 @EnableTransactionManagement
-public class DaoConfig {
+public class AppConfig {
 
     @Bean("dataSource")
     @Profile("test")

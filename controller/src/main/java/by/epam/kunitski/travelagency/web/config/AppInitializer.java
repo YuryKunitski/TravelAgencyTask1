@@ -1,5 +1,6 @@
 package by.epam.kunitski.travelagency.web.config;
 
+import by.epam.kunitski.travelagency.dao.config.AppConfig;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -10,7 +11,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{};
+        return new Class<?>[]{AppConfig.class};
     }
 
     @Override

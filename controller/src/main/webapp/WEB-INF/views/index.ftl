@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <!-- jQuery Core -->
     <script src="uui/js/lib/jquery-1.12.0.min.js"></script>
@@ -35,7 +35,7 @@
         <main>
 
             <div>
-                <h2 class="page-header">All tours which provided by a Travel Agency</h2>
+                <h2><@spring.message code="msg.title"/></h2>
             </div>
             <div>
                 <br/>
