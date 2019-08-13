@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AppController {
@@ -17,11 +19,25 @@ public class AppController {
     private EntityService<Tour> tourService;
 
     @RequestMapping("/tours")
-    public String handleRequest(Model model) {
+    public String allTours(Model model) {
 
         TourSpecification tourSpecification = new TourSpecification();
         tourSpecification.setMaxCost(600.0);
         tourSpecification.setMaxDuration(5);
+
+        model.addAttribute("tours", tourService.findAll(tourSpecification));
+
+        return "index";
+    }
+
+    @RequestMapping(value = "/tours", method = RequestMethod.GET)
+    public String serchTours(Model model,
+                             @RequestParam("minCost") Double minCost,
+                             @RequestParam("maxCost") Double maxCost) {
+
+        TourSpecification tourSpecification = new TourSpecification();
+        tourSpecification.setMinCost(minCost);
+        tourSpecification.setMaxCost(maxCost);
 
         model.addAttribute("tours", tourService.findAll(tourSpecification));
 

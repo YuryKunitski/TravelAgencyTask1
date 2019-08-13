@@ -37,6 +37,22 @@
             <div>
                 <h2><@spring.message code="msg.title"/></h2>
             </div>
+
+
+<!--            <form action="Controller" method="post" class="form-horizontal">-->
+<!--                -->
+<!--            </form>-->
+
+            <form action="/tours" method="get">
+                Min cost:<br>
+                <input type="text" name="minCost">
+                <br><br>
+                Max cost:<br>
+                <input type="text" name="maxCost">
+                <br><br>
+                <input type="submit" value="Submit">
+            </form>
+
             <div>
                 <br/>
                 <table class="uui-table">
