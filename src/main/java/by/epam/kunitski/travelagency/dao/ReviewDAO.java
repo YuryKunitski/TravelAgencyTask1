@@ -3,17 +3,11 @@ package by.epam.kunitski.travelagency.dao;
 import by.epam.kunitski.travelagency.entity.Review;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface ReviewDAO {
+public interface ReviewDAO extends EntityDAO<Review> {
 
-    List<Review> getAll();
+    List<Review> getAllByTourId(int tourId);
 
-    Optional<Review> getById(int id);
+    List<Review> getAllByUserId(int userId);
 
-    int delete(int id);
-
-    Review create(Review review);
-
-    Optional<Review> update(Review review, int id);
 }

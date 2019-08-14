@@ -1,26 +1,33 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.ReviewDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.impl.ReviewSpecification;
 import by.epam.kunitski.travelagency.entity.Review;
-import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.time.LocalDate;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewServiceImplTest {
 
-    private Review expectedReview = new Review(1, LocalDate.of(2018, 8, 22)
-            , "Curabitur convallis.", 1, 1);
+    private Review expectedReview = new Review();
+
+    @Mock
+    private Validator validator;
+
+    @Mock
+    Set<ConstraintViolation<Review>> expViolations;
 
     @Mock
     private ReviewDAOImpl reviewDAO;
@@ -32,7 +39,26 @@ public class ReviewServiceImplTest {
     public void findAll() {
         when(reviewDAO.getAll()).thenReturn(new ArrayList<>());
         assertEquals(new ArrayList<>(), reviewServiceImpl.findAll());
+    }
 
+    @Test
+    public void findAllByTourId() {
+        when(reviewDAO.getAllByTourId(1)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), reviewServiceImpl.findAllByTourId(1));
+    }
+
+    @Test
+    public void findAllByUserId() {
+        when(reviewDAO.getAllByUserId(1)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), reviewServiceImpl.findAllByUserId(1));
+    }
+
+    @Test
+    public void findAllByCriteria() {
+        ReviewSpecification reviewSpecification = new ReviewSpecification();
+
+        when(reviewDAO.getAllByCriteria(reviewSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), reviewServiceImpl.findAllByCriteria(reviewSpecification));
     }
 
     @Test
@@ -49,45 +75,65 @@ public class ReviewServiceImplTest {
 
     @Test
     public void delete() {
-        when(reviewDAO.delete(1)).thenReturn(1);
-        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
+        when(reviewDAO.delete(1)).thenReturn(true);
         assertTrue(reviewServiceImpl.delete(1));
     }
 
     @Test
     public void deleteFail() {
-        when(reviewDAO.getById(1)).thenReturn(Optional.of(expectedReview));
-        when(reviewDAO.delete(1)).thenReturn(0);
+        when(reviewDAO.delete(1)).thenReturn(false);
         assertFalse(reviewServiceImpl.delete(1));
     }
 
     @Test
-    public void deleteByWrongId() {
-        when(reviewDAO.getById(-1)).thenReturn(Optional.empty());
-        assertFalse(reviewServiceImpl.delete(-1));
+    public void addValid() {
+        when(validator.validate(expectedReview)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(true);
+        when(reviewDAO.create(expectedReview)).thenReturn(expectedReview);
+
+        reviewServiceImpl.add(expectedReview);
+
+        verify(reviewDAO, times(1)).create(expectedReview);
     }
 
     @Test
-    public void add() {
-        when(reviewDAO.create(expectedReview)).thenReturn(expectedReview);
-        Review actualReview = reviewServiceImpl.add(expectedReview);
-        expectedReview.setId(1001);
-        assertEquals(expectedReview, actualReview);
+    public void addNotValid() {
+        when(validator.validate(expectedReview)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(false);
+
+        reviewServiceImpl.add(expectedReview);
+
+        verify(reviewDAO, times(0)).create(expectedReview);
     }
 
-    @Test(expected = EntityNullValueRuntimeException.class)
+    @Test
     public void addByNull() {
         reviewServiceImpl.add(null);
     }
 
     @Test
-    public void update() {
-        when(reviewDAO.update(expectedReview, 1)).thenReturn(Optional.of(expectedReview));
-        assertEquals(expectedReview, reviewServiceImpl.update(expectedReview, 1));
+    public void updateValid() {
+        when(validator.validate(expectedReview)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(true);
+        when(reviewDAO.update(expectedReview)).thenReturn(expectedReview);
+
+        reviewServiceImpl.update(expectedReview);
+
+        verify(reviewDAO, times(1)).update(expectedReview);
     }
 
-    @Test(expected = EntityNullValueRuntimeException.class)
+    @Test
+    public void updateNotValid() {
+        when(validator.validate(expectedReview)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(false);
+
+        reviewServiceImpl.update(expectedReview);
+
+        verify(reviewDAO, times(0)).update(expectedReview);
+    }
+
+    @Test
     public void updateByNull() {
-        reviewServiceImpl.update(null, 1);
+        reviewServiceImpl.update(null);
     }
 }

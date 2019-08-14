@@ -1,35 +1,41 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.config.TestConfig;
+import by.epam.kunitski.travelagency.dao.HotelDAO;
+import by.epam.kunitski.travelagency.dao.config.AppConfig;
+import by.epam.kunitski.travelagency.dao.specification.impl.HotelSpecification;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static by.epam.kunitski.travelagency.entity.Hotel.FeatureType.CHILDREN_AREA;
 import static org.junit.Assert.*;
 
-@ContextConfiguration(classes = TestConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("test")
 public class HotelDAOImplTest {
 
-    private Hotel expHotel = new Hotel(1, "Choloepus hoffmani", 2, "kvassman0@wikimedia.org"
-            , 8.2673715, 48.9086571, CHILDREN_AREA);
+    private Hotel expHotel = new Hotel();
 
     @Autowired
-    private HotelDAOImpl hotelDAO;
+    private HotelDAO hotelDAO;
 
     @Autowired
     private Flyway flyway;
 
     @Before
     public void init() {
+
+        expHotel = InitEntity.initHotel();
+
         flyway.clean();
         flyway.migrate();
     }
@@ -42,9 +48,21 @@ public class HotelDAOImplTest {
     }
 
     @Test
+    public void getAllByCriteria() {
+        HotelSpecification hotelSpecification = new HotelSpecification();
+
+        int sizeExpected = 100;
+        int sizeActual = hotelDAO.getAllByCriteria(hotelSpecification).size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
     public void getById() {
+
+        expHotel.setName("Choloepus hoffmani");
+
         Hotel actualHotel = hotelDAO.getById(1).get();
-        assertEquals(expHotel, actualHotel);
+        assertEquals(expHotel.getName(), actualHotel.getName());
     }
 
     @Test
@@ -53,28 +71,31 @@ public class HotelDAOImplTest {
         assertEquals(Optional.empty(), actualHotel);
     }
 
+    @Transactional
     @Test
     public void delete() {
-        int actual = hotelDAO.delete(100);
-        assertEquals(1, actual);
+        assertTrue(hotelDAO.delete(100));
     }
 
+    @Transactional
     @Test
     public void deleteForWrongId() {
-        int actual = hotelDAO.delete(-1);
-        assertEquals(0, actual);
+        assertFalse(hotelDAO.delete(-1));
     }
 
+    @Transactional
     @Test
     public void create() {
         Hotel actualHotel = hotelDAO.create(expHotel);
-        assertEquals(expHotel, actualHotel);
+        int generatedId = 101;
+        assertEquals(generatedId, actualHotel.getId());
     }
 
+    @Transactional
     @Test
     public void update() {
-//        expectedHotel = Optional.of(expHotel);
-        Hotel hotelActual = hotelDAO.update(expHotel, 1).get();
+        expHotel.setId(10);
+        Hotel hotelActual = hotelDAO.update(expHotel);
         assertEquals(expHotel, hotelActual);
     }
 

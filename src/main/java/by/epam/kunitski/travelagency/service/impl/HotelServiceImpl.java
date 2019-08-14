@@ -1,22 +1,39 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.HotelDAO;
+import by.epam.kunitski.travelagency.dao.EntityDAO;
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Hotel;
-import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.HotelService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+@Service
 public class HotelServiceImpl implements HotelService {
 
-    @Inject
-    private HotelDAO hotelDAO;
+    private Set<ConstraintViolation<Hotel>> violationsHotel;
+
+    @Autowired
+    private Validator validator;
+
+    @Autowired
+    private EntityDAO<Hotel> hotelDAO;
 
     @Override
-    public List<Hotel> findAll() {
+    public List<Hotel> findAll(){
         return hotelDAO.getAll();
+    }
+
+    @Override
+    public List<Hotel> findAllByCriteria(Specification<Hotel> hotelSpecification) {
+        return hotelDAO.getAllByCriteria(hotelSpecification);
     }
 
     @Override
@@ -24,31 +41,35 @@ public class HotelServiceImpl implements HotelService {
         return hotelDAO.getById(id);
     }
 
+    @Transactional
     @Override
     public boolean delete(int id) {
-        if (hotelDAO.getById(id).isPresent()) {
-            return hotelDAO.delete(id) > 0;
-        } else {
-            return false;
-        }
+        return hotelDAO.delete(id);
     }
 
+    @Transactional
     @Override
-    public Hotel add(Hotel hotel) {
-        if (hotel != null) {
-            return hotelDAO.create(hotel);
-        } else {
-            throw new EntityNullValueRuntimeException("Method add() of " + this.getClass() + " got input value 'hotel' is null");
+    public Set<ConstraintViolation<Hotel>> add(Hotel hotel) {
+        violationsHotel = validator.validate(hotel);
+
+        if (violationsHotel.isEmpty()) {
+            hotelDAO.create(hotel);
         }
+
+        return violationsHotel;
+
     }
 
+    @Transactional
     @Override
-    public Hotel update(Hotel hotel, int id) {
-        if (hotel != null) {
-            return hotelDAO.update(hotel, id).get();
-        } else {
-            throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'hotel' is null");
+    public Set<ConstraintViolation<Hotel>> update(Hotel hotel) {
+        violationsHotel = validator.validate(hotel);
+
+        if (violationsHotel.isEmpty()) {
+            hotelDAO.update(hotel);
         }
+
+        return violationsHotel;
     }
 
 }

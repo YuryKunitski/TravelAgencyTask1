@@ -1,36 +1,40 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.config.TestConfig;
+import by.epam.kunitski.travelagency.dao.ReviewDAO;
+import by.epam.kunitski.travelagency.dao.config.AppConfig;
 import by.epam.kunitski.travelagency.entity.Review;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@ContextConfiguration(classes = TestConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("test")
 public class ReviewDAOImplTest {
 
-    private Review expReview = new Review(1, LocalDate.of(2018, 8, 22)
-            , "Curabitur convallis.", 1, 1);
+    private Review expReview = new Review();
 
     @Autowired
-    private ReviewDAOImpl reviewDAO;
+    private ReviewDAO reviewDAO;
 
     @Autowired
-    private
-    Flyway flyway;
+    private Flyway flyway;
 
     @Before
     public void init() {
+
+        expReview = InitEntity.initReview();
+
         flyway.clean();
         flyway.migrate();
     }
@@ -43,9 +47,24 @@ public class ReviewDAOImplTest {
     }
 
     @Test
+    public void getAllByTourId() {
+        int sizeExpected = 1;
+        int sizeActual = reviewDAO.getAllByTourId(1).size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
+    public void getAllByUserId() {
+        int sizeExpected = 10;
+        int sizeActual = reviewDAO.getAllByUserId(1).size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
     public void getById() {
+        expReview.setText("Pellentesque ultrices mattis odio.");
         Review actualUser = reviewDAO.getById(1).get();
-        assertEquals(expReview, actualUser);
+        assertEquals(expReview.getText(), actualUser.getText());
     }
 
     @Test
@@ -54,35 +73,32 @@ public class ReviewDAOImplTest {
         assertEquals(Optional.empty(), reviewActual);
     }
 
+    @Transactional
     @Test
     public void delete() {
-        int actual = reviewDAO.delete(1);
-        assertEquals(1, actual);
+        assertTrue(reviewDAO.delete(1));
     }
 
+    @Transactional
     @Test
     public void deleteForWrongId() {
-        int actual = reviewDAO.delete(-1);
-        assertEquals(0, actual);
+        assertFalse(reviewDAO.delete(-1));
     }
 
+    @Transactional
     @Test
     public void create() {
         Review actualReview = reviewDAO.create(expReview);
-        assertEquals(expReview, actualReview);
+        int generatedId = 1001;
+        assertEquals(generatedId, actualReview.getId());
     }
 
+    @Transactional
     @Test
     public void update() {
-        Review reviewActual = reviewDAO.update(expReview, 1).get();
+        expReview.setId(10);
+        Review reviewActual = reviewDAO.update(expReview);
         assertEquals(expReview, reviewActual);
     }
-
-//    @Test
-//    public void updateForWrongId() {
-//        Optional<Review> reviewActual = reviewDAO.update(new Review(10, LocalDate.of(2018, 8
-//                , 22), "Curabitur convallis.", 1, 1), -1);
-//        assertEquals(Optional.empty(), reviewActual);
-//    }
 
 }

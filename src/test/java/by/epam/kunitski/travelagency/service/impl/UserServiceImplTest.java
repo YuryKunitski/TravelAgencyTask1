@@ -1,25 +1,33 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import static org.junit.Assert.*;
-
 import by.epam.kunitski.travelagency.dao.impl.UserDAOImpl;
+import by.epam.kunitski.travelagency.dao.specification.impl.UserSpecification;
 import by.epam.kunitski.travelagency.entity.User;
-import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Set;
 
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 
-    private User expectedUser = new User(1, "Saundra", "CDHjDf5Tnr");
+    private User expectedUser = new User();
+
+    @Mock
+    private Validator validator;
+
+    @Mock
+    Set<ConstraintViolation<User>> expViolations;
 
     @Mock
     private UserDAOImpl userDAO;
@@ -29,8 +37,10 @@ public class UserServiceImplTest {
 
     @Test
     public void findAll() {
-        when(userDAO.getAll()).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), userServiceImpl.findAll());
+        UserSpecification userSpecification = new UserSpecification();
+
+        when(userDAO.getAllByCriteria(userSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), userServiceImpl.findAllByCriteria(userSpecification));
     }
 
     @Test
@@ -47,43 +57,65 @@ public class UserServiceImplTest {
 
     @Test
     public void delete() {
-        when(userDAO.delete(1)).thenReturn(1);
-        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
+        when(userDAO.delete(1)).thenReturn(true);
         assertTrue(userServiceImpl.delete(1));
     }
 
     @Test
     public void deleteFail() {
-        when(userDAO.getById(1)).thenReturn(Optional.of(expectedUser));
-        when(userDAO.delete(1)).thenReturn(0);
+        when(userDAO.delete(1)).thenReturn(false);
         assertFalse(userServiceImpl.delete(1));
     }
 
     @Test
-    public void deleteByWrongId() {
-        when(userDAO.getById(-1)).thenReturn(Optional.empty());
-        assertFalse(userServiceImpl.delete(-1));
+    public void addValid() {
+        when(validator.validate(expectedUser)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(true);
+        when(userDAO.create(expectedUser)).thenReturn(expectedUser);
+
+        userServiceImpl.add(expectedUser);
+
+        verify(userDAO, times(1)).create(expectedUser);
     }
 
     @Test
-    public void add() {
-        when(userDAO.create(expectedUser)).thenReturn(expectedUser);
-        User actualUser = userServiceImpl.add(expectedUser);
+    public void addNotValid() {
+        when(validator.validate(expectedUser)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(false);
+
+        userServiceImpl.add(expectedUser);
+
+        verify(userDAO, times(0)).create(expectedUser);
     }
 
-    @Test(expected = EntityNullValueRuntimeException.class)
+    @Test
     public void addByNull() {
         userServiceImpl.add(null);
     }
 
     @Test
-    public void update() {
-        when(userDAO.update(expectedUser, 1)).thenReturn(Optional.of(expectedUser));
-        assertEquals(expectedUser, userServiceImpl.update(expectedUser, 1));
+    public void updateValid() {
+        when(validator.validate(expectedUser)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(true);
+        when(userDAO.update(expectedUser)).thenReturn(expectedUser);
+
+        userServiceImpl.update(expectedUser);
+
+        verify(userDAO, times(1)).update(expectedUser);
     }
 
-    @Test(expected = EntityNullValueRuntimeException.class)
+    @Test
+    public void updateNotValid() {
+        when(validator.validate(expectedUser)).thenReturn(expViolations);
+        when(expViolations.isEmpty()).thenReturn(false);
+
+        userServiceImpl.update(expectedUser);
+
+        verify(userDAO, times(0)).update(expectedUser);
+    }
+
+    @Test
     public void updateByNull() {
-        userServiceImpl.update(null, 1);
+        userServiceImpl.update(null);
     }
 }

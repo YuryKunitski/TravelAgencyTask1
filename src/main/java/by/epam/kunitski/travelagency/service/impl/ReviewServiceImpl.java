@@ -1,22 +1,48 @@
 package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.ReviewDAO;
+import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Review;
-import by.epam.kunitski.travelagency.exception.EntityNullValueRuntimeException;
 import by.epam.kunitski.travelagency.service.ReviewService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+@Service
 public class ReviewServiceImpl implements ReviewService {
 
-    @Inject
+    private Set<ConstraintViolation<Review>> violationsReview;
+
+    @Autowired
+    private Validator validator;
+
+    @Autowired
     private ReviewDAO reviewDAO;
 
     @Override
-    public List<Review> findAll() {
+    public List<Review> findAll(){
         return reviewDAO.getAll();
+    }
+
+    @Override
+    public List<Review> findAllByCriteria(Specification<Review> reviewSpecification) {
+        return reviewDAO.getAllByCriteria(reviewSpecification);
+    }
+
+    @Override
+    public List<Review> findAllByUserId(int userId) {
+        return reviewDAO.getAllByUserId(userId);
+    }
+
+    @Override
+    public List<Review> findAllByTourId(int tourId) {
+        return reviewDAO.getAllByTourId(tourId);
     }
 
     @Override
@@ -24,30 +50,33 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewDAO.getById(id);
     }
 
+    @Transactional
     @Override
     public boolean delete(int id) {
-        if (reviewDAO.getById(id).isPresent()) {
-            return reviewDAO.delete(id) > 0;
-        } else {
-            return false;
-        }
+        return reviewDAO.delete(id);
     }
 
+    @Transactional
     @Override
-    public Review add(Review review) {
-        if (review != null) {
-            return reviewDAO.create(review);
-        } else {
-            throw new EntityNullValueRuntimeException("Method add() of " + this.getClass() + " got input value 'review' is null");
+    public Set<ConstraintViolation<Review>> add(Review review) {
+        violationsReview = validator.validate(review);
+
+        if (violationsReview.isEmpty()) {
+            reviewDAO.create(review);
         }
+
+        return violationsReview;
     }
 
+    @Transactional
     @Override
-    public Review update(Review review, int id) {
-        if (review != null) {
-            return reviewDAO.update(review, id).get();
-        } else {
-            throw new EntityNullValueRuntimeException("Method update() of " + this.getClass() + " got input value 'review' is null");
+    public Set<ConstraintViolation<Review>> update(Review review) {
+        violationsReview = validator.validate(review);
+
+        if (violationsReview.isEmpty()) {
+            reviewDAO.update(review);
         }
+
+        return violationsReview;
     }
 }
