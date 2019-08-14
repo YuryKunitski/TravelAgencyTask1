@@ -24,8 +24,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uui/**")   //URLs for matching resources
-                .addResourceLocations("/"); //root folder - /src/main/webapp
+        registry.addResourceHandler("/**")   //URLs for matching resources
+                .addResourceLocations("/uui/**"); //root folder - /src/main/webapp
     }
 
     @Bean(name = "viewResolver")
@@ -52,7 +52,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("/i18n/messages");
+        messageSource.setBasename("i18n/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }

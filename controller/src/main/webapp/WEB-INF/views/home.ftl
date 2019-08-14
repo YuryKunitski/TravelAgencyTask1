@@ -41,17 +41,17 @@
             <form action="/TravelAgency/search_tours" method="get">
                 <table>
                 <tr>
-                    <th> Min cost:<br>
+                    <th> <@spring.message code="msg.min_cost"/>:<br>
                         <input type="number" name="minCost" class="uui-form-element"></th>
-                    <th> Min duration:<br>
+                    <th> <@spring.message code="msg.min_duration"/>:<br>
                         <input type="number" name="minDuration" class="uui-form-element"></th>
-                    <th> Min hotel stars:<br>
+                    <th> <@spring.message code="msg.min_hotel_stars"/>:<br>
                         <input type="number" name="minStars" class="uui-form-element"></th>
-                    <th> Start date:<br>
+                    <th> <@spring.message code="msg.start_date"/>:<br>
                         <input type="date" name="minDate" class="uui-form-element"></th>
-                    <th>
+                    <th> <@spring.message code="msg.tour_type"/>: <br>
                         <select name="tourType" class="selectpicker uui-form-element">
-                            <option disabled selected>Choose tour's type</option>
+                            <option disabled selected><@spring.message code="msg.choose_tour_type"/></option>
                             <option value="ECONOM" >econom</option>
                             <option value="ALL_INCLUSIVE">all inclusive</option>
                             <option value="ONLY_BREAKFAST">only breakfast</option>
@@ -60,17 +60,17 @@
                 </tr>
 
                     <tr>
-                        <th> Max cost:<br>
+                        <th> <@spring.message code="msg.max_cost"/>:<br>
                             <input type="number" name="maxCost" class="uui-form-element"></th>
-                        <th> Max duration:<br>
+                        <th> <@spring.message code="msg.max_duration"/>:<br>
                             <input type="number" name="maxDuration" class="uui-form-element"></th>
-                        <th> Max hotel stars:<br>
+                        <th> <@spring.message code="msg.max_hotel_stars"/>:<br>
                             <input type="number" name="maxStars" class="uui-form-element"></th>
-                        <th> Finish date:<br>
+                        <th> <@spring.message code="msg.finish_date"/>:<br>
                             <input type="date" name="maxDate" class="uui-form-element"></th>
-                        <th>
-                            <select name="countries" class="selectpicker uui-form-element">
-                                <option disabled selected>Choose countries</option>
+                        <th> <@spring.message code="msg.country"/>: <br>
+                            <select name="country" class="selectpicker uui-form-element">
+                                <option disabled selected><@spring.message code="msg.choose_country"/></option>
                                   <#list countries as country>
                                     <option>${country.name}</option>
                                   </#list>

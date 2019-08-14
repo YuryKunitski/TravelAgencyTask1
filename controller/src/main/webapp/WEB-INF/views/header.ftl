@@ -52,7 +52,7 @@
                 </li>
             </ul>
         </nav>
-        <a href="tours?lang=en">English </a> | <a href="tours?lang=ru">Russian </a>
+        <a href="tours?lang=en"><@spring.message code="msg.english"/> </a> | <a href="tours?lang=ru"><@spring.message code="msg.russian"/> </a>
         <br><a href="tours">Home </a>
     </div>
 </header>
