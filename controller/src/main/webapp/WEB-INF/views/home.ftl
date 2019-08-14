@@ -50,7 +50,7 @@
                     <th> Start date:<br>
                         <input type="date" name="minDate" class="uui-form-element"></th>
                     <th>
-                        <select name="tourType">
+                        <select name="tourType" class="selectpicker uui-form-element">
                             <option disabled selected>Choose tour's type</option>
                             <option value="ECONOM" >econom</option>
                             <option value="ALL_INCLUSIVE">all inclusive</option>
@@ -68,10 +68,19 @@
                             <input type="number" name="maxStars" class="uui-form-element"></th>
                         <th> Finish date:<br>
                             <input type="date" name="maxDate" class="uui-form-element"></th>
+                        <th>
+                            <select name="countries" class="selectpicker uui-form-element">
+                                <option disabled selected>Choose countries</option>
+                                  <#list countries as country>
+                                    <option>${country.name}</option>
+                                  </#list>
+                            </select>
+                        </th>
                     </tr>
                 </table>
                 <input type="submit" value="Submit">
             </form>
+
 
             <div>
                 <br/>

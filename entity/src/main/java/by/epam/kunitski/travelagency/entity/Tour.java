@@ -1,6 +1,10 @@
 package by.epam.kunitski.travelagency.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -16,6 +20,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"reviewList", "userList"})
 @Entity
 @Table(name = "tour")
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class Tour {
 
     @Id
@@ -49,6 +54,7 @@ public class Tour {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Type( type = "pgsql_enum" )
     private TourType tour_type;
 
     @OneToMany(mappedBy = "tourID", cascade = CascadeType.ALL)
