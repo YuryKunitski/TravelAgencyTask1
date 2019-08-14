@@ -37,11 +37,28 @@ public class ReviewServiceImplTest {
 
     @Test
     public void findAll() {
+        when(reviewDAO.getAll()).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), reviewServiceImpl.findAll());
+    }
+
+    @Test
+    public void findAllByTourId() {
+        when(reviewDAO.getAllByTourId(1)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), reviewServiceImpl.findAllByTourId(1));
+    }
+
+    @Test
+    public void findAllByUserId() {
+        when(reviewDAO.getAllByUserId(1)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), reviewServiceImpl.findAllByUserId(1));
+    }
+
+    @Test
+    public void findAllByCriteria() {
         ReviewSpecification reviewSpecification = new ReviewSpecification();
 
-        when(reviewDAO.getAll(reviewSpecification)).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), reviewServiceImpl.findAll(reviewSpecification));
-
+        when(reviewDAO.getAllByCriteria(reviewSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), reviewServiceImpl.findAllByCriteria(reviewSpecification));
     }
 
     @Test

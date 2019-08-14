@@ -24,10 +24,10 @@ import javax.validation.ValidatorFactory;
 import java.util.Properties;
 
 
+@EnableTransactionManagement
 @EnableAspectJAutoProxy
 @Configuration
 @ComponentScan(basePackages = "by.epam.kunitski.travelagency")
-@EnableTransactionManagement
 public class AppConfig {
 
     @Bean("dataSource")
@@ -90,8 +90,6 @@ public class AppConfig {
     private Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "none");
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL82Dialect");
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         properties.setProperty("hibernate.show_sql", "true");
         return properties;
     }

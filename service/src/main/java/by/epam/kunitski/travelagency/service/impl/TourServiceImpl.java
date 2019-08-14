@@ -1,12 +1,10 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.EntityDAO;
+import by.epam.kunitski.travelagency.dao.TourDAO;
 import by.epam.kunitski.travelagency.dao.specification.Specification;
-import by.epam.kunitski.travelagency.entity.Review;
 import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +23,21 @@ public class TourServiceImpl implements TourService {
     private Validator validator;
 
     @Autowired
-    @Qualifier("tourDAOImpl")
-    private EntityDAO<Tour> tourDAO;
+    private TourDAO tourDAO;
 
     @Override
-    public List<Tour> findAll(Specification<Tour> tourSpecification) {
-        return tourDAO.getAll(tourSpecification);
+    public List<Tour> findAll() {
+        return tourDAO.getAll();
+    }
+
+    @Override
+    public List<Tour> findAllByCriteria(Specification<Tour> tourSpecification) {
+        return tourDAO.getAllByCriteria(tourSpecification);
+    }
+
+    @Override
+    public List<Tour> findAllByUserId(int userId) {
+        return tourDAO.getAllByUserId(userId);
     }
 
     @Override

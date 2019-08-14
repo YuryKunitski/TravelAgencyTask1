@@ -1,11 +1,10 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.EntityDAO;
+import by.epam.kunitski.travelagency.dao.HotelDAO;
 import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Hotel;
 import by.epam.kunitski.travelagency.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,12 +23,16 @@ public class HotelServiceImpl implements HotelService {
     private Validator validator;
 
     @Autowired
-    @Qualifier("hotelDAOImpl")
-    private EntityDAO<Hotel> hotelDAO;
+    private HotelDAO hotelDAO;
 
     @Override
-    public List<Hotel> findAll(Specification<Hotel> hotelSpecification) {
-        return hotelDAO.getAll(hotelSpecification);
+    public List<Hotel> findAll(){
+        return hotelDAO.getAll();
+    }
+
+    @Override
+    public List<Hotel> findAllByCriteria(Specification<Hotel> hotelSpecification) {
+        return hotelDAO.getAllByCriteria(hotelSpecification);
     }
 
     @Override

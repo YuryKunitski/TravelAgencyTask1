@@ -2,9 +2,8 @@ package by.epam.kunitski.travelagency.web.controller;
 
 import by.epam.kunitski.travelagency.dao.specification.impl.TourSpecification;
 import by.epam.kunitski.travelagency.entity.Tour;
-import by.epam.kunitski.travelagency.service.EntityService;
+import by.epam.kunitski.travelagency.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,14 +17,13 @@ import java.time.LocalDate;
 public class AppController {
 
     @Autowired
-    @Qualifier("tourServiceImpl")
-    private EntityService<Tour> tourService;
+    private TourService tourService;
 
     @RequestMapping("/tours")
     public String allTours(Model model) {
 
         TourSpecification tourSpecification = new TourSpecification();
-        model.addAttribute("tours", tourService.findAll(tourSpecification));
+        model.addAttribute("tours", tourService.findAllByCriteria(tourSpecification));
 
         return "home";
     }
@@ -56,7 +54,7 @@ public class AppController {
             tourSpecification.setTourType(Tour.TourType.valueOf(tourType));
         }
 
-        model.addAttribute("tours", tourService.findAll(tourSpecification));
+        model.addAttribute("tours", tourService.findAllByCriteria(tourSpecification));
 
         return "home";
     }

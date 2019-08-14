@@ -1,8 +1,5 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
 import by.epam.kunitski.travelagency.dao.impl.UserDAOImpl;
 import by.epam.kunitski.travelagency.dao.specification.impl.UserSpecification;
 import by.epam.kunitski.travelagency.entity.User;
@@ -17,6 +14,9 @@ import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
@@ -39,8 +39,8 @@ public class UserServiceImplTest {
     public void findAll() {
         UserSpecification userSpecification = new UserSpecification();
 
-        when(userDAO.getAll(userSpecification)).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), userServiceImpl.findAll(userSpecification));
+        when(userDAO.getAllByCriteria(userSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), userServiceImpl.findAllByCriteria(userSpecification));
     }
 
     @Test

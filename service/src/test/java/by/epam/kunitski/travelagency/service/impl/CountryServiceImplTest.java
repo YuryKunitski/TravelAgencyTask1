@@ -39,8 +39,8 @@ public class CountryServiceImplTest {
     public void findAll() {
         CountrySpecification countrySpecification = new CountrySpecification();
 
-        when(countryDAO.getAll(countrySpecification)).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), countryService.findAll(countrySpecification));
+        when(countryDAO.getAllByCriteria(countrySpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), countryService.findAllByCriteria(countrySpecification));
     }
 
     @Test

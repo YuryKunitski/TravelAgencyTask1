@@ -39,8 +39,8 @@ public class HotelServiceImplTest {
     public void findAll() {
         HotelSpecification hotelSpecification = new HotelSpecification();
 
-        when(hotelDAO.getAll(hotelSpecification)).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), hotelServiceImpl.findAll(hotelSpecification));
+        when(hotelDAO.getAllByCriteria(hotelSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), hotelServiceImpl.findAllByCriteria(hotelSpecification));
 
     }
 

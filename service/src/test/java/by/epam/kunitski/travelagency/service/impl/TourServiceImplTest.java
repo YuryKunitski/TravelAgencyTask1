@@ -37,10 +37,22 @@ public class TourServiceImplTest {
 
     @Test
     public void findAll() {
+        when(tourDAO.getAll()).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), tourServiceImpl.findAll());
+    }
+
+    @Test
+    public void findAllByUserId() {
+        when(tourDAO.getAllByUserId(1)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), tourServiceImpl.findAllByUserId(1));
+    }
+
+    @Test
+    public void findAllByCriteria() {
         TourSpecification tourSpecification = new TourSpecification();
 
-        when(tourDAO.getAll(tourSpecification)).thenReturn(new ArrayList<>());
-        assertEquals(new ArrayList<>(), tourServiceImpl.findAll(tourSpecification));
+        when(tourDAO.getAllByCriteria(tourSpecification)).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<>(), tourServiceImpl.findAllByCriteria(tourSpecification));
     }
 
     @Test

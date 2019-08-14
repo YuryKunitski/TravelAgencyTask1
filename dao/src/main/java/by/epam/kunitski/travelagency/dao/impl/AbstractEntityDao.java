@@ -27,10 +27,21 @@ abstract public class AbstractEntityDao<T> implements EntityDAO<T> {
     }
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Override
-    public List<T> getAll(Specification<T> specification) {
+    public List<T> getAll() {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<T> criteria = builder.createQuery(type);
+        Root<T> root = criteria.from(type);
+        criteria.select(root);
+
+        return entityManager.createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public List<T> getAllByCriteria(Specification<T> specification) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(type);

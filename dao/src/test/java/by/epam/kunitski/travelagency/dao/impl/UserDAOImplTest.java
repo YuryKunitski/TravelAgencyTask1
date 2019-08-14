@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.EntityDAO;
+import by.epam.kunitski.travelagency.dao.UserDAO;
 import by.epam.kunitski.travelagency.dao.config.AppConfig;
 import by.epam.kunitski.travelagency.dao.specification.impl.UserSpecification;
 import by.epam.kunitski.travelagency.entity.User;
@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,16 +18,15 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@ActiveProfiles("test")
 @ContextConfiguration(classes = AppConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("test")
 public class UserDAOImplTest {
 
     private User expUser = new User();
 
     @Autowired
-    @Qualifier("userDAOImpl")
-    private EntityDAO<User> userDAO;
+    private UserDAO userDAO;
 
     @Autowired
     private Flyway flyway;
@@ -44,10 +42,17 @@ public class UserDAOImplTest {
 
     @Test
     public void getAll() {
+        int sizeExpected = 100;
+        int sizeActual = userDAO.getAll().size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
+    public void getAllByCriteria() {
         UserSpecification userSpecification = new UserSpecification();
 
         int sizeExpected = 100;
-        int sizeActual = userDAO.getAll(userSpecification).size();
+        int sizeActual = userDAO.getAllByCriteria(userSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 
@@ -75,13 +80,13 @@ public class UserDAOImplTest {
     @Transactional
     @Test
     public void delete() {
-       assertTrue(userDAO.delete(100));
+        assertTrue(userDAO.delete(100));
     }
 
     @Transactional
     @Test
     public void deleteForWrongId() {
-       assertFalse(userDAO.delete(-1));
+        assertFalse(userDAO.delete(-1));
     }
 
     @Transactional

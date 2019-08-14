@@ -9,7 +9,9 @@ import java.util.Set;
 
 public interface EntityService<T> {
 
-    List<T> findAll(Specification<T> specification);
+    List<T> findAll();
+
+    List<T> findAllByCriteria(Specification<T> specification);
 
     Optional<T> findById(int id);
 

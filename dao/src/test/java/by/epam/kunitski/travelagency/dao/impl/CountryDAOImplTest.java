@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.dao.EntityDAO;
+import by.epam.kunitski.travelagency.dao.CountryDAO;
 import by.epam.kunitski.travelagency.dao.config.AppConfig;
 import by.epam.kunitski.travelagency.dao.specification.impl.CountrySpecification;
 import by.epam.kunitski.travelagency.entity.Country;
@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,16 +18,15 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@ActiveProfiles("test")
 @ContextConfiguration(classes = AppConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("test")
 public class CountryDAOImplTest {
 
     private Country expCountry = new Country();
 
     @Autowired
-    @Qualifier("countryDAOImpl")
-    private EntityDAO<Country> countryDAO;
+    private CountryDAO countryDAO;
 
     @Autowired
     private Flyway flyway;
@@ -44,9 +42,16 @@ public class CountryDAOImplTest {
 
     @Test
     public void getAll() {
+        int sizeExpected = 25;
+        int sizeActual = countryDAO.getAll().size();
+        assertEquals(sizeExpected, sizeActual);
+    }
+
+    @Test
+    public void getAllByCriteria() {
         CountrySpecification countrySpecification = new CountrySpecification();
         int sizeExpected = 25;
-        int sizeActual = countryDAO.getAll(countrySpecification).size();
+        int sizeActual = countryDAO.getAllByCriteria(countrySpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 

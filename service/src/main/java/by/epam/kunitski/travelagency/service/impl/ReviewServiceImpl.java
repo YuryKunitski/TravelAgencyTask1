@@ -1,11 +1,10 @@
 package by.epam.kunitski.travelagency.service.impl;
 
-import by.epam.kunitski.travelagency.dao.EntityDAO;
+import by.epam.kunitski.travelagency.dao.ReviewDAO;
 import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Review;
 import by.epam.kunitski.travelagency.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,12 +23,26 @@ public class ReviewServiceImpl implements ReviewService {
     private Validator validator;
 
     @Autowired
-    @Qualifier("reviewDAOImpl")
-    private EntityDAO<Review> reviewDAO;
+    private ReviewDAO reviewDAO;
 
     @Override
-    public List<Review> findAll(Specification<Review> reviewSpecification) {
-        return reviewDAO.getAll(reviewSpecification);
+    public List<Review> findAll(){
+        return reviewDAO.getAll();
+    }
+
+    @Override
+    public List<Review> findAllByCriteria(Specification<Review> reviewSpecification) {
+        return reviewDAO.getAllByCriteria(reviewSpecification);
+    }
+
+    @Override
+    public List<Review> findAllByUserId(int userId) {
+        return reviewDAO.getAllByUserId(userId);
+    }
+
+    @Override
+    public List<Review> findAllByTourId(int tourId) {
+        return reviewDAO.getAllByTourId(tourId);
     }
 
     @Override

@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface EntityDAO<T> {
 
-    List<T> getAll(Specification<T> specification);
+    List<T> getAll();
+
+    List<T> getAllByCriteria(Specification<T> specification);
 
     Optional<T> getById(int id);
 
