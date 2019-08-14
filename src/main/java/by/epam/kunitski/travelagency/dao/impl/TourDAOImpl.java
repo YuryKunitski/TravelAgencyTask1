@@ -1,7 +1,6 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.TourDAO;
-import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.entity.Tour;
 import by.epam.kunitski.travelagency.entity.User;
 import org.springframework.stereotype.Repository;
@@ -9,23 +8,12 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class TourDAOImpl extends AbstractEntityDao<Tour> implements TourDAO {
 
     public TourDAOImpl(){
         super(Tour.class);
-    }
-
-    @Override
-    public List<Tour> getAll() {
-        return super.getAll();
-    }
-
-    @Override
-    public List<Tour> getAllByCriteria(Specification<Tour> tourSpecification) {
-        return super.getAllByCriteria(tourSpecification);
     }
 
     @Override
@@ -43,25 +31,6 @@ public class TourDAOImpl extends AbstractEntityDao<Tour> implements TourDAO {
         return query.getResultList();
     }
 
-    @Override
-    public Optional<Tour> getById(int id) {
-        return super.getById(id);
-    }
-
-    @Override
-    public boolean delete(int id) {
-        return super.delete(id);
-    }
-
-    @Override
-    public Tour create(Tour tour) {
-        return super.create(tour);
-    }
-
-    @Override
-    public Tour update(Tour tour) {
-        return super.update(tour);
-    }
 }
 
 
