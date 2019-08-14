@@ -38,18 +38,38 @@
                 <h2><@spring.message code="msg.title"/></h2>
             </div>
 
+            <form action="/TravelAgency/search_tours" method="get">
+                <table>
+                <tr>
+                    <th> Min cost:<br>
+                        <input type="number" name="minCost" class="uui-form-element"></th>
+                    <th> Min duration:<br>
+                        <input type="number" name="minDuration" class="uui-form-element"></th>
+                    <th> Min hotel stars:<br>
+                        <input type="number" name="minStars" class="uui-form-element"></th>
+                    <th> Start date:<br>
+                        <input type="date" name="minDate" class="uui-form-element"></th>
+                    <th>
+                        <select name="tourType">
+                            <option disabled selected>Choose tour's type</option>
+                            <option value="ECONOM" >econom</option>
+                            <option value="ALL_INCLUSIVE">all inclusive</option>
+                            <option value="ONLY_BREAKFAST">only breakfast</option>
+                        </select>
+                    </th>
+                </tr>
 
-<!--            <form action="Controller" method="post" class="form-horizontal">-->
-<!--                -->
-<!--            </form>-->
-
-            <form action="/tours" method="get">
-                Min cost:<br>
-                <input type="text" name="minCost">
-                <br><br>
-                Max cost:<br>
-                <input type="text" name="maxCost">
-                <br><br>
+                    <tr>
+                        <th> Max cost:<br>
+                            <input type="number" name="maxCost" class="uui-form-element"></th>
+                        <th> Max duration:<br>
+                            <input type="number" name="maxDuration" class="uui-form-element"></th>
+                        <th> Max hotel stars:<br>
+                            <input type="number" name="maxStars" class="uui-form-element"></th>
+                        <th> Finish date:<br>
+                            <input type="date" name="maxDate" class="uui-form-element"></th>
+                    </tr>
+                </table>
                 <input type="submit" value="Submit">
             </form>
 
@@ -64,6 +84,7 @@
                         <th>Duration</th>
                         <th>Description</th>
                         <th>Cost</th>
+                        <th>Tour's type</th>
                         <th>Hotel</th>
                         <th>Country</th>
                     </tr>
@@ -78,7 +99,9 @@
                         <td>${tour.duration}</td>
                         <td>${tour.description}</td>
                         <td>${tour.cost}</td>
-                        <td>${tour.hotel_id.name}</td>
+                        <td>${tour.tour_type}</td>
+                        <td>${tour.hotel_id.name} <br>
+                        Stars: ${tour.hotel_id.stars} </td>
                         <td>${tour.country_id.name}</td>
                     </tr>
                     </tbody>
