@@ -1,7 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.HotelDAO;
-import by.epam.kunitski.travelagency.entity.Hotel;
+import by.epam.kunitski.travelagency.dao.entity.Hotel;
 import org.springframework.stereotype.Repository;
 
 @Repository

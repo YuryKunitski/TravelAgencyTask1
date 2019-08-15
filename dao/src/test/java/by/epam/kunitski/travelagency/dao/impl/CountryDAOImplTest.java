@@ -3,7 +3,7 @@ package by.epam.kunitski.travelagency.dao.impl;
 import by.epam.kunitski.travelagency.dao.CountryDAO;
 import by.epam.kunitski.travelagency.dao.config.AppConfig;
 import by.epam.kunitski.travelagency.dao.specification.impl.CountrySpecification;
-import by.epam.kunitski.travelagency.entity.Country;
+import by.epam.kunitski.travelagency.dao.entity.Country;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.Test;

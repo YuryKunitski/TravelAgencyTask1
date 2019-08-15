@@ -1,9 +1,9 @@
 package by.epam.kunitski.travelagency.dao.specification.impl;
 
 import by.epam.kunitski.travelagency.dao.specification.AbstractSpecification;
-import by.epam.kunitski.travelagency.entity.Country;
-import by.epam.kunitski.travelagency.entity.Hotel;
-import by.epam.kunitski.travelagency.entity.Tour;
+import by.epam.kunitski.travelagency.dao.entity.Country;
+import by.epam.kunitski.travelagency.dao.entity.Hotel;
+import by.epam.kunitski.travelagency.dao.entity.Tour;
 import lombok.Setter;
 
 import javax.persistence.criteria.*;

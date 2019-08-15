@@ -10,7 +10,7 @@
                         <span class="logo">
                             <img src="uui/images/ic_logo_UUi.svg" alt="" />
                         </span>
-                        <span class="title">Unified UI</span>
+                        <span class="title">Travel Agency</span>
                     </a>
                 </div>
                 <div class="responsive-menu">
@@ -34,7 +34,7 @@
                 <span class="logo">
                     <img src="uui/images/ic_logo_UUi.svg" alt="" />
                 </span>
-                Unified UI
+                Travel Agency
             </a>
             <ul class="uui-header-tools nav navbar-nav">
                 <li class="dropdown uui-profile-menu">
@@ -52,7 +52,8 @@
                 </li>
             </ul>
         </nav>
-        <a href="tours?lang=en"><@spring.message code="msg.english"/> </a> | <a href="tours?lang=ru"><@spring.message code="msg.russian"/> </a>
-        <br><a href="tours">Home </a>
+        <a href="search_tours?lang=en"><@spring.message code="msg.english"/> </a> | <a href="search_tours?lang=ru"><@spring.message code="msg.russian"/> </a>
+        <br><a href="tours">All tours</a>
+        <br><a href="search_tours">Home</a>
     </div>
 </header>

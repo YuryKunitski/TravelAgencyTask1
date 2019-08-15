@@ -2,7 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.CountryDAOImpl;
 import by.epam.kunitski.travelagency.dao.specification.impl.CountrySpecification;
-import by.epam.kunitski.travelagency.entity.Country;
+import by.epam.kunitski.travelagency.dao.entity.Country;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

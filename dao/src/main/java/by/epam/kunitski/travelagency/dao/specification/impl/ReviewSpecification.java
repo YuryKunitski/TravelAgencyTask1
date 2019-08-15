@@ -1,7 +1,7 @@
 package by.epam.kunitski.travelagency.dao.specification.impl;
 
 import by.epam.kunitski.travelagency.dao.specification.AbstractSpecification;
-import by.epam.kunitski.travelagency.entity.Review;
+import by.epam.kunitski.travelagency.dao.entity.Review;
 import lombok.Setter;
 
 import javax.persistence.criteria.CriteriaBuilder;

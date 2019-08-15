@@ -20,7 +20,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <artifactId>entity</artifactId>
+            <artifactId>dao</artifactId>
             <groupId>by.epam.kunitski.travelagency</groupId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

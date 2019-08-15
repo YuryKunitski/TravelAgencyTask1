@@ -34,47 +34,112 @@
     <div class="uui-main-container">
         <main>
 
-            <div>
-                <h2><@spring.message code="msg.title"/></h2>
-            </div>
+            <h2>Tour Search</h2>
+
+<!--            <form action="/TravelAgency/search_tours" method="get">-->
+<!--                <table>-->
+<!--                <tr>-->
+<!--                    <th> <@spring.message code="msg.min_cost"/>:<br>-->
+<!--                        <input type="number" name="minCost" class="uui-form-element"></th>-->
+<!--                    <th> <@spring.message code="msg.min_duration"/>:<br>-->
+<!--                        <input type="number" name="minDuration" class="uui-form-element"></th>-->
+<!--                    <th> <@spring.message code="msg.min_hotel_stars"/>:<br>-->
+<!--                        <input type="number" name="minStars" class="uui-form-element"></th>-->
+<!--                    <th> <@spring.message code="msg.start_date"/>:<br>-->
+<!--                        <input type="date" name="minDate" class="uui-form-element"></th>-->
+<!--                    <th> <@spring.message code="msg.tour_type"/>: <br>-->
+<!--                        <select name="tourType" class="selectpicker uui-form-element">-->
+<!--                            <option disabled selected><@spring.message code="msg.choose_tour_type"/></option>-->
+<!--                            <option value="ECONOM" >econom</option>-->
+<!--                            <option value="ALL_INCLUSIVE">all inclusive</option>-->
+<!--                            <option value="ONLY_BREAKFAST">only breakfast</option>-->
+<!--                        </select>-->
+<!--                    </th>-->
+<!--                </tr>-->
+
+<!--                    <tr>-->
+<!--                        <th> <@spring.message code="msg.max_cost"/>:<br>-->
+<!--                            <input type="number" name="maxCost" class="uui-form-element"></th>-->
+<!--                        <th> <@spring.message code="msg.max_duration"/>:<br>-->
+<!--                            <input type="number" name="maxDuration" class="uui-form-element"></th>-->
+<!--                        <th> <@spring.message code="msg.max_hotel_stars"/>:<br>-->
+<!--                            <input type="number" name="maxStars" class="uui-form-element"></th>-->
+<!--                        <th> <@spring.message code="msg.finish_date"/>:<br>-->
+<!--                            <input type="date" name="maxDate" class="uui-form-element"></th>-->
+<!--                        <th> <@spring.message code="msg.country"/>: <br>-->
+<!--                            <select name="country" class="selectpicker uui-form-element">-->
+<!--                                <option disabled selected><@spring.message code="msg.choose_country"/></option>-->
+<!--                                  <#list countries as country>-->
+<!--                                    <option>${country.name}</option>-->
+<!--                                  </#list>-->
+<!--                            </select>-->
+<!--                        </th>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--                <input type="submit" value="Submit">-->
+<!--            </form>-->
+
+<!--            ---------------------------------------             -->
 
             <form action="/TravelAgency/search_tours" method="get">
+<!--                <form action=<@spring.url '/TravelAgency/search_tours'/> method="post">-->
                 <table>
-                <tr>
-                    <th> <@spring.message code="msg.min_cost"/>:<br>
-                        <input type="number" name="minCost" class="uui-form-element"></th>
-                    <th> <@spring.message code="msg.min_duration"/>:<br>
-                        <input type="number" name="minDuration" class="uui-form-element"></th>
-                    <th> <@spring.message code="msg.min_hotel_stars"/>:<br>
-                        <input type="number" name="minStars" class="uui-form-element"></th>
-                    <th> <@spring.message code="msg.start_date"/>:<br>
-                        <input type="date" name="minDate" class="uui-form-element"></th>
-                    <th> <@spring.message code="msg.tour_type"/>: <br>
-                        <select name="tourType" class="selectpicker uui-form-element">
-                            <option disabled selected><@spring.message code="msg.choose_tour_type"/></option>
-                            <option value="ECONOM" >econom</option>
-                            <option value="ALL_INCLUSIVE">all inclusive</option>
-                            <option value="ONLY_BREAKFAST">only breakfast</option>
-                        </select>
-                    </th>
-                </tr>
+                    <tr>
+<!--                        <th> <@spring.message code="msg.min_cost"/>:<br>-->
+<!--                            <input type="number" name="minCost" class="uui-form-element"></th>-->
+
+                        <th><@spring.message code="msg.min_cost"/>:<br>
+                            <@spring.formInput "tourDto.minCost" "class='uui-form-element'" "number"/>
+                            <br><@spring.showErrors '<br>'/>
+                        </th>
+
+                        <th><@spring.message code="msg.min_duration"/>:<br>
+                            <@spring.formInput "tourDto.minDuration" "class='uui-form-element'" "number"/>
+                            <br><@spring.showErrors '<br>'/>
+                        </th>
+                        <th><@spring.message code="msg.min_hotel_stars"/>:<br>
+                            <@spring.formInput "tourDto.minStars" "class='uui-form-element'" "number"/>
+                            <br><@spring.showErrors '<br>'/>
+                        </th>
+                        <th><@spring.message code="msg.start_date"/>:<br>
+                            <@spring.formInput "tourDto.minDate" "class='uui-form-element'" "date"/>
+                            <br><@spring.showErrors '<br>'/>
+                        </th>
+                        <th> <@spring.message code="msg.tour_type"/>: <br>
+                            <#assign attributes = "class='selectpicker uui-form-element'"/>
+                            <#assign options = { "ECONOM": "econom", "ALL_INCLUSIVE": "all inclusive", "ONLY_BREAKFAST": "only breakfast" } />
+                                <@spring.formSingleSelect "tourDto.tourType", options, attributes/>
+                        </th>
+                    </tr>
 
                     <tr>
                         <th> <@spring.message code="msg.max_cost"/>:<br>
-                            <input type="number" name="maxCost" class="uui-form-element"></th>
+                            <@spring.formInput "tourDto.maxCost" "class='uui-form-element'" "number"/>
+                            <br><@spring.showErrors '<br>'/>
+                        </th>
                         <th> <@spring.message code="msg.max_duration"/>:<br>
-                            <input type="number" name="maxDuration" class="uui-form-element"></th>
+                            <@spring.formInput "tourDto.maxDuration" "class='uui-form-element'" "number"/>
+                            <br><@spring.showErrors '<br>'/>
+                        </th>
                         <th> <@spring.message code="msg.max_hotel_stars"/>:<br>
-                            <input type="number" name="maxStars" class="uui-form-element"></th>
+                            <@spring.formInput "tourDto.maxStars" "class='uui-form-element'" "number"/>
+                            <br><@spring.showErrors '<br>'/>
+                        </th>
                         <th> <@spring.message code="msg.finish_date"/>:<br>
-                            <input type="date" name="maxDate" class="uui-form-element"></th>
+                            <@spring.formInput "tourDto.maxDate" "class='uui-form-element'" "date"/>
+                            <br><@spring.showErrors '<br>'/>
+                        </th>
                         <th> <@spring.message code="msg.country"/>: <br>
-                            <select name="country" class="selectpicker uui-form-element">
-                                <option disabled selected><@spring.message code="msg.choose_country"/></option>
-                                  <#list countries as country>
-                                    <option>${country.name}</option>
-                                  </#list>
-                            </select>
+<!--                            <select name="country" class="selectpicker uui-form-element">-->
+<!--                                <option disabled selected><@spring.message code="msg.choose_country"/></option>-->
+<!--                                <#list countries as country>-->
+<!--                                <option>${country.name}</option>-->
+<!--                            </#list>-->
+<!--                            </select>-->
+                            <#assign attributes = "class='selectpicker uui-form-element'"/>
+<!--                               <#list countries as country>-->
+<!--                                                                </#list>-->
+                            <@spring.formSingleSelect "tourDto.countryNames",  "qw", attributes/>
                         </th>
                     </tr>
                 </table>

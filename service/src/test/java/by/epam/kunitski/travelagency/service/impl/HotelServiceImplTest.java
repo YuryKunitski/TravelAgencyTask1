@@ -2,7 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.impl.HotelDAOImpl;
 import by.epam.kunitski.travelagency.dao.specification.impl.HotelSpecification;
-import by.epam.kunitski.travelagency.entity.Hotel;
+import by.epam.kunitski.travelagency.dao.entity.Hotel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

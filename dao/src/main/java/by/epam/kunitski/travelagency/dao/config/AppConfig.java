@@ -72,7 +72,7 @@ public class AppConfig {
 
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("by.epam.kunitski.travelagency.entity");
+        em.setPackagesToScan("by.epam.kunitski.travelagency.dao.entity");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);

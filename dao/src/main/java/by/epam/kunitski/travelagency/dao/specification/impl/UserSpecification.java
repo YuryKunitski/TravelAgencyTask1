@@ -1,7 +1,7 @@
 package by.epam.kunitski.travelagency.dao.specification.impl;
 
 import by.epam.kunitski.travelagency.dao.specification.AbstractSpecification;
-import by.epam.kunitski.travelagency.entity.User;
+import by.epam.kunitski.travelagency.dao.entity.User;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;

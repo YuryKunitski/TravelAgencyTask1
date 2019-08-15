@@ -1,11 +1,11 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
-import by.epam.kunitski.travelagency.entity.*;
+import by.epam.kunitski.travelagency.dao.entity.*;
 
 import java.time.LocalDate;
 
-import static by.epam.kunitski.travelagency.entity.Hotel.FeatureType.CHILDREN_AREA;
-import static by.epam.kunitski.travelagency.entity.Tour.TourType.ECONOM;
+import static by.epam.kunitski.travelagency.dao.entity.Hotel.FeatureType.CHILDREN_AREA;
+import static by.epam.kunitski.travelagency.dao.entity.Tour.TourType.ECONOM;
 
 public class InitEntity {
 

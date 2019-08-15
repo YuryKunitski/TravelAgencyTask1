@@ -1,8 +1,8 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.TourDAO;
-import by.epam.kunitski.travelagency.entity.Tour;
-import by.epam.kunitski.travelagency.entity.User;
+import by.epam.kunitski.travelagency.dao.entity.Tour;
+import by.epam.kunitski.travelagency.dao.entity.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;

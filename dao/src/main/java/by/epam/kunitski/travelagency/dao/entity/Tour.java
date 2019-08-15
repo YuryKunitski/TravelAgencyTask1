@@ -1,4 +1,4 @@
-package by.epam.kunitski.travelagency.entity;
+package by.epam.kunitski.travelagency.dao.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

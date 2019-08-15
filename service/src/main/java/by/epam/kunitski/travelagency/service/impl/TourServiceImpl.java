@@ -2,7 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.TourDAO;
 import by.epam.kunitski.travelagency.dao.specification.Specification;
-import by.epam.kunitski.travelagency.entity.Tour;
+import by.epam.kunitski.travelagency.dao.entity.Tour;
 import by.epam.kunitski.travelagency.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

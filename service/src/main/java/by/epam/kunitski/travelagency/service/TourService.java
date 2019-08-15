@@ -1,7 +1,7 @@
 package by.epam.kunitski.travelagency.service;
 
 
-import by.epam.kunitski.travelagency.entity.Tour;
+import by.epam.kunitski.travelagency.dao.entity.Tour;
 
 import java.util.List;
 

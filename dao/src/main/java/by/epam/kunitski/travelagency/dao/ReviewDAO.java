@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.dao;
 
-import by.epam.kunitski.travelagency.entity.Review;
+import by.epam.kunitski.travelagency.dao.entity.Review;
 
 import java.util.List;
 

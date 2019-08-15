@@ -2,7 +2,7 @@ package by.epam.kunitski.travelagency.service.impl;
 
 import by.epam.kunitski.travelagency.dao.ReviewDAO;
 import by.epam.kunitski.travelagency.dao.specification.Specification;
-import by.epam.kunitski.travelagency.entity.Review;
+import by.epam.kunitski.travelagency.dao.entity.Review;
 import by.epam.kunitski.travelagency.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
