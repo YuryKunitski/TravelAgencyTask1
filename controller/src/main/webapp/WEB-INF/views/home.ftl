@@ -5,19 +5,19 @@
     <script src="uui/js/lib/jquery-1.12.0.min.js"></script>
 
     <!-- Bootstrap Core -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="uui/bootstrap/css/bootstrap.min.css" />
     <script src="uui/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- EPAM UUI JavaScript Core -->
     <script src="uui/js/uui-core.min.js" type="text/javascript"></script>
 
     <!-- EPAM UUI Styles Core -->
-    <link rel="stylesheet" href="css/uui-all.css" />
+    <link rel="stylesheet" href="uui/css/uui-all.css" />
     <!-- Your custom CSS Styles -->
-    <link rel="stylesheet" href="css/custom-styles.css" />
+    <link rel="stylesheet" href="uui/css/custom-styles.css" />
 
     <!-- Scroll for UUI Sidebar -->
-    <link rel="stylesheet" href="css/lib/components/jquery.mCustomScrollbar.min.css" />
+    <link rel="stylesheet" href="uui/css/lib/components/jquery.mCustomScrollbar.min.css" />
     <script src="uui/js/lib/components/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <!-- Include elements that you need described on Getting Started page (above) -->
@@ -130,16 +130,13 @@
                             <br><@spring.showErrors '<br>'/>
                         </th>
                         <th> <@spring.message code="msg.country"/>: <br>
-<!--                            <select name="country" class="selectpicker uui-form-element">-->
-<!--                                <option disabled selected><@spring.message code="msg.choose_country"/></option>-->
-<!--                                <#list countries as country>-->
-<!--                                <option>${country.name}</option>-->
-<!--                            </#list>-->
-<!--                            </select>-->
-                            <#assign attributes = "class='selectpicker uui-form-element'"/>
-<!--                               <#list countries as country>-->
-<!--                                                                </#list>-->
-                            <@spring.formSingleSelect "tourDto.countryNames",  "qw", attributes/>
+                            <select name="country" class="selectpicker uui-form-element">
+                                <option disabled selected><@spring.message code="msg.choose_country"/></option>
+                                <#list countries as country>
+                                <option>${country.name}</option>
+                            </#list>
+                            </select>
+
                         </th>
                     </tr>
                 </table>

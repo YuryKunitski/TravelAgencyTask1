@@ -12,15 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class TourController {
 
-    @Autowired
-    private TourService tourService;
+  @Autowired
+  private TourService tourService;
 
-    @GetMapping("/tours")
-    public String allTours(Model model) {
+  @GetMapping("/tours")
+  public String allTours(Model model) {
+    model.addAttribute("tours", tourService.findAll());
 
-        TourSpecification tourSpecification = new TourSpecification();
-        model.addAttribute("tours", tourService.findAllByCriteria(tourSpecification));
-
-        return "tour";
-    }
+    return "tour";
+  }
 }

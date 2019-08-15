@@ -1,5 +1,5 @@
-<#import "/spring.ftl" as spring/>
-<header>
+<!--<#import "/spring.ftl" as spring/>-->
+<header th:fragment="header" xmlns:th="http://www.thymeleaf.org">
     <div class="uui-header">
         <nav>
             <!--Responsive html-layuot-->
@@ -52,7 +52,7 @@
                 </li>
             </ul>
         </nav>
-        <a href="search_tours?lang=en"><@spring.message code="msg.english"/> </a> | <a href="search_tours?lang=ru"><@spring.message code="msg.russian"/> </a>
+        <a href="search_tours?lang=en"><span th:text="#{msg.english}" /> </a> | <a href="search_tours?lang=ru"><span th:text="#{msg.russian}" /> </a>
         <br><a href="tours">All tours</a>
         <br><a href="search_tours">Home</a>
     </div>

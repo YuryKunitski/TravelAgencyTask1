@@ -1,9 +1,12 @@
 package by.epam.kunitski.travelagency.web.config;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -14,39 +17,83 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import java.util.Locale;
 
 @EnableWebMvc
 @Configuration
 @ComponentScan({"by.epam.kunitski.travelagency"})
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
+
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")   //URLs for matching resources
-                .addResourceLocations("/uui/**"); //root folder - /src/main/webapp
+                .addResourceLocations("/uui"); //root folder - /src/main/webapp
     }
 
-    @Bean(name = "viewResolver")
-    public FreeMarkerViewResolver freemarkerViewResolver() {
-        FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
-        viewResolver.setCache(true);
-        viewResolver.setContentType("text/html; charset=utf-8");
-        viewResolver.setPrefix("");
-        viewResolver.setSuffix(".ftl");
-        viewResolver.setExposeSpringMacroHelpers(true);
-        viewResolver.setExposePathVariables(true);
-        viewResolver.setExposeSessionAttributes(true);
-        return viewResolver;
+//    @Bean(name = "viewResolver")
+//    public FreeMarkerViewResolver freemarkerViewResolver() {
+//        FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
+//        viewResolver.setCache(true);
+//        viewResolver.setContentType("text/html; charset=utf-8");
+//        viewResolver.setPrefix("");
+//        viewResolver.setSuffix(".ftl");
+//        viewResolver.setExposeSpringMacroHelpers(true);
+//        viewResolver.setExposePathVariables(true);
+//        viewResolver.setExposeSessionAttributes(true);
+//        return viewResolver;
+//    }
+//
+//    @Bean
+//    public FreeMarkerConfigurer freemarkerConfig() {
+//        FreeMarkerConfigurer config = new FreeMarkerConfigurer();
+//        config.setDefaultEncoding("UTF-8");
+//        config.setTemplateLoaderPath("/WEB-INF/views/");
+//        return config;
+//    }
+
+    @Bean
+    @Description("Thymeleaf Template Resolver")
+    public SpringResourceTemplateResolver templateResolver() {
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setApplicationContext(this.applicationContext);
+        templateResolver.setPrefix("/WEB-INF/views/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode("HTML5");
+        templateResolver.setCacheable(false);
+
+        return templateResolver;
     }
 
     @Bean
-    public FreeMarkerConfigurer freemarkerConfig() {
-        FreeMarkerConfigurer config = new FreeMarkerConfigurer();
-        config.setDefaultEncoding("UTF-8");
-        config.setTemplateLoaderPath("/WEB-INF/views/");
-        return config;
+    @Description("Thymeleaf Template Engine")
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setTemplateEngineMessageSource(messageSource());
+        templateEngine.setEnableSpringELCompiler(true);
+
+        return templateEngine;
+    }
+
+    @Bean
+    @Description("Thymeleaf View Resolver")
+    public ThymeleafViewResolver viewResolver() {
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(templateEngine());
+        viewResolver.setOrder(1);
+        return viewResolver;
     }
 
     @Bean
