@@ -41,46 +41,59 @@
                 <table>
                     <tr>
 
-                        <th><span th:text="#{msg.min_cost}"/> <br>
-                            <input type="number" th:field="*{minCost}" class="uui-form-element"/>
-                        </th>
-                        <th><span th:text="#{msg.min_duration}"/> <br>
-                            <input type="number" th:field="*{minDuration}" class="uui-form-element"/>
-                        </th>
-                        <th><span th:text="#{msg.min_hotel_stars}"/> <br>
-                            <input type="number" th:field="*{minStars}" class="uui-form-element"/>
-                        </th>
-                        <th><span th:text="#{msg.start_date}"/> <br>
-                            <input type="date" th:field="*{minDate}" class="uui-form-element"/>
-                        </th>
-                        <th><span th:text="#{msg.tour_type}"/> <br>
-                            <select th:field="*{tourType}" class="selectpicker uui-form-element" />
-                                <option selected="selected" disabled="true" value=""><span th:text="#{msg.choose_tour_type}"/></option>
-                                <option th:value="'ECONOM'" th:text="'econom'" ></option>
-                                <option th:value="'ALL_INCLUSIVE'" th:text="'all inclusive'"></option>
-                                <option th:value="'ONLY_BREAKFAST'" th:text="'only breakfast'"></option>
-                            </select>
-                        </th>
+                    <th><span th:text="#{msg.min_cost}"/> <br>
+                        <input type="number" th:field="*{minCost}" class="uui-form-element"/><br>
+                        <p th:if="${#fields.hasErrors('minCost')}" th:errors="*{minCost}" style="color:red"></p>
+                    </th>
+
+                    <th><span th:text="#{msg.min_duration}"/> <br>
+                        <input type="number" th:field="*{minDuration}" class="uui-form-element"/>
+                        <p th:if="${#fields.hasErrors('minDuration')}" th:errors="*{minDuration}" style="color:red"></p>
+                    </th>
+                    <th><span th:text="#{msg.min_hotel_stars}"/> <br>
+                        <input type="number" th:field="*{minStars}" class="uui-form-element"/>
+                        <p th:if="${#fields.hasErrors('minStars')}" th:errors="*{minStars}" style="color:red"></p>
+                    </th>
+                    <th><span th:text="#{msg.start_date}"/> <br>
+                        <input type="date" th:field="*{minDate}" class="uui-form-element"/>
+                        <p th:if="${#fields.hasErrors('minDate')}" th:errors="*{minDate}" style="color:red" ></p>
+                    </th>
+                    <th><span th:text="#{msg.tour_type}"/> <br>
+                        <select th:field="*{tourType}" class="selectpicker uui-form-element"/>
+                        <option selected="selected" disabled="true" value=""><span
+                                th:text="#{msg.choose_tour_type}"/></option>
+                        <option th:value="'ECONOM'" th:text="'econom'"></option>
+                        <option th:value="'ALL_INCLUSIVE'" th:text="'all inclusive'"></option>
+                        <option th:value="'ONLY_BREAKFAST'" th:text="'only breakfast'"></option>
+                        </select>
+                    </th>
                     </tr>
 
                     <tr>
                         <th><span th:text="#{msg.max_cost}"/> <br>
                             <input type="number" th:field="*{maxCost}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('maxCost')}" th:errors="*{maxCost}" style="color:red"></p>
                         </th>
                         <th><span th:text="#{msg.max_duration}"/> <br>
                             <input type="number" th:field="*{maxDuration}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('maxDuration')}" th:errors="*{maxDuration}" style="color:red"></p>
                         </th>
                         <th><span th:text="#{msg.max_hotel_stars}"/> <br>
                             <input type="number" th:field="*{maxStars}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('maxStars')}" th:errors="*{maxStars}" style="color:red"></p>
                         </th>
                         <th><span th:text="#{msg.finish_date}"/> <br>
                             <input type="date" th:field="*{maxDate}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('maxDate')}" th:errors="*{maxDate}" style="color:red" ></p>
                         </th>
-                        <th><select th:field="*{countryNames}" class="selectpicker uui-form-element">
-                            <option selected="selected" disabled="true" value=""><span th:text="#{msg.choose_country}"/></option>
-                            <option th:each="country : ${countries}" th:value="${country.name}" th:text="${country.name}">
-                            </option>
-                        </select>
+                        <th><span th:text="#{msg.country}"/> <br>
+                            <select th:field="*{countryNames}" class="selectpicker uui-form-element">
+                                <option selected="selected" disabled="true" value=""><span
+                                        th:text="#{msg.choose_country}"/></option>
+                                <option th:each="country : ${countries}" th:value="${country.name}"
+                                        th:text="${country.name}">
+                                </option>
+                            </select>
                         </th>
 
                     </tr>
@@ -89,7 +102,7 @@
             </form>
 
 
-            <div>
+            <div th:if="${!tours.empty}">
                 <br/>
                 <table class="uui-table">
                     <thead>
@@ -122,6 +135,11 @@
                     </tbody>
                 </table>
             </div>
+
+            <div th:if="${tours.empty}">
+                <h3><span th:text="#{msg.no_tours}"/></h3>
+            </div>
+
         </main>
 
     </div>

@@ -8,9 +8,7 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,6 +29,7 @@ public class Tour {
     private String photo;
 
     @NotNull
+    @FutureOrPresent
     private LocalDate date;
 
     @Range(min = 1, max = 99)

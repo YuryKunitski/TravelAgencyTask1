@@ -34,7 +34,7 @@
             </div>
 
             <!---->
-            <a href="#" class="brand-logo">
+            <a href="search_tours" class="brand-logo">
                 <span class="logo">
                     <img src="uui/images/ic_logo_UUi.svg" alt="" />
                 </span>
@@ -56,8 +56,19 @@
                 </li>
             </ul>
         </nav>
-        <a href="search_tours?lang=en"><span th:text="#{msg.english}" /> </a> | <a href="search_tours?lang=ru"><span th:text="#{msg.russian}" /> </a>
-        <br><a href="tours">All tours</a>
-        <br><a href="search_tours">Home</a>
+        <div class="uui-dropdown-button">
+            <button type="button" class="uui-button dropdown-toggle right-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Language
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li> <a href="search_tours?lang=en"><span th:text="#{msg.english}" /> </a></li>
+                <li><a href="search_tours?lang=ru"><span th:text="#{msg.russian}" /> </a></li>
+            </ul>
+        </div>
+        <a href="tours" class="uui-button">All tours</a>
+        <a href="search_tours" class="uui-button">Home</a>
+<!--        <br><a href="tours">All tours</a>-->
+<!--        <br><a href="search_tours">Home</a>-->
     </div>
 </header>
