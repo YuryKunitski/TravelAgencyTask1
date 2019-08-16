@@ -4,6 +4,7 @@ import by.epam.kunitski.travelagency.dao.entity.Tour;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,7 +22,10 @@ public class TourDto {
     private Integer maxStars;
     private Integer minStars;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate minDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate maxDate;
 
     private Integer minDuration;

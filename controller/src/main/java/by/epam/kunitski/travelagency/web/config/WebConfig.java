@@ -15,12 +15,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import java.util.Locale;
 
@@ -41,27 +38,6 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
         registry.addResourceHandler("/**")   //URLs for matching resources
                 .addResourceLocations("/uui"); //root folder - /src/main/webapp
     }
-
-//    @Bean(name = "viewResolver")
-//    public FreeMarkerViewResolver freemarkerViewResolver() {
-//        FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
-//        viewResolver.setCache(true);
-//        viewResolver.setContentType("text/html; charset=utf-8");
-//        viewResolver.setPrefix("");
-//        viewResolver.setSuffix(".ftl");
-//        viewResolver.setExposeSpringMacroHelpers(true);
-//        viewResolver.setExposePathVariables(true);
-//        viewResolver.setExposeSessionAttributes(true);
-//        return viewResolver;
-//    }
-//
-//    @Bean
-//    public FreeMarkerConfigurer freemarkerConfig() {
-//        FreeMarkerConfigurer config = new FreeMarkerConfigurer();
-//        config.setDefaultEncoding("UTF-8");
-//        config.setTemplateLoaderPath("/WEB-INF/views/");
-//        return config;
-//    }
 
     @Bean
     @Description("Thymeleaf Template Resolver")
@@ -92,6 +68,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
     public ThymeleafViewResolver viewResolver() {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
+        viewResolver.setCharacterEncoding("UTF-8");
         viewResolver.setOrder(1);
         return viewResolver;
     }
