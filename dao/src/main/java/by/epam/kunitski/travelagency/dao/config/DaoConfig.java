@@ -27,8 +27,8 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @Configuration
-@ComponentScan(basePackages = "by.epam.kunitski.travelagency")
-public class AppConfig {
+@ComponentScan(basePackages = "by.epam.kunitski.travelagency.dao")
+public class DaoConfig {
 
     @Bean("dataSource")
     @Profile("test")

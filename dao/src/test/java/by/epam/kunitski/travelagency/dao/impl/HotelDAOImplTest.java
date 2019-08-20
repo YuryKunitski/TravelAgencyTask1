@@ -1,7 +1,7 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.HotelDAO;
-import by.epam.kunitski.travelagency.dao.config.AppConfig;
+import by.epam.kunitski.travelagency.dao.config.DaoConfig;
 import by.epam.kunitski.travelagency.dao.specification.impl.HotelSpecification;
 import by.epam.kunitski.travelagency.dao.entity.Hotel;
 import org.flywaydb.core.Flyway;
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@ContextConfiguration(classes = AppConfig.class)
+@ContextConfiguration(classes = DaoConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 public class HotelDAOImplTest {

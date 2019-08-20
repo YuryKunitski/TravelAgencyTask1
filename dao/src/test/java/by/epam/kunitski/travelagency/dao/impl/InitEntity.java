@@ -51,11 +51,12 @@ public class InitEntity {
         user.setId(1);
         user.setLogin("Saundra");
         user.setPassword("CDHjDf5Tnr");
+        user.setRole(User.UserRole.MEMBER);
 
         Tour tour = new Tour();
         tour.setId(1);
         tour.setPhoto("http://dummyimage.com/190x216.jpg/ff4444/ffffff");
-        tour.setDate(LocalDate.of(2019, 8, 14));
+        tour.setDate(LocalDate.of(2019, 12, 14));
         tour.setDuration(1);
         tour.setDescription("Integer non velit.");
         tour.setCost(1839.65);
@@ -89,7 +90,7 @@ public class InitEntity {
         country.setName("China");
 
         tour.setPhoto("http://dummyimage.com/190x216.jpg/ff4444/ffffff");
-        tour.setDate(LocalDate.of(2019, 8, 14));
+        tour.setDate(LocalDate.of(2019, 12, 14));
         tour.setDuration(1);
         tour.setDescription("Integer non velit.");
         tour.setCost(1839.65);
@@ -105,6 +106,7 @@ public class InitEntity {
 
         user.setLogin("Saundra");
         user.setPassword("CDHjDf5Tnr");
+        user.setRole(User.UserRole.MEMBER);
 
         return user;
     }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class UserController {
@@ -19,18 +20,18 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/perform_login")
-    public String logIn(ModelMap model) {
-
-
+    public String logIn(@ModelAttribute("user") User user, ModelMap model, Principal principal) {
+        model.addAttribute("message", "You are logged in as " + principal.getName());
         return "login";
     }
 
-    @PostMapping("/perform_login")
-    public String logInForm(@Valid @ModelAttribute("user") User user,
-                           BindingResult result, ModelMap model) {
-
-
-        return "login";
-    }
+//    @PostMapping("/perform_login")
+//    public String logInForm(@ModelAttribute("user") User user, ModelMap model) {
+//
+//        System.out.println("user login - "+user.getLogin());
+//        System.out.println("user password - "+user.getPassword());
+//
+//        return "login";
+//    }
 
 }

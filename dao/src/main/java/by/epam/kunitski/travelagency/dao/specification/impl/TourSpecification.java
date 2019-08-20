@@ -5,6 +5,7 @@ import by.epam.kunitski.travelagency.dao.entity.Country;
 import by.epam.kunitski.travelagency.dao.entity.Hotel;
 import by.epam.kunitski.travelagency.dao.entity.Tour;
 import by.epam.kunitski.travelagency.dao.specification.AbstractSpecification;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@NoArgsConstructor
 public class TourSpecification extends AbstractSpecification<Tour> {
 
     private TourDto tourDto;

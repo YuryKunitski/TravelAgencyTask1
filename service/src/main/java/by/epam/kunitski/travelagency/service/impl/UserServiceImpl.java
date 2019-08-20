@@ -5,6 +5,9 @@ import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.dao.entity.User;
 import by.epam.kunitski.travelagency.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +28,25 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
 
+    @Transactional(readOnly = true)
     @Override
-    public List<User> findAll(){
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userDAO.findUserByUsername(username);
+
+        if (user != null) {
+
+            UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(username);
+            builder.password(user.getPassword());
+            builder.roles(user.getRole().name());
+
+            return builder.build();
+        } else {
+            throw new UsernameNotFoundException("User not found.");
+        }
+    }
+
+    @Override
+    public List<User> findAll() {
         return userDAO.getAll();
     }
 

@@ -36,16 +36,17 @@
         <main>
 
             <h1>Login</h1>
-            <form name='f' action="/perform_login" method='POST'>
+                <form action="#" th:action="@{/perform_login}" th:object="${user}" method="post">
                 <table>
-                    <tr>
-                        <td>User:</td>
-                        <td><input type='text' name='username' value=''></td>
+
+                    <tr><span th:text="'Login'"/> <br>
+                        <input type="text" th:field="*{login}" class="uui-form-element"/><br>
                     </tr>
-                    <tr>
-                        <td>Password:</td>
-                        <td><input type='password' name='password'/></td>
+                    <tr><span th:text="'Password'"/> <br>
+                        <input type="password" th:field="*{password}" class="uui-form-element"/><br>
+                        <!--                        <p th:if="${#fields.hasErrors('minCost')}" th:errors="*{minCost}" style="color:red"></p>-->
                     </tr>
+
                     <tr>
                         <td><input name="submit" type="submit" value="submit"/></td>
                     </tr>
@@ -53,6 +54,7 @@
             </form>
         </main>
     </div>
+
     <footer th:replace="footer :: footer"></footer>
 </div>
 </body>

@@ -1,7 +1,8 @@
 package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.TourDAO;
-import by.epam.kunitski.travelagency.dao.config.AppConfig;
+import by.epam.kunitski.travelagency.dao.config.DaoConfig;
+import by.epam.kunitski.travelagency.dao.dto.TourDto;
 import by.epam.kunitski.travelagency.dao.specification.impl.TourSpecification;
 import by.epam.kunitski.travelagency.dao.entity.Tour;
 import org.flywaydb.core.Flyway;
@@ -21,12 +22,13 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@ContextConfiguration(classes = AppConfig.class)
+@ContextConfiguration(classes = DaoConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 public class TourDAOImplTest {
 
     private Tour expTour = new Tour();
+    private TourDto tourDto = new TourDto();
 
     @Autowired
     private TourDAO tourDAO;
@@ -53,7 +55,7 @@ public class TourDAOImplTest {
 
     @Test
     public void getAllByUserId() {
-        int sizeExpected = 10;
+        int sizeExpected = 4;
         int sizeActual = tourDAO.getAllByUserId(1).size();
         assertEquals(sizeExpected, sizeActual);
     }
@@ -64,8 +66,8 @@ public class TourDAOImplTest {
         countryList.add("Belarus");
         countryList.add("Sweden");
 
-        TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setCountryNames(countryList);
+        tourDto.setCountryNames(countryList);
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
 
         int sizeExpected = 80;
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();
@@ -74,8 +76,8 @@ public class TourDAOImplTest {
 
     @Test
     public void getAllByTourType() {
-        TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setTourType(Tour.TourType.ALL_INCLUSIVE);
+        tourDto.setTourType(Tour.TourType.ALL_INCLUSIVE);
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
 
         int sizeExpected = 322;
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();
@@ -84,9 +86,9 @@ public class TourDAOImplTest {
 
     @Test
     public void getAllByMinMaxStars() {
-        TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setMinStars(4);
-        tourSpecification.setMaxStars(5);
+        tourDto.setMinStars(4);
+        tourDto.setMaxStars(5);
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
 
         int sizeExpected = 500;
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();
@@ -95,8 +97,8 @@ public class TourDAOImplTest {
 
     @Test
     public void getAllByMinStars() {
-        TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setMinStars(5);
+        tourDto.setMinStars(5);
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
 
         int sizeExpected = 250;
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();
@@ -105,30 +107,30 @@ public class TourDAOImplTest {
 
     @Test
     public void getAllByMinMaxDate() {
-        TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setMinDate(LocalDate.of(2019, 8, 5));
-        tourSpecification.setMaxDate(LocalDate.of(2019, 8, 25));
+        tourDto.setMinDate(LocalDate.of(2019, 8, 5));
+        tourDto.setMaxDate(LocalDate.of(2019, 8, 25));
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
 
-        int sizeExpected = 54;
+        int sizeExpected = 53;
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 
     @Test
     public void getAllByMinDate() {
-        TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setMinDate(LocalDate.of(2019, 8, 25));
+        tourDto.setMinDate(LocalDate.of(2019, 8, 25));
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
 
-        int sizeExpected = 367;
+        int sizeExpected = 368;
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
 
     @Test
     public void getAllByMinMaxDuration() {
-        TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setMinDuration(7);
-        tourSpecification.setMaxDuration(11);
+        tourDto.setMinDuration(7);
+        tourDto.setMaxDuration(11);
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
 
         int sizeExpected = 200;
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();
@@ -137,8 +139,8 @@ public class TourDAOImplTest {
 
     @Test
     public void getAllByMaxDuration() {
-        TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setMaxDuration(11);
+        tourDto.setMaxDuration(11);
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
 
         int sizeExpected = 440;
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();
@@ -147,9 +149,9 @@ public class TourDAOImplTest {
 
     @Test
     public void getAllByMinMaxCost() {
-        TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setMinCost(500.0);
-        tourSpecification.setMaxCost(700.0);
+        tourDto.setMinCost(500.0);
+        tourDto.setMaxCost(700.0);
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
 
         int sizeExpected = 19;
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();
@@ -158,8 +160,8 @@ public class TourDAOImplTest {
 
     @Test
     public void getAllByMinCost() {
-        TourSpecification tourSpecification = new TourSpecification();
-        tourSpecification.setMaxCost(1000.0);
+        tourDto.setMaxCost(1000.0);
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
 
         int sizeExpected = 94;
         int sizeActual = tourDAO.getAllByCriteria(tourSpecification).size();

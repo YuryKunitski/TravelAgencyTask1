@@ -12,6 +12,11 @@ CREATE TYPE tour_type AS ENUM (
     'ONLY_BREAKFAST'
 );
 
+CREATE TYPE user_role AS ENUM (
+    'MEMBER',
+    'ADMIN'
+);
+
 create table IF NOT EXISTS hotel (
 	id serial NOT NULL UNIQUE,
 	name VARCHAR(50) NOT NULL,
@@ -27,6 +32,7 @@ create table IF NOT EXISTS "user" (
 	id serial NOT NULL UNIQUE,
 	login VARCHAR(50) NOT NULL,
 	password VARCHAR(50) NOT NULL,
+	role user_role NOT NULL,
 	CONSTRAINT user_pkey PRIMARY KEY (id)
 );
 
