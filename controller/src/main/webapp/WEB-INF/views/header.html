@@ -1,0 +1,73 @@
+<header th:fragment="header" xmlns:th="http://www.thymeleaf.org">
+    <div class="uui-header">
+        <nav>
+            <!--Responsive html-layuot-->
+            <div class="uui-responsive-header">
+                <div class="responsive-header">
+                    <a href="#" class="responsive-brand-logo">
+                        <span class="arrow fa fa-angle-left"></span>
+                        <span class="logo">
+                            <img src="uui/images/ic_logo_UUi.svg" alt="" />
+                        </span>
+                        <span class="title">Travel Agency</span>
+                    </a>
+                </div>
+                <ul class="uui-header-tools nav navbar-nav">
+                    <li class="uui-header-button">
+                        <a href="#" class="uui-button">Add</a>
+                    </li>
+                </ul>
+                <div class="responsive-menu">
+                    <div class="menu-wrapper">
+                        <div class="menu-scroll">
+                            <ul class="nav navbar-nav">
+                                <li class="sub-menu profile-menu">
+                                    <a href="#"><span>Profile</span></a>
+                                    <ul class="sub">
+                                        <li class="login"><a href="perform_login"><span>Log in</span></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!---->
+            <a href="search_tours" class="brand-logo">
+                <span class="logo">
+                    <img src="uui/images/ic_logo_UUi.svg" alt="" />
+                </span>
+                Travel Agency
+            </a>
+            <ul class="uui-header-tools nav navbar-nav">
+                <li class="dropdown uui-profile-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="profile-photo">
+                            <img src="uui/images/icons/no_photo.png" alt="" />
+                        </div>
+                    </a>
+                    <div class="dropdown-menu" role="menu">
+                        <span class="menu-arrow"></span>
+                        <ul class="profile-links">
+                            <li class="login"><a href="perform_login"><i class="fa fa-sign-in"></i>Log in</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="uui-dropdown-button">
+            <button type="button" class="uui-button dropdown-toggle right-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Language
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li> <a href="search_tours?lang=en"><span th:text="#{msg.english}" /> </a></li>
+                <li><a href="search_tours?lang=ru"><span th:text="#{msg.russian}" /> </a></li>
+            </ul>
+        </div>
+        <a href="tours" class="uui-button">All tours</a>
+        <a href="search_tours" class="uui-button">Home</a>
+
+    </div>
+</header>

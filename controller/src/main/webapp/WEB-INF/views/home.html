@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- jQuery Core -->
+    <script src="uui/js/lib/jquery-1.12.0.min.js"></script>
+
+    <!-- Bootstrap Core -->
+    <link rel="stylesheet" href="uui/bootstrap/css/bootstrap.min.css"/>
+    <script src="uui/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- EPAM UUI JavaScript Core -->
+    <script src="uui/js/uui-core.min.js" type="text/javascript"></script>
+
+    <!-- EPAM UUI Styles Core -->
+    <link rel="stylesheet" href="uui/css/uui-all.css"/>
+    <!-- Your custom CSS Styles -->
+    <link rel="stylesheet" href="uui/css/custom-styles.css"/>
+
+    <!-- Scroll for UUI Sidebar -->
+    <link rel="stylesheet" href="uui/css/lib/components/jquery.mCustomScrollbar.min.css"/>
+    <script src="uui/js/lib/components/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Include elements that you need described on Getting Started page (above) -->
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+<div class="wrapper">
+
+    <header th:replace="header :: header"></header>
+
+    <div class="uui-main-container">
+        <main>
+
+            <h2><span th:text="#{msg.tour_search}"/></h2>
+
+            <form action="#" th:action="@{/search_tours}" th:object="${tourDto}" method="get">
+                <table>
+                    <tr>
+
+                    <th><span th:text="#{msg.min_cost}"/> <br>
+                        <input type="number" th:field="*{minCost}" class="uui-form-element"/><br>
+                        <p th:if="${#fields.hasErrors('minCost')}" th:errors="*{minCost}" style="color:red"></p>
+                    </th>
+
+                    <th><span th:text="#{msg.min_duration}"/> <br>
+                        <input type="number" th:field="*{minDuration}" class="uui-form-element"/>
+                        <p th:if="${#fields.hasErrors('minDuration')}" th:errors="*{minDuration}" style="color:red"></p>
+                    </th>
+                    <th><span th:text="#{msg.min_hotel_stars}"/> <br>
+                        <input type="number" th:field="*{minStars}" class="uui-form-element"/>
+                        <p th:if="${#fields.hasErrors('minStars')}" th:errors="*{minStars}" style="color:red"></p>
+                    </th>
+                    <th><span th:text="#{msg.start_date}"/> <br>
+                        <input type="date" th:field="*{minDate}" class="uui-form-element"/>
+                        <p th:if="${#fields.hasErrors('minDate')}" th:errors="*{minDate}" style="color:red" ></p>
+                    </th>
+                    <th><span th:text="#{msg.tour_type}"/> <br>
+                        <select th:field="*{tourType}" class="selectpicker uui-form-element"/>
+                        <option selected="selected" disabled="true" value=""><span
+                                th:text="#{msg.choose_tour_type}"/></option>
+                        <option th:value="'ECONOM'" th:text="'econom'"></option>
+                        <option th:value="'ALL_INCLUSIVE'" th:text="'all inclusive'"></option>
+                        <option th:value="'ONLY_BREAKFAST'" th:text="'only breakfast'"></option>
+                        </select>
+                    </th>
+                    </tr>
+
+                    <tr>
+                        <th><span th:text="#{msg.max_cost}"/> <br>
+                            <input type="number" th:field="*{maxCost}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('maxCost')}" th:errors="*{maxCost}" style="color:red"></p>
+                        </th>
+                        <th><span th:text="#{msg.max_duration}"/> <br>
+                            <input type="number" th:field="*{maxDuration}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('maxDuration')}" th:errors="*{maxDuration}" style="color:red"></p>
+                        </th>
+                        <th><span th:text="#{msg.max_hotel_stars}"/> <br>
+                            <input type="number" th:field="*{maxStars}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('maxStars')}" th:errors="*{maxStars}" style="color:red"></p>
+                        </th>
+                        <th><span th:text="#{msg.finish_date}"/> <br>
+                            <input type="date" th:field="*{maxDate}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('maxDate')}" th:errors="*{maxDate}" style="color:red" ></p>
+                        </th>
+                        <th><span th:text="#{msg.country}"/> <br>
+                            <select th:field="*{countryNames}" class="selectpicker uui-form-element">
+                                <option selected="selected" disabled="true" value=""><span
+                                        th:text="#{msg.choose_country}"/></option>
+                                <option th:each="country : ${countries}" th:value="${country.name}"
+                                        th:text="${country.name}">
+                                </option>
+                            </select>
+                        </th>
+
+                    </tr>
+                </table>
+                <input type="submit" value="Submit">
+            </form>
+
+
+            <div th:if="${!tours.empty}">
+                <br/>
+                <table class="uui-table">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Photo</th>
+                        <th>Date</th>
+                        <th>Duration</th>
+                        <th>Description</th>
+                        <th>Cost</th>
+                        <th>Tour's type</th>
+                        <th>Hotel</th>
+                        <th>Country</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="tour: ${tours}">
+                        <td th:text="${tour.id}"/>
+                        <td><img th:src="${tour.photo}" alt=""/></td>
+                        <td th:text="${tour.date}"/>
+                        <td th:text="${tour.duration}"/>
+                        <td th:text="${tour.description}"/>
+                        <td th:text="${tour.cost}"/>
+                        <td th:text="${tour.tour_type}"/>
+                        <td><span th:text="${tour.hotel_id.name}"/> <br>
+                            Stars: <span th:text="${tour.hotel_id.stars}"/></td>
+                        <td th:text="${tour.country_id.name}"/>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${tours.empty}">
+                <h3><span th:text="#{msg.no_tours}"/></h3>
+            </div>
+
+        </main>
+
+    </div>
+
+    <footer th:replace="footer :: footer"></footer>
+
+</div>
+
+</body>
+</html>
