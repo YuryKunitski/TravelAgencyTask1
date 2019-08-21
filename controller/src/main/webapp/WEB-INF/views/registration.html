@@ -34,19 +34,21 @@
 
     <div class="uui-main-container">
         <main>
-            <div th:if="${param.error}">
+            <div th:if="${param.success}">
                 <div class="alert alert-info">
-                    Log in error!
+                    You've successfully registered to our Travel Agency!
                 </div>
             </div>
 
             <div class="container" style="width: 300px;">
-            <form th:action="@{/loginAction}" method="post">
-                <h2 class="form-signin-heading">Please sign in</h2>
+            <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
+                <h2 class="form-signin-heading">Please register</h2>
 
-                <input type="text" class="form-control" name="username" placeholder="User name" required autofocus >
-                <input type="password" class="form-control" name="password" placeholder="Password" required>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <span th:text="'Login'"/> <br>
+                <input type="text" class="form-control" th:field="*{login}" placeholder="Login" required autofocus >
+                <span th:text="'Password'"/> <br>
+                <input type="password" class="form-control" th:field="*{password}" placeholder="Password" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
             </form>
             </div>
         </main>

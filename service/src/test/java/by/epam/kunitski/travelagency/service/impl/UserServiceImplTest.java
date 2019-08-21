@@ -50,6 +50,13 @@ public class UserServiceImplTest {
     }
 
     @Test
+    public void findByUserName() {
+        expectedUser.setLogin("Admin");
+        when(userDAO.findUserByUsername("Admin")).thenReturn(expectedUser);
+        assertEquals(expectedUser, userServiceImpl.findByUserName("Admin"));
+    }
+
+    @Test
     public void findByWrongId() {
         when(userDAO.getById(-1)).thenReturn(Optional.empty());
         assertEquals(Optional.empty(), userServiceImpl.findById(-1));

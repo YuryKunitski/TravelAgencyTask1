@@ -31,28 +31,43 @@
 <div class="wrapper">
 
     <header th:replace="header :: header"></header>
-
     <div class="uui-main-container">
         <main>
-            <div th:if="${param.error}">
-                <div class="alert alert-info">
-                    Log in error!
+
+            <h4><span th:text="'User profile'"/></h4>
+
+            <h2><span th:text="'Yuor login: '"/><span  sec:authentication="name"></span></h2>
+
+            <section class="uui-tabs">
+                <div class="tabs-heading">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#tab1">My tours</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#tab2">My reviews</a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
+                <div class="tabs-body">
+                    <div class="tab-content">
+                        <div id="tab1" class="tab-pane active">
+                            Tours
+                        </div>
+                        <div id="tab2" class="tab-pane">
+                            Reviews
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="container" style="width: 300px;">
-            <form th:action="@{/loginAction}" method="post">
-                <h2 class="form-signin-heading">Please sign in</h2>
-
-                <input type="text" class="form-control" name="username" placeholder="User name" required autofocus >
-                <input type="password" class="form-control" name="password" placeholder="Password" required>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            </form>
-            </div>
         </main>
+
     </div>
 
     <footer th:replace="footer :: footer"></footer>
+
 </div>
+
 </body>
 </html>

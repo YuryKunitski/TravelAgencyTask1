@@ -1,11 +1,11 @@
 package by.epam.kunitski.travelagency.web.config;
 
-import by.epam.kunitski.travelagency.service.UserService;
+import by.epam.kunitski.travelagency.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,55 +15,59 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
 
+    @Autowired
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService());      //.passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().anyRequest().hasAnyRole("MEMBER", "ADMIN")
-                .and()
-                .authorizeRequests().antMatchers("/login**").permitAll()
-                .and()
-                .formLogin().loginPage("/login.html").loginProcessingUrl("/perform_login").defaultSuccessUrl("/home.html", true).permitAll()
-                .failureUrl("/login.html?error=true")
-                .and()
-                .logout().logoutSuccessUrl("/home.html").permitAll()
-                .and()
-                .csrf().disable();
+        //enable defense from CSRF attack
+        http.csrf()
+                .disable()
+                // rules for access to recourse and other data
+                .authorizeRequests()
+                .antMatchers("/uui/**", "/login","/registration", "/search_tours").permitAll()
+                .anyRequest().permitAll()
+                .and();
 
+        http.formLogin()
+                // указываем страницу с формой логина
+                .loginPage("/login")
+                // указываем action с формы логина
+                .loginProcessingUrl("/loginAction").defaultSuccessUrl("/search_tours?success", true)
+                // указываем URL при неудачном логине
+//                .failureUrl("/login?error")
+                // Указываем параметры логина и пароля с формы логина
+//                .usernameParameter("j_username")
+//                .passwordParameter("j_password")
+                // даем доступ к форме логина всем
+                .permitAll();
 
-
-//        http.csrf()
-//                .disable()
-//                .authorizeRequests()
-////                .antMatchers("/admin/**").hasRole("ADMIN")
-////                .antMatchers("/anonymous*").anonymous()
-////                .antMatchers("/login*").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login.html")
-//                .loginProcessingUrl("/perform_login")
-//                .defaultSuccessUrl("/home.html", true)
-//                .failureUrl("/login.html?error=true")               //<--------was hidden
-////                .failureHandler(authenticationFailureHandler())
-//                .and()
-//                .logout()
-//                .logoutUrl("/perform_logout")
-//                .deleteCookies("JSESSIONID");
-////                .logoutSuccessHandler(logoutSuccessHandler());
+        http.logout()
+                // разрешаем делать логаут всем
+                .permitAll()
+                // указываем URL логаута
+                .logoutUrl("/logout")
+                // указываем URL при удачном логауте
+                .logoutSuccessUrl("/search_tours?logout")
+                // делаем не валидной текущую сессию
+                .invalidateHttpSession(true);
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return new UserDetailsServiceImpl();
     }
 }

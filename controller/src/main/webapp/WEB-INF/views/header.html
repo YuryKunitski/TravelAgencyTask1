@@ -1,4 +1,5 @@
-<header th:fragment="header" xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header" xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <div class="uui-header">
         <nav>
             <!--Responsive html-layuot-->
@@ -33,7 +34,6 @@
                 </div>
             </div>
 
-            <!---->
             <a href="search_tours" class="brand-logo">
                 <span class="logo">
                     <img src="uui/images/ic_logo_UUi.svg" alt="" />
@@ -43,6 +43,8 @@
             <ul class="uui-header-tools nav navbar-nav">
                 <li class="dropdown uui-profile-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span sec:authorize="isAuthenticated()" class="uui-promo-heading" style="color:white"  sec:authentication="name"></span>
+
                         <div class="profile-photo">
                             <img src="uui/images/icons/no_photo.png" alt="" />
                         </div>
@@ -50,20 +52,24 @@
                     <div class="dropdown-menu" role="menu">
                         <span class="menu-arrow"></span>
                         <ul class="profile-links">
-                            <li class="login"><a href="perform_login"><i class="fa fa-sign-in"></i>Log in</a></li>
+                            <li sec:authorize="!isAuthenticated()" class="login"><a href="login"><i class="fa fa-sign-in"></i>Log in</a></li>
+                            <li sec:authorize="!isAuthenticated()" class="login"><a href="registration"><i class="fa fa-sign-in"></i>Registration</a></li>
+                            <li sec:authorize="isAuthenticated()" class="login"><a href="logout"><i class="fa fa-sign-in"></i>Log out</a></li>
+                            <li sec:authorize="isAuthenticated()" class="login"><a href="profile"><i class="fa fa-sign-in"></i>Profile</a></li>
                         </ul>
                     </div>
                 </li>
             </ul>
         </nav>
+
         <div class="uui-dropdown-button">
             <button type="button" class="uui-button dropdown-toggle right-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Language
                 <i class="fa fa-angle-down"></i>
             </button>
             <ul class="dropdown-menu">
-                <li> <a href="search_tours?lang=en"><span th:text="#{msg.english}" /> </a></li>
-                <li><a href="search_tours?lang=ru"><span th:text="#{msg.russian}" /> </a></li>
+                <li> <a href="?lang=en"><span th:text="#{msg.english}" /> </a></li>
+                <li><a href="?lang=ru"><span th:text="#{msg.russian}" /> </a></li>
             </ul>
         </div>
         <a href="tours" class="uui-button">All tours</a>

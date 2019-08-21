@@ -31,7 +31,7 @@ create table IF NOT EXISTS hotel (
 create table IF NOT EXISTS "user" (
 	id serial NOT NULL UNIQUE,
 	login VARCHAR(50) NOT NULL,
-	password VARCHAR(50) NOT NULL,
+	password VARCHAR(500) NOT NULL,
 	role user_role NOT NULL,
 	CONSTRAINT user_pkey PRIMARY KEY (id)
 );

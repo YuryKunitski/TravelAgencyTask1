@@ -9,24 +9,35 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class UserDAOImpl extends AbstractEntityDao<User> implements UserDAO {
 
-    public UserDAOImpl() { super(User.class); }
+    public UserDAOImpl() {
+        super(User.class);
+    }
 
 
     @Override
     public User findUserByUsername(String login) {
+
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-        Root<User> root = criteriaQuery.from(User.class);
 
-        Predicate predicate =criteriaBuilder.equal(root.get("login"), login);
+        Root<User> root = criteriaQuery.from(User.class);
+        Predicate predicate = criteriaBuilder.equal(root.get("login"), login);
+
         criteriaQuery.where(criteriaBuilder.and(predicate));
         TypedQuery<User> query = entityManager.createQuery(criteriaQuery);
 
-        return query.getSingleResult();
+        List<User> userList = query.getResultList();
+
+        if (!userList.isEmpty()) {
+            return userList.get(0);
+        } else {
+            return null;
+        }
     }
 }

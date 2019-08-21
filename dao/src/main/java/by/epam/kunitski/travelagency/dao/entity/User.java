@@ -27,7 +27,7 @@ public class User {
     @Size(min = 3, max = 20)
     private String login;
 
-    @Size(min = 3, max = 20)
+//    @Size(min = 3, max = 20)
     private String password;
 
     @NotNull

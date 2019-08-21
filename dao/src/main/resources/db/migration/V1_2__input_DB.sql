@@ -126,7 +126,7 @@ insert into hotel (name, stars, website, latitude, longitude, features) values (
 insert into hotel (name, stars, website, latitude, longitude, features) values ('Gorilla gorilla', 5, 'msmurfitt2r@hexun.com', 60.9501559, 5.623505, 'SWIMMING_POOL');
 
 insert into "user" (login, password, role) values ('Saundra', 'CDHjDf5Tnr', 'MEMBER');
-insert into "user" (login, password, role) values ('Flor', 'flor', 'ADMIN');
+insert into "user" (login, password, role) values ('Admin', 'admin', 'ADMIN');
 insert into "user" (login, password, role) values ('Shawn', 'GlnVlmiEQpLR', 'MEMBER');
 insert into "user" (login, password, role) values ('Gina', 'n7qjW2MZJgi', 'MEMBER');
 insert into "user" (login, password, role) values ('Marsiella', 'RK3kHJoJ6', 'MEMBER');

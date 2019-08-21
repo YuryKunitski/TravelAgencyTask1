@@ -5,9 +5,7 @@ import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.dao.entity.User;
 import by.epam.kunitski.travelagency.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,22 +26,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
 
-    @Transactional(readOnly = true)
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDAO.findUserByUsername(username);
-
-        if (user != null) {
-
-            UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(username);
-            builder.password(user.getPassword());
-            builder.roles(user.getRole().name());
-
-            return builder.build();
-        } else {
-            throw new UsernameNotFoundException("User not found.");
-        }
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> findAll() {
@@ -60,6 +44,11 @@ public class UserServiceImpl implements UserService {
         return userDAO.getById(id);
     }
 
+    @Override
+    public User findByUserName(String userName) {
+        return userDAO.findUserByUsername(userName);
+    }
+
     @Transactional
     @Override
     public boolean delete(int id) {
@@ -72,6 +61,9 @@ public class UserServiceImpl implements UserService {
         violationsUser = validator.validate(user);
 
         if (violationsUser.isEmpty()) {
+            String bCryptPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(bCryptPassword);
+
             userDAO.create(user);
         }
 
