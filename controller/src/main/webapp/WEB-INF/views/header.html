@@ -8,7 +8,7 @@
                     <a href="#" class="responsive-brand-logo">
                         <span class="arrow fa fa-angle-left"></span>
                         <span class="logo">
-                            <img src="uui/images/ic_logo_UUi.svg" alt="" />
+                            <img src="uui/images/ic_logo_UUi.svg" alt=""/>
                         </span>
                         <span class="title">Travel Agency</span>
                     </a>
@@ -36,26 +36,31 @@
 
             <a href="search_tours" class="brand-logo">
                 <span class="logo">
-                    <img src="uui/images/ic_logo_UUi.svg" alt="" />
+                    <img src="uui/images/ic_logo_UUi.svg" alt=""/>
                 </span>
                 Travel Agency
             </a>
             <ul class="uui-header-tools nav navbar-nav">
                 <li class="dropdown uui-profile-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span sec:authorize="isAuthenticated()" class="uui-promo-heading" style="color:white"  sec:authentication="name"></span>
+                        <span sec:authorize="isAuthenticated()" class="uui-promo-heading brand-logo"
+                              sec:authentication="name"></span>
 
                         <div class="profile-photo">
-                            <img src="uui/images/icons/no_photo.png" alt="" />
+                            <img src="uui/images/icons/no_photo.png" alt=""/>
                         </div>
                     </a>
                     <div class="dropdown-menu" role="menu">
                         <span class="menu-arrow"></span>
                         <ul class="profile-links">
-                            <li sec:authorize="!isAuthenticated()" class="login"><a href="login"><i class="fa fa-sign-in"></i>Log in</a></li>
-                            <li sec:authorize="!isAuthenticated()" class="login"><a href="registration"><i class="fa fa-sign-in"></i>Registration</a></li>
-                            <li sec:authorize="isAuthenticated()" class="login"><a href="logout"><i class="fa fa-sign-in"></i>Log out</a></li>
-                            <li sec:authorize="isAuthenticated()" class="login"><a href="profile"><i class="fa fa-sign-in"></i>Profile</a></li>
+                            <li sec:authorize="!isAuthenticated()" class="login"><a href="login"><i
+                                    class="fa fa-sign-in"></i>Log in</a></li>
+                            <li sec:authorize="!isAuthenticated()" class="login"><a href="registration"><i
+                                    class="fa fa-sign-in"></i>Registration</a></li>
+                            <li sec:authorize="isAuthenticated()" class="login"><a href="logout"><i
+                                    class="fa fa-sign-in"></i>Log out</a></li>
+                            <li sec:authorize="isAuthenticated()" class="login"><a href="profile"><i
+                                    class="fa fa-sign-in"></i>Profile</a></li>
                         </ul>
                     </div>
                 </li>
@@ -63,17 +68,25 @@
         </nav>
 
         <div class="uui-dropdown-button">
-            <button type="button" class="uui-button dropdown-toggle right-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="uui-button dropdown-toggle right-icon " data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
                 Language
                 <i class="fa fa-angle-down"></i>
             </button>
             <ul class="dropdown-menu">
-                <li> <a href="?lang=en"><span th:text="#{msg.english}" /> </a></li>
-                <li><a href="?lang=ru"><span th:text="#{msg.russian}" /> </a></li>
+
+                <li th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                    <a th:href="@{${urlBuilder.replaceQueryParam('lang', 'en').toUriString()}}">
+                        <span th:text="#{msg.english}"/> </a>
+                </li>
+                <li th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                    <a th:href="@{${urlBuilder.replaceQueryParam('lang', 'ru').toUriString()}}">
+                        <span th:text="#{msg.russian}"/> </a>
+                </li>
             </ul>
         </div>
-        <a href="tours" class="uui-button">All tours</a>
-        <a href="search_tours" class="uui-button">Home</a>
+
+        <a href="search_tours" class="uui-button ">Home</a>
 
     </div>
 </header>

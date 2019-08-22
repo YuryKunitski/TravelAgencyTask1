@@ -26,6 +26,8 @@
     <title></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <script src="uui/js/uui/uui-rating.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -35,7 +37,8 @@
         <main>
 
             <div>
-                <h2><span th:text="#{msg.title}"/></h2>
+                <h2><span th:text="#{msg.view_tour}"/></h2>
+
             </div>
 
             <div>
@@ -43,7 +46,6 @@
                 <table class="uui-table">
                     <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Photo</th>
                         <th>Date</th>
                         <th>Duration</th>
@@ -56,8 +58,7 @@
                     </thead>
 
                     <tbody>
-                    <tr th:each="tour: ${tours}">
-                        <td th:text="${tour.id}"/>
+                    <tr>
                         <td><img th:src="${tour.photo}" alt=""/></td>
                         <td th:text="${tour.date}"/>
                         <td th:text="${tour.duration}"/>
@@ -67,9 +68,37 @@
                         <td><span th:text="${tour.hotel_id.name}"/> <br>
                             Stars: <span th:text="${tour.hotel_id.stars}"/></td>
                         <td th:text="${tour.country_id.name}"/>
+
                     </tr>
                     </tbody>
                 </table>
+
+                <hr>
+                <h2><span th:text="#{msg.reviews}"/></h2>
+
+                <div th:if="${!reviews.empty}">
+                <table class="uui-table">
+                    <thead>
+                    <tr>
+                        <th>User's login</th>
+                        <th>Date</th>
+                        <th>Review's text</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="review: ${reviews}">
+                        <td th:text="${review.userID.login}"/>
+                        <td th:text="${review.date}"/>
+                        <td th:text="${review.text}"/>
+                        <br>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                <div th:if="${reviews.empty}">
+                    <h3><span th:text="#{msg.no_tour_reviews}"/></h3>
+                </div>
             </div>
         </main>
 

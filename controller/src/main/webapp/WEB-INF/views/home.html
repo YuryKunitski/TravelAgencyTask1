@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <!-- jQuery Core -->
     <script src="uui/js/lib/jquery-1.12.0.min.js"></script>
@@ -35,9 +36,19 @@
     <div class="uui-main-container">
         <main>
 
-            <div th:if="${param.success}">
+            <div th:if="${param.login_success}">
                 <div class="alert alert-info">
-                    You've successfully sign in to our Travel Agency!
+                    You've successfully sign in to our Travel Agency as <span sec:authentication="name"/>!
+                </div>
+            </div>
+            <div th:if="${param.logout}">
+                <div class="alert alert-info">
+                    You've successfully logged out!
+                </div>
+            </div>
+            <div th:if="${param.register_success}">
+                <div class="alert alert-info">
+                    You've successfully registered to our Travel Agency as <span sec:authentication="name"/>!
                 </div>
             </div>
 
@@ -47,32 +58,33 @@
                 <table>
                     <tr>
 
-                    <th><span th:text="#{msg.min_cost}"/> <br>
-                        <input type="number" th:field="*{minCost}" class="uui-form-element"/><br>
-                        <p th:if="${#fields.hasErrors('minCost')}" th:errors="*{minCost}" style="color:red"></p>
-                    </th>
+                        <th><span th:text="#{msg.min_cost}"/> <br>
+                            <input type="number" th:field="*{minCost}" class="uui-form-element"/><br>
+                            <p th:if="${#fields.hasErrors('minCost')}" th:errors="*{minCost}" style="color:red"></p>
+                        </th>
 
-                    <th><span th:text="#{msg.min_duration}"/> <br>
-                        <input type="number" th:field="*{minDuration}" class="uui-form-element"/>
-                        <p th:if="${#fields.hasErrors('minDuration')}" th:errors="*{minDuration}" style="color:red"></p>
-                    </th>
-                    <th><span th:text="#{msg.min_hotel_stars}"/> <br>
-                        <input type="number" th:field="*{minStars}" class="uui-form-element"/>
-                        <p th:if="${#fields.hasErrors('minStars')}" th:errors="*{minStars}" style="color:red"></p>
-                    </th>
-                    <th><span th:text="#{msg.start_date}"/> <br>
-                        <input type="date" th:field="*{minDate}" class="uui-form-element"/>
-                        <p th:if="${#fields.hasErrors('minDate')}" th:errors="*{minDate}" style="color:red" ></p>
-                    </th>
-                    <th><span th:text="#{msg.tour_type}"/> <br>
-                        <select th:field="*{tourType}" class="selectpicker uui-form-element"/>
-                        <option selected="selected" disabled="true" value=""><span
-                                th:text="#{msg.choose_tour_type}"/></option>
-                        <option th:value="'ECONOM'" th:text="'econom'"></option>
-                        <option th:value="'ALL_INCLUSIVE'" th:text="'all inclusive'"></option>
-                        <option th:value="'ONLY_BREAKFAST'" th:text="'only breakfast'"></option>
-                        </select>
-                    </th>
+                        <th><span th:text="#{msg.min_duration}"/> <br>
+                            <input type="number" th:field="*{minDuration}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('minDuration')}" th:errors="*{minDuration}"
+                               style="color:red"></p>
+                        </th>
+                        <th><span th:text="#{msg.min_hotel_stars}"/> <br>
+                            <input type="number" th:field="*{minStars}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('minStars')}" th:errors="*{minStars}" style="color:red"></p>
+                        </th>
+                        <th><span th:text="#{msg.start_date}"/> <br>
+                            <input type="date" th:field="*{minDate}" class="uui-form-element"/>
+                            <p th:if="${#fields.hasErrors('minDate')}" th:errors="*{minDate}" style="color:red"></p>
+                        </th>
+                        <th><span th:text="#{msg.tour_type}"/> <br>
+                            <select th:field="*{tourType}" class="selectpicker uui-form-element"/>
+                            <option selected="selected" disabled="true" value=""><span
+                                    th:text="#{msg.choose_tour_type}"/></option>
+                            <option th:value="'ECONOM'" th:text="'econom'"></option>
+                            <option th:value="'ALL_INCLUSIVE'" th:text="'all inclusive'"></option>
+                            <option th:value="'ONLY_BREAKFAST'" th:text="'only breakfast'"></option>
+                            </select>
+                        </th>
                     </tr>
 
                     <tr>
@@ -82,7 +94,8 @@
                         </th>
                         <th><span th:text="#{msg.max_duration}"/> <br>
                             <input type="number" th:field="*{maxDuration}" class="uui-form-element"/>
-                            <p th:if="${#fields.hasErrors('maxDuration')}" th:errors="*{maxDuration}" style="color:red"></p>
+                            <p th:if="${#fields.hasErrors('maxDuration')}" th:errors="*{maxDuration}"
+                               style="color:red"></p>
                         </th>
                         <th><span th:text="#{msg.max_hotel_stars}"/> <br>
                             <input type="number" th:field="*{maxStars}" class="uui-form-element"/>
@@ -90,7 +103,7 @@
                         </th>
                         <th><span th:text="#{msg.finish_date}"/> <br>
                             <input type="date" th:field="*{maxDate}" class="uui-form-element"/>
-                            <p th:if="${#fields.hasErrors('maxDate')}" th:errors="*{maxDate}" style="color:red" ></p>
+                            <p th:if="${#fields.hasErrors('maxDate')}" th:errors="*{maxDate}" style="color:red"></p>
                         </th>
                         <th><span th:text="#{msg.country}"/> <br>
                             <select th:field="*{countryNames}" class="selectpicker uui-form-element">
@@ -104,7 +117,7 @@
 
                     </tr>
                 </table>
-                <input type="submit" value="Submit">
+                <button class="uui-button" type="submit"><span th:text="#{msg.search}"/></button>
             </form>
 
 
@@ -113,7 +126,6 @@
                 <table class="uui-table">
                     <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Photo</th>
                         <th>Date</th>
                         <th>Duration</th>
@@ -127,7 +139,6 @@
 
                     <tbody>
                     <tr th:each="tour: ${tours}">
-                        <td th:text="${tour.id}"/>
                         <td><img th:src="${tour.photo}" alt=""/></td>
                         <td th:text="${tour.date}"/>
                         <td th:text="${tour.duration}"/>
@@ -136,7 +147,9 @@
                         <td th:text="${tour.tour_type}"/>
                         <td><span th:text="${tour.hotel_id.name}"/> <br>
                             Stars: <span th:text="${tour.hotel_id.stars}"/></td>
-                        <td th:text="${tour.country_id.name}"/>
+                        <td><span th:text="${tour.country_id.name}"/> <br> <br>
+                            <a th:href="@{/tour(id=${tour.id})}" class="btn btn-lg btn-primary">View tour</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

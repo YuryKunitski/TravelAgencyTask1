@@ -34,12 +34,6 @@
 
     <div class="uui-main-container">
         <main>
-            <div th:if="${param.success}">
-                <div class="alert alert-info">
-                    You've successfully registered to our Travel Agency!
-                </div>
-            </div>
-
             <div class="container" style="width: 300px;">
             <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
                 <h2 class="form-signin-heading">Please register</h2>

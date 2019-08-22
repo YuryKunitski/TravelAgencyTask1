@@ -38,27 +38,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and();
 
         http.formLogin()
-                // указываем страницу с формой логина
                 .loginPage("/login")
-                // указываем action с формы логина
-                .loginProcessingUrl("/loginAction").defaultSuccessUrl("/search_tours?success", true)
-                // указываем URL при неудачном логине
-//                .failureUrl("/login?error")
-                // Указываем параметры логина и пароля с формы логина
-//                .usernameParameter("j_username")
-//                .passwordParameter("j_password")
-                // даем доступ к форме логина всем
+                .loginProcessingUrl("/loginAction").defaultSuccessUrl("/search_tours?login_success", true)
                 .permitAll();
 
         http.logout()
-                // разрешаем делать логаут всем
                 .permitAll()
-                // указываем URL логаута
                 .logoutUrl("/logout")
-                // указываем URL при удачном логауте
                 .logoutSuccessUrl("/search_tours?logout")
-                // делаем не валидной текущую сессию
-                .invalidateHttpSession(true);
+                .invalidateHttpSession(true).deleteCookies("JSESSIONID");
     }
 
     @Bean

@@ -126,8 +126,8 @@ insert into hotel (name, stars, website, latitude, longitude, features) values (
 insert into hotel (name, stars, website, latitude, longitude, features) values ('Gorilla gorilla', 5, 'msmurfitt2r@hexun.com', 60.9501559, 5.623505, 'SWIMMING_POOL');
 
 insert into "user" (login, password, role) values ('Saundra', 'CDHjDf5Tnr', 'MEMBER');
-insert into "user" (login, password, role) values ('Admin', 'admin', 'ADMIN');
-insert into "user" (login, password, role) values ('Shawn', 'GlnVlmiEQpLR', 'MEMBER');
+insert into "user" (login, password, role) values ('Flor', '$2a$10$98G2F9uqqJSESw4JoMVeaurJ5.HM5ceIWyCumgSwIcsAH0vjr6zPa', 'MEMBER');
+insert into "user" (login, password, role) values ('User', '$2a$10$Og7ZmhHzZ7puCXN4RtDzz.Q6dhRwKR.wwp2nsMYQ/k.gbvYYc1BAG', 'MEMBER');
 insert into "user" (login, password, role) values ('Gina', 'n7qjW2MZJgi', 'MEMBER');
 insert into "user" (login, password, role) values ('Marsiella', 'RK3kHJoJ6', 'MEMBER');
 insert into "user" (login, password, role) values ('Shelby', 'qMc0bA', 'MEMBER');
@@ -225,6 +225,7 @@ insert into "user" (login, password, role) values ('Estella', 'ZBTKF9Wsia', 'MEM
 insert into "user" (login, password, role) values ('Claretta', 'Dlcdv5ku4', 'MEMBER');
 insert into "user" (login, password, role) values ('Kitti', 'AJzvdj', 'MEMBER');
 insert into "user" (login, password, role) values ('Valentia', 'a3TNEjj', 'MEMBER');
+insert into "user" (login, password, role) values ('Admin', '$2a$10$josUC/V/uLruI3eqsHJHI.vXqVSJKup79IilIntDlkihE0XUD9LuC', 'ADMIN');
 
 
 insert into tour (photo, date, duration, description, cost, hotel_id, country_id, tour_type) values ('http://dummyimage.com/190x216.jpg/ff4444/ffffff', '2019-12-14', 1, 'Integer non velit.', '1839.65', 1, 1, 'ECONOM');
@@ -1229,7 +1230,7 @@ insert into tour (photo, date, duration, description, cost, hotel_id, country_id
 insert into tour (photo, date, duration, description, cost, hotel_id, country_id, tour_type) values ('http://dummyimage.com/185x177.bmp/cc0000/ffffff', '2019-09-29', 25, 'Morbi vel lectus in quam fringilla rhoncus.', '7335.80', 100, 25, 'ONLY_BREAKFAST');
 
 insert into review (date, text, user_id, tour_id) values ('2019-01-01', 'Pellentesque ultrices mattis odio.', 1, 1);
-insert into review (date, text, user_id, tour_id) values ('2019-02-06', 'Nulla nisl. Nunc nisl.', 2, 2);
+insert into review (date, text, user_id, tour_id) values ('2019-02-06', 'Nulla nisl. Nunc nisl.', 1, 2);
 insert into review (date, text, user_id, tour_id) values ('2019-06-23', 'Proin risus. Praesent lectus.', 3, 3);
 insert into review (date, text, user_id, tour_id) values ('2019-09-30', 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo.', 4, 4);
 insert into review (date, text, user_id, tour_id) values ('2019-05-18', 'Vivamus in felis eu sapien cursus vestibulum.', 5, 5);

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <!-- jQuery Core -->
     <script src="uui/js/lib/jquery-1.12.0.min.js"></script>
@@ -34,32 +35,141 @@
     <div class="uui-main-container">
         <main>
 
-            <h4><span th:text="'User profile'"/></h4>
-
-            <h2><span th:text="'Yuor login: '"/><span  sec:authentication="name"></span></h2>
-
-            <section class="uui-tabs">
-                <div class="tabs-heading">
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a data-toggle="tab" href="#tab1">My tours</a>
-                        </li>
-                        <li>
-                            <a data-toggle="tab" href="#tab2">My reviews</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="tabs-body">
-                    <div class="tab-content">
-                        <div id="tab1" class="tab-pane active">
-                            Tours
+            <div class="uui-person-horizontal-profile dark-blue">
+                <div class="person-profile-body">
+                    <div class="person-profile-section">
+                        <div class="person-profile-photo">
+                            <img src="uui/images/icons/download.png" alt="" />
                         </div>
-                        <div id="tab2" class="tab-pane">
-                            Reviews
+                        <div class="person-profile-info">
+                            <h2><span th:text="#{msg.y_login}"/>: <span sec:authentication="name"></span></h2>
+                            <p sec:authentication="principal.authorities"></p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+
+
+            <div sec:authorize="hasRole('MEMBER')">
+
+                <section class="uui-tabs">
+                    <div class="tabs-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" href="#tab1">My tours</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#tab2">My reviews</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tabs-body">
+                        <div class="tab-content">
+                            <div id="tab1" class="tab-pane active">
+
+                                <div th:if="${!tours.empty}">
+                                    <br/>
+                                    <table class="uui-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Photo</th>
+                                            <th>Date</th>
+                                            <th>Duration</th>
+                                            <th>Description</th>
+                                            <th>Cost</th>
+                                            <th>Tour's type</th>
+                                            <th>Hotel</th>
+                                            <th>Country</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr th:each="tour: ${tours}">
+                                            <td><img th:src="${tour.photo}" alt=""/></td>
+                                            <td th:text="${tour.date}"/>
+                                            <td th:text="${tour.duration}"/>
+                                            <td th:text="${tour.description}"/>
+                                            <td th:text="${tour.cost}"/>
+                                            <td th:text="${tour.tour_type}"/>
+                                            <td><span th:text="${tour.hotel_id.name}"/> <br>
+                                                Stars: <span th:text="${tour.hotel_id.stars}"/></td>
+                                            <td th:text="${tour.country_id.name}"/>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div th:if="${tours.empty}">
+                                    <h3><span th:text="#{msg.no_user_tours}"/></h3>
+                                </div>
+
+                            </div>
+                            <div id="tab2" class="tab-pane">
+
+                                <div th:if="${!reviews.empty}">
+                                    <br/>
+                                    <table class="uui-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Text</th>
+                                            <th>Hotel</th>
+                                            <th>Country</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr th:each="review: ${reviews}">
+                                            <td th:text="${review.date}"/>
+                                            <td th:text="${review.text}"/>
+                                            <td th:text="${review.tourID.hotel_id.name}"/>
+                                            <td th:text="${review.tourID.country_id.name}"/>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div th:if="${reviews.empty}">
+                                    <h3><span th:text="#{msg.no_reviews}"/></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                <section class="uui-tabs">
+                    <div class="tabs-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" href="#t1">Manage users</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#t2">Manage tours</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#t3">Manage reviews</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#t4">Manage hotels</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tabs-body">
+                        <div class="tab-content">
+                            <div id="t1" class="tab-pane active">manage users</div>
+                            <div id="t2" class="tab-pane">manage tours</div>
+                            <div id="t3" class="tab-pane">manage reviews</div>
+                            <div id="t4" class="tab-pane">manage hotels</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
+
+
 
         </main>
 
