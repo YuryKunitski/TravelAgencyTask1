@@ -2,6 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=<e52bff4c-9299-462e-be45-e15d6609f5a8>&lang=ru_RU"
+            type="text/javascript"></script>
+
     <!-- jQuery Core -->
     <script src="uui/js/lib/jquery-1.12.0.min.js"></script>
 
@@ -26,36 +29,64 @@
     <title></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <script src="uui/js/uui/uui-rating.js"></script>
 </head>
 <body>
 <div class="wrapper">
 
     <header th:replace="header :: header"></header>
-
     <div class="uui-main-container">
         <main>
-            <div th:if="${param.register_error}">
-                <div class="alert alert-danger">
-                    <span th:text="#{msg.register_error}"/>
-                </div>
-            </div>
-            <div class="container" style="width: 300px;">
-            <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
-                <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.please_register}"/></h2>
 
-                <span th:text="#{msg.login}"/> <br>
-                <input type="text" class="form-control" th:field="*{login}" placeholder="Login" required autofocus >
-                <p th:if="${#fields.hasErrors('login')}" th:errors="*{login}" style="color:red"></p>
-                <span th:text="#{msg.password}"/> <br>
-                <input type="password" class="form-control" th:field="*{password}" placeholder="Password" required>
-                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></p>
-                <button class="btn btn-lg btn-primary btn-block" type="submit"><span th:text="#{msg.register}"/></button>
-            </form>
+            <div>
+                <h2 align="center"><span th:text="#{msg.view_hotel}"/></h2>
+            </div>
+
+            <div>
+                <br/>
+                <table class="uui-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Stars</th>
+                        <th>Website</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td th:text="${hotel.name}"/>
+                        <td th:text="${hotel.stars}"/>
+                        <td><a th:href="'https://www.' + ${hotel.website}"><span th:text="${hotel.website}"/></a> <br>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+
+            <script type="text/javascript" th:inline="javascript">
+        ymaps.ready(init);
+        function init(){
+            var myMap = new ymaps.Map("map", {
+                center: [ [[${hotel.latitude}]], [[${hotel.longitude}]] ],
+                zoom: 7
+            });
+        }
+
+            </script>
+
+            <div id="map" style="width: 600px; height: 400px">
+
+
             </div>
         </main>
+
     </div>
 
     <footer th:replace="footer :: footer"></footer>
+
 </div>
+
 </body>
 </html>

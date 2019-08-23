@@ -19,12 +19,12 @@ public class TourController {
     private ReviewService reviewService;
 
     @GetMapping("/tour")
-    public String allTours(@RequestParam(value = "id", required = false) Integer id, Model model) {
+    public String allTours(@RequestParam(value = "tour_id", required = false) Integer tour_id, Model model) {
 
         Tour tour = new Tour();
 
-        if (tourService.findById(id).isPresent()) {
-            tour = tourService.findById(id).get();
+        if (tourService.findById(tour_id).isPresent()) {
+            tour = tourService.findById(tour_id).get();
         }
 
         model.addAttribute("tour", tour);

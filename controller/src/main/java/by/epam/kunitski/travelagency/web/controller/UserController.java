@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
@@ -37,13 +39,13 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("user") User user,
+    public String registration(@Valid @ModelAttribute("user") User user,
                                BindingResult result, ModelMap model) {
 
         User existing = userService.findByUserName(user.getLogin());
 
         if (existing != null) {
-            result.rejectValue("login", null, "There is already an account registered with that login");
+            return "redirect:/registration?register_error";
         }
 
         if (result.hasErrors()) {

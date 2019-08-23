@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Error page</title>
+</head>
+
+<body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
+<div class="wrapper">
+
+    <header th:replace="header :: header"></header>
+
+    <div class="uui-main-container">
+        <main>
+            <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
+            <p th:utext="${errorMessage}"> Error </p>
+            <a th:href="@{/search_tours}">Back to Home Page</a>
+        </main>
+    </div>
+
+    <footer th:replace="footer :: footer"></footer>
+</div>
+</body>
+</html>

@@ -65,7 +65,7 @@
                         <td th:text="${tour.description}"/>
                         <td th:text="${tour.cost}"/>
                         <td th:text="${tour.tour_type}"/>
-                        <td><span th:text="${tour.hotel_id.name}"/> <br>
+                        <td><a th:href="@{/hotel(hotel_id=${tour.hotel_id.id})}"><span th:text="${tour.hotel_id.name}"/></a> <br>
                             Stars: <span th:text="${tour.hotel_id.stars}"/></td>
                         <td th:text="${tour.country_id.name}"/>
 

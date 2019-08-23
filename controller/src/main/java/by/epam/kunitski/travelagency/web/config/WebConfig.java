@@ -3,10 +3,7 @@ package by.epam.kunitski.travelagency.web.config;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -35,11 +32,6 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")   //URLs for matching resources
                 .addResourceLocations("/uui"); //root folder - /src/main/webapp
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
     }
 
     @Bean
@@ -74,6 +66,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setCharacterEncoding("UTF-8");
         viewResolver.setOrder(1);
+
         return viewResolver;
     }
 
@@ -91,6 +84,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
         resolver.setDefaultLocale(new Locale("en"));
         resolver.setCookieName("myLocaleCookie");
         resolver.setCookieMaxAge(4800);
+
         return resolver;
     }
 

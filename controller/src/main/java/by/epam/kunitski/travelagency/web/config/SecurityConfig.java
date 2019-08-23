@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService());      //.passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService());
     }
 
     @Override
@@ -33,8 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 // rules for access to recourse and other data
                 .authorizeRequests()
-                .antMatchers("/uui/**", "/login","/registration", "/search_tours").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers("/uui/**", "/login", "/registration", "/search_tours").permitAll()
+                .and()
+                .authorizeRequests().anyRequest().authenticated()
                 .and();
 
         http.formLogin()

@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <h2><span th:text="#{msg.tour_search}"/></h2>
+            <h2 align="center" class="text-primary"><span th:text="#{msg.tour_search}"/></h2>
 
             <form action="#" th:action="@{/search_tours}" th:object="${tourDto}" method="get">
                 <table>
@@ -145,10 +145,10 @@
                         <td th:text="${tour.description}"/>
                         <td th:text="${tour.cost}"/>
                         <td th:text="${tour.tour_type}"/>
-                        <td><span th:text="${tour.hotel_id.name}"/> <br>
+                        <td><a th:href="@{/hotel(hotel_id=${tour.hotel_id.id})}"><span th:text="${tour.hotel_id.name}"/></a> <br>
                             Stars: <span th:text="${tour.hotel_id.stars}"/></td>
                         <td><span th:text="${tour.country_id.name}"/> <br> <br>
-                            <a th:href="@{/tour(id=${tour.id})}" class="btn btn-lg btn-primary">View tour</a>
+                            <a th:href="@{/tour(tour_id=${tour.id})}" class="btn btn-lg btn-primary">View tour</a>
                         </td>
                     </tr>
                     </tbody>

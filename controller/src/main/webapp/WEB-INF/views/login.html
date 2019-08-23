@@ -26,13 +26,27 @@
     <title></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <style>
+    html, body{width:100%; height:100%; margin:0}
+    #action_form{
+        position:absolute;
+        width:500px;
+        height:300px;
+        left:45%;
+        top:35%;
+        margin-left:-100px;
+        margin-top:-100px;
+    }
+
+    </style>
 </head>
 <body>
 <div class="wrapper">
 
     <header th:replace="header :: header"></header>
 
-    <div class="uui-main-container">
+    <div class="uui-main-container ">
         <main>
             <div th:if="${param.error}">
                 <div class="alert alert-danger">
@@ -40,16 +54,48 @@
                 </div>
             </div>
 
-            <div class="container">
-            <form class="form" th:action="@{/loginAction}" method="post">
-                <h2 class="form-signin-heading"><span th:text="'Please sign in'"/></h2>
+            <div id="action_form" class="uui-login-panel">
+                <div class="login-panel-body">
+                    <div class="login-panel-section">
+                        <form class="form" th:action="@{/loginAction}" method="post">
+                            <h2 align="center"  class="form-signin-heading text-primary"><span th:text="'Please sign in'"/></h2>
 
-                <input type="text" class="form-control" name="username" placeholder="User name" required autofocus >
-                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                            <input type="text" class="form-control" name="username" placeholder="User name" required autofocus >
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            </form>
+                            <div class="login-separator">
+                                <div class="border">
+                                    <span></span>
+                                </div>
+
+                                <div class="border">
+                                    <span></span>
+                                </div>
+                            </div>
+
+                            <div class="epam-login">
+                                <button type="submit" class="uui-button large blue" >
+                                    <i class="fa fa-angle-left"></i>
+                                    Sign in
+                                    <i class="fa fa-angle-right"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
             </div>
+
+<!--            <div class="container">-->
+<!--            <form class="form" th:action="@{/loginAction}" method="post">-->
+<!--                <h2 align="center"  class="form-signin-heading text-primary"><span th:text="'Please sign in'"/></h2>-->
+
+<!--                <input type="text" class="form-control" name="username" placeholder="User name" required autofocus >-->
+<!--                <input type="password" class="form-control" name="password" placeholder="Password" required>-->
+
+<!--                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
+<!--            </form>-->
+<!--            </div>-->
         </main>
     </div>
 
