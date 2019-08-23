@@ -2,38 +2,6 @@
         xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <div class="uui-header">
         <nav>
-            <!--Responsive html-layuot-->
-            <div class="uui-responsive-header">
-                <div class="responsive-header">
-                    <a href="#" class="responsive-brand-logo">
-                        <span class="arrow fa fa-angle-left"></span>
-                        <span class="logo">
-                            <img src="uui/images/ic_logo_UUi.svg" alt=""/>
-                        </span>
-                        <span class="title">Travel Agency</span>
-                    </a>
-                </div>
-                <ul class="uui-header-tools nav navbar-nav">
-                    <li class="uui-header-button">
-                        <a href="#" class="uui-button">Add</a>
-                    </li>
-                </ul>
-                <div class="responsive-menu">
-                    <div class="menu-wrapper">
-                        <div class="menu-scroll">
-                            <ul class="nav navbar-nav">
-                                <li class="sub-menu profile-menu">
-                                    <a href="#"><span>Profile</span></a>
-                                    <ul class="sub">
-                                        <li class="login"><a href="perform_login"><span>Log in</span></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <a href="search_tours" class="brand-logo">
                 <span class="logo">
                     <img src="uui/images/ic_logo_UUi.svg" alt=""/>
@@ -50,17 +18,17 @@
                             <img src="uui/images/icons/no_photo.png" alt=""/>
                         </div>
                     </a>
-                    <div class="dropdown-menu" role="menu">
+                    <div class="dropdown-menu " role="menu">
                         <span class="menu-arrow"></span>
                         <ul class="profile-links">
                             <li sec:authorize="!isAuthenticated()" class="login"><a href="login"><i
-                                    class="fa fa-sign-in"></i>Log in</a></li>
+                                    class="fa fa-sign-in"></i><span th:text="#{msg.log_in}"/></a></li>
                             <li sec:authorize="!isAuthenticated()" class="login"><a href="registration"><i
-                                    class="fa fa-sign-in"></i>Registration</a></li>
+                                    class="fa fa-sign-in"></i><span th:text="#{msg.register}"/></a></li>
                             <li sec:authorize="isAuthenticated()" class="login"><a href="logout"><i
-                                    class="fa fa-sign-in"></i>Log out</a></li>
+                                    class="fa fa-sign-in"></i><span th:text="#{msg.log_out}"/></a></li>
                             <li sec:authorize="isAuthenticated()" class="login"><a href="profile"><i
-                                    class="fa fa-sign-in"></i>Profile</a></li>
+                                    class="fa fa-sign-in"></i><span th:text="#{msg.profile}"/></a></li>
                         </ul>
                     </div>
                 </li>
@@ -70,7 +38,7 @@
         <div class="uui-dropdown-button">
             <button type="button" class="uui-button dropdown-toggle right-icon " data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                Language
+                <span th:text="#{msg.language}"/>
                 <i class="fa fa-angle-down"></i>
             </button>
             <ul class="dropdown-menu">
@@ -86,7 +54,7 @@
             </ul>
         </div>
 
-        <a href="search_tours" class="uui-button ">Home</a>
+        <a href="search_tours" class="uui-button "><span th:text="#{msg.home}"/></a>
 
     </div>
 </header>
