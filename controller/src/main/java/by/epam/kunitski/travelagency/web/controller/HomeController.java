@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.web.controller;
 
-import by.epam.kunitski.travelagency.dao.dto.TourDto;
+import by.epam.kunitski.travelagency.dao.daoDto.TourDto;
 import by.epam.kunitski.travelagency.dao.specification.impl.TourSpecification;
 import by.epam.kunitski.travelagency.service.CountryService;
 import by.epam.kunitski.travelagency.service.TourService;

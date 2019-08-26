@@ -43,7 +43,8 @@
                         </div>
                         <div class="person-profile-info">
                             <h2><span th:text="#{msg.y_login}"/>: <span sec:authentication="name"></span></h2>
-                            <p sec:authentication="principal.authorities"></p>
+                            <p sec:authorize="hasRole('ADMIN')"><span th:text="#{msg.admin_pf}"/></p>
+                            <p sec:authorize="hasRole('MEMBER')"><span th:text="#{msg.member_pf}"/></p>
                         </div>
                     </div>
                 </div>

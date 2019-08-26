@@ -1,4 +1,4 @@
-package by.epam.kunitski.travelagency.dao.dto;
+package by.epam.kunitski.travelagency.dao.daoDto;
 
 import by.epam.kunitski.travelagency.dao.entity.Tour;
 import lombok.AllArgsConstructor;

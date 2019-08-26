@@ -46,17 +46,20 @@
                 <div class="login-panel-body">
                     <div class="login-panel-section">
 
-
-
-                        <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
+                        <form action="#" th:action="@{/registration}" th:object="${userDto}" method="post">
                             <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.please_register}"/></h2>
 
                             <span class="fa" th:text="#{msg.login}"/> <br>
                             <input type="text" class="form-control" th:field="*{login}" placeholder="Login" required autofocus >
                             <p th:if="${#fields.hasErrors('login')}" th:errors="*{login}" style="color:red"></p>
+
                             <span class="fa" th:text="#{msg.password}"/> <br>
                             <input type="password" class="form-control" th:field="*{password}" placeholder="Password" required>
                             <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></p>
+
+                            <span class="fa" th:text="#{msg.confirmPassword}"/> <br>
+                            <input type="password" class="form-control" th:field="*{confirmPassword}" placeholder="ConfirmPassword" required>
+                            <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" style="color:red"></p>
 
                             <div class="login-separator">
                                 <div class="border">
@@ -75,27 +78,10 @@
                             </div>
                         </form>
 
-
                     </div>
                 </div>
             </div>
 
-
-
-
-            <!--<div class="container" style="width: 300px;">-->
-            <!--<form action="#" th:action="@{/registration}" th:object="${user}" method="post">-->
-                <!--<h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.please_register}"/></h2>-->
-
-                <!--<span th:text="#{msg.login}"/> <br>-->
-                <!--<input type="text" class="form-control" th:field="*{login}" placeholder="Login" required autofocus >-->
-                <!--<p th:if="${#fields.hasErrors('login')}" th:errors="*{login}" style="color:red"></p>-->
-                <!--<span th:text="#{msg.password}"/> <br>-->
-                <!--<input type="password" class="form-control" th:field="*{password}" placeholder="Password" required>-->
-                <!--<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></p>-->
-                <!--<button class="btn btn-lg btn-primary btn-block" type="submit"><span th:text="#{msg.register}"/></button>-->
-            <!--</form>-->
-            <!--</div>-->
         </main>
     </div>
 

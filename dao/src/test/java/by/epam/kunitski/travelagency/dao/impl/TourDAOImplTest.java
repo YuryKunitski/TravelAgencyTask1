@@ -2,7 +2,7 @@ package by.epam.kunitski.travelagency.dao.impl;
 
 import by.epam.kunitski.travelagency.dao.TourDAO;
 import by.epam.kunitski.travelagency.dao.config.DaoConfig;
-import by.epam.kunitski.travelagency.dao.dto.TourDto;
+import by.epam.kunitski.travelagency.dao.daoDto.TourDto;
 import by.epam.kunitski.travelagency.dao.specification.impl.TourSpecification;
 import by.epam.kunitski.travelagency.dao.entity.Tour;
 import org.flywaydb.core.Flyway;
