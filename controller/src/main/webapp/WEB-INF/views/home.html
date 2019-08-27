@@ -25,8 +25,8 @@
     <!-- Include elements that you need described on Getting Started page (above) -->
     <meta charset="utf-8"/>
     <title></title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge"/>-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
 </head>
 <body>
 <div class="wrapper">
@@ -55,75 +55,82 @@
                         </div>
                         <h2 align="center" class="text-primary"><span th:text="#{msg.tour_search}"/></h2>
 
-            <form action="#" th:action="@{/search_tours}" th:object="${tourDto}" method="get">
-                <table class="for_tour_search">
-                    <tr>
+                        <form action="#" th:action="@{/search_tours}" th:object="${tourDto}" method="get">
+                            <table class="for_tour_search">
+                                <tr>
 
-                        <th><span th:text="#{msg.min_cost}"/> <br>
-                            <input type="number" th:field="*{minCost}" class="uui-form-element"/><br>
-                            <p th:if="${#fields.hasErrors('minCost')}" th:errors="*{minCost}" style="color:red"></p>
-                        </th>
+                                    <th><span th:text="#{msg.min_cost}"/> <br>
+                                        <input type="number" th:field="*{minCost}" class="uui-form-element"/><br>
+                                        <p th:if="${#fields.hasErrors('minCost')}" th:errors="*{minCost}"
+                                           style="color:red"></p>
+                                    </th>
 
-                        <th><span th:text="#{msg.min_duration}"/> <br>
-                            <input type="number" th:field="*{minDuration}" class="uui-form-element"/>
-                            <p th:if="${#fields.hasErrors('minDuration')}" th:errors="*{minDuration}"
-                               style="color:red"></p>
-                        </th>
-                        <th><span th:text="#{msg.min_hotel_stars}"/> <br>
-                            <input type="number" th:field="*{minStars}" class="uui-form-element"/>
-                            <p th:if="${#fields.hasErrors('minStars')}" th:errors="*{minStars}" style="color:red"></p>
-                        </th>
-                        <th><span th:text="#{msg.start_date}"/> <br>
-                            <input type="date" th:field="*{minDate}" class="uui-form-element"/>
-                            <p th:if="${#fields.hasErrors('minDate')}" th:errors="*{minDate}" style="color:red"></p>
-                        </th>
-                        <th><span th:text="#{msg.tour_type}"/> <br>
-                            <select th:field="*{tourType}" class="selectpicker uui-form-element"/>
-                            <option selected="selected" disabled="true" value=""><span
-                                    th:text="#{msg.choose_tour_type}"/></option>
-                            <option th:value="'ECONOM'" th:text="'econom'"></option>
-                            <option th:value="'ALL_INCLUSIVE'" th:text="'all inclusive'"></option>
-                            <option th:value="'ONLY_BREAKFAST'" th:text="'only breakfast'"></option>
-                            </select>
-                        </th>
-                    </tr>
+                                    <th><span th:text="#{msg.min_duration}"/> <br>
+                                        <input type="number" th:field="*{minDuration}" class="uui-form-element"/>
+                                        <p th:if="${#fields.hasErrors('minDuration')}" th:errors="*{minDuration}"
+                                           style="color:red"></p>
+                                    </th>
+                                    <th><span th:text="#{msg.min_hotel_stars}"/> <br>
+                                        <input type="number" th:field="*{minStars}" class="uui-form-element"/>
+                                        <p th:if="${#fields.hasErrors('minStars')}" th:errors="*{minStars}"
+                                           style="color:red"></p>
+                                    </th>
+                                    <th><span th:text="#{msg.start_date}"/> <br>
+                                        <input type="date" th:field="*{minDate}" class="uui-form-element"/>
+                                        <p th:if="${#fields.hasErrors('minDate')}" th:errors="*{minDate}"
+                                           style="color:red"></p>
+                                    </th>
+                                    <th><span th:text="#{msg.tour_type}"/> <br>
+                                        <select th:field="*{tourType}" class="selectpicker uui-form-element"/>
+                                        <option selected="selected" disabled="true" value=""><span
+                                                th:text="#{msg.choose_tour_type}"/></option>
+                                        <option th:value="'ECONOM'" th:text="'econom'"></option>
+                                        <option th:value="'ALL_INCLUSIVE'" th:text="'all inclusive'"></option>
+                                        <option th:value="'ONLY_BREAKFAST'" th:text="'only breakfast'"></option>
+                                        </select>
+                                    </th>
+                                </tr>
 
-                    <tr>
-                        <th><span th:text="#{msg.max_cost}"/> <br>
-                            <input type="number" th:field="*{maxCost}" class="uui-form-element"/>
-                            <p th:if="${#fields.hasErrors('maxCost')}" th:errors="*{maxCost}" style="color:red"></p>
-                        </th>
-                        <th><span th:text="#{msg.max_duration}"/> <br>
-                            <input type="number" th:field="*{maxDuration}" class="uui-form-element"/>
-                            <p th:if="${#fields.hasErrors('maxDuration')}" th:errors="*{maxDuration}"
-                               style="color:red"></p>
-                        </th>
-                        <th><span th:text="#{msg.max_hotel_stars}"/> <br>
-                            <input type="number" th:field="*{maxStars}" class="uui-form-element"/>
-                            <p th:if="${#fields.hasErrors('maxStars')}" th:errors="*{maxStars}" style="color:red"></p>
-                        </th>
-                        <th><span th:text="#{msg.finish_date}"/> <br>
-                            <input type="date" th:field="*{maxDate}" class="uui-form-element"/>
-                            <p th:if="${#fields.hasErrors('maxDate')}" th:errors="*{maxDate}" style="color:red"></p>
-                        </th>
-                        <th><span th:text="#{msg.country}"/> <br>
-                            <select th:field="*{countryNames}" class="selectpicker uui-form-element">
-                                <option selected="selected" disabled="true" value=""><span
-                                        th:text="#{msg.choose_country}"/></option>
-                                <option th:each="country : ${countries}" th:value="${country.name}"
-                                        th:text="${country.name}">
-                                </option>
-                            </select>
-                        </th>
+                                <tr>
+                                    <th><span th:text="#{msg.max_cost}"/> <br>
+                                        <input type="number" th:field="*{maxCost}" class="uui-form-element"/>
+                                        <p th:if="${#fields.hasErrors('maxCost')}" th:errors="*{maxCost}"
+                                           style="color:red"></p>
+                                    </th>
+                                    <th><span th:text="#{msg.max_duration}"/> <br>
+                                        <input type="number" th:field="*{maxDuration}" class="uui-form-element"/>
+                                        <p th:if="${#fields.hasErrors('maxDuration')}" th:errors="*{maxDuration}"
+                                           style="color:red"></p>
+                                    </th>
+                                    <th><span th:text="#{msg.max_hotel_stars}"/> <br>
+                                        <input type="number" th:field="*{maxStars}" class="uui-form-element"/>
+                                        <p th:if="${#fields.hasErrors('maxStars')}" th:errors="*{maxStars}"
+                                           style="color:red"></p>
+                                    </th>
+                                    <th><span th:text="#{msg.finish_date}"/> <br>
+                                        <input type="date" th:field="*{maxDate}" class="uui-form-element"/>
+                                        <p th:if="${#fields.hasErrors('maxDate')}" th:errors="*{maxDate}"
+                                           style="color:red"></p>
+                                    </th>
+                                    <th><span th:text="#{msg.country}"/> <br>
+                                        <select th:field="*{countryNames}" class="selectpicker uui-form-element">
+                                            <option selected="selected" disabled="true" value=""><span
+                                                    th:text="#{msg.choose_country}"/></option>
+                                            <option th:each="country : ${countries}" th:value="${country.name}"
+                                                    th:text="${country.name}">
+                                            </option>
+                                        </select>
+                                    </th>
 
-                    </tr>
-                </table>
-                <br>
-                <button class="uui-button for_tour_search dark-blue" type="submit"><span th:text="#{msg.search}"/></button>
-            </form>
+                                </tr>
+                            </table>
+                            <br>
+                            <button class="uui-button for_tour_search dark-blue" type="submit"><span
+                                    th:text="#{msg.search}"/></button>
+                        </form>
                     </div>
-                    </div>
-                    </div>
+                </div>
+            </div>
 
 
             <div th:if="${!tours.empty}">
@@ -150,10 +157,12 @@
                         <td th:text="${tour.description}"/>
                         <td th:text="${tour.cost}"/>
                         <td th:text="${tour.tour_type}"/>
-                        <td><a th:href="@{/hotel(hotel_id=${tour.hotel_id.id})}"><span th:text="${tour.hotel_id.name}"/></a> <br>
+                        <td><a th:href="@{/hotel(hotel_id=${tour.hotel_id.id})}"><span th:text="${tour.hotel_id.name}"/></a>
+                            <br>
                             Stars: <span th:text="${tour.hotel_id.stars}"/></td>
                         <td><span th:text="${tour.country_id.name}"/> <br> <br>
-                            <button th:href="@{/tour(tour_id=${tour.id})}" class="uui-button btn"> <span th:text="#{msg.btn_tour}" /></button>
+                            <a th:href="@{/tour(tour_id=${tour.id})}" class="uui-button btn"><span
+                                    th:text="#{msg.btn_tour}"/></a>
                         </td>
                     </tr>
                     </tbody>
@@ -165,27 +174,24 @@
             </div>
 
 
+            <!--            <div th:if="${tourPage.totalPages > 0}" class="pagination"-->
+            <!--                 th:each="pageNumber : ${pageNumbers}">-->
+            <!--                <a th:href="@{/search_tours(size=${tourPage.size}, page=${pageNumber})}"-->
+            <!--                   th:text=${pageNumber}-->
+            <!--                   th:class="${pageNumber==tourPage.number + 1} ? active"></a>-->
+            <!--            </div>-->
 
 
-<!--            <div th:if="${tourPage.totalPages > 0}" class="pagination"-->
-<!--                 th:each="pageNumber : ${pageNumbers}">-->
-<!--                <a th:href="@{/search_tours(size=${tourPage.size}, page=${pageNumber})}"-->
-<!--                   th:text=${pageNumber}-->
-<!--                   th:class="${pageNumber==tourPage.number + 1} ? active"></a>-->
-<!--            </div>-->
-
-
-
-            <ul class="uui-pagination" >
+            <ul class="uui-pagination"
+                th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
                 <li class="actions-wrapper">
                     <ul class="pagination-items">
-                        <li th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
-                                th:class="${tourPage.number==0} ? disable" class="first-page ">
+                        <li th:class="${tourPage.number==0} ? disable" class="first-page ">
                             <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', '1').toUriString()}}">
                                 <span>First</span>
                             </a>
                         </li>
-                        <li class="prev-page disable">
+                        <li th:class="${!tourPage.hasPrevious()} ? disable" class="prev-page">
                             <a href="#">
                                 <i class="fa fa-angle-left"></i>
                             </a>
@@ -194,34 +200,25 @@
                 </li>
                 <div th:if="${tourPage.totalPages > 0}" class="pagination"
                      th:each="pageNumber : ${pageNumbers}">
-                <li class="pages-wrapper">
-                    <ul class="pagination-items">
-                        <li th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
-                                th:class="${pageNumber==tourPage.number + 1} ? active">
-                            <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', __${pageNumber}__).toUriString()}}"
-                               th:text=${pageNumber}></a>
-                        </li>
-                    </ul>
-                </li>
+                    <li class="pages-wrapper">
+                        <ul class="pagination-items">
+                            <li th:class="${pageNumber==tourPage.number + 1} ? active">
+                                <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', __${pageNumber}__).toUriString()}}"
+                                   th:text=${pageNumber}></a>
+                            </li>
+                        </ul>
+                    </li>
                 </div>
                 <li class="actions-wrapper">
                     <ul class="pagination-items">
-                        <li class="next-page">
-                            <a href="#">
+                        <li th:class="${!tourPage.hasNext()} ? disable" class="next-page">
+                            <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', __${pageNumber}__).toUriString()}}">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         </li>
-                        <li th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
-                                th:class="${pageNumbers != null}? (${tourPage.number==pageNumbers.size()-1} ? disable)" class="last-page">
-
-
-
-<!--                            <tr th:class="${row.even}? (${row.first}? 'first' : 'even') : 'odd'">-->
-<!--                                ...-->
-<!--                            </tr>-->
-
-
-                            <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', __${pageNumbers.size()}__).toUriString()}}">
+                        <li th:class="${tourPage.number==tourPage.getTotalPages()-1} ? disable"
+                            class="last-page">
+                            <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', __${lastPage}__).toUriString()}}">
                                 <span>Last</span>
                             </a>
                         </li>
