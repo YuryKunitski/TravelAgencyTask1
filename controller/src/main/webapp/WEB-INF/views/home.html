@@ -55,7 +55,7 @@
             <h2 align="center" class="text-primary"><span th:text="#{msg.tour_search}"/></h2>
 
             <form action="#" th:action="@{/search_tours}" th:object="${tourDto}" method="get">
-                <table>
+                <table class="for_tour_search">
                     <tr>
 
                         <th><span th:text="#{msg.min_cost}"/> <br>
@@ -117,7 +117,8 @@
 
                     </tr>
                 </table>
-                <button class="uui-button" type="submit"><span th:text="#{msg.search}"/></button>
+                <br>
+                <button class="uui-button for_tour_search" type="submit"><span th:text="#{msg.search}"/></button>
             </form>
 
 
@@ -148,7 +149,7 @@
                         <td><a th:href="@{/hotel(hotel_id=${tour.hotel_id.id})}"><span th:text="${tour.hotel_id.name}"/></a> <br>
                             Stars: <span th:text="${tour.hotel_id.stars}"/></td>
                         <td><span th:text="${tour.country_id.name}"/> <br> <br>
-                            <a th:href="@{/tour(tour_id=${tour.id})}" class="btn btn-lg btn-primary">View tour</a>
+                            <button th:href="@{/tour(tour_id=${tour.id})}" class="uui-button btn"> <span th:text="#{msg.btn_tour}" /></button>
                         </td>
                     </tr>
                     </tbody>

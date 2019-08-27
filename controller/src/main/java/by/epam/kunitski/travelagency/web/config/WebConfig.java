@@ -21,6 +21,7 @@ import java.util.Locale;
 @EnableWebMvc
 @Configuration
 @ComponentScan({"by.epam.kunitski.travelagency"})
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     private ApplicationContext applicationContext;
