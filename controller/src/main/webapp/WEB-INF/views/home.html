@@ -35,24 +35,25 @@
 
     <div class="uui-main-container">
         <main>
-
-            <div th:if="${param.login_success}">
-                <div class="alert alert-info">
-                    You've successfully sign in to our Travel Agency as <span sec:authentication="name"/>!
-                </div>
-            </div>
-            <div th:if="${param.logout}">
-                <div class="alert alert-info">
-                    You've successfully logged out!
-                </div>
-            </div>
-            <div th:if="${param.register_success}">
-                <div class="alert alert-info">
-                    You've successfully registered to our Travel Agency as <span sec:authentication="name"/>!
-                </div>
-            </div>
-
-            <h2 align="center" class="text-primary"><span th:text="#{msg.tour_search}"/></h2>
+            <div class="uui-person-horizontal-profile blue">
+                <div class="person-profile-body">
+                    <div class="person-profile-section">
+                        <div th:if="${param.login_success}">
+                            <div class="alert alert-info">
+                                You've successfully sign in to our Travel Agency as <span sec:authentication="name"/>!
+                            </div>
+                        </div>
+                        <div th:if="${param.logout}">
+                            <div class="alert alert-info">
+                                You've successfully logged out!
+                            </div>
+                        </div>
+                        <div th:if="${param.register_success}">
+                            <div class="alert alert-info">
+                                You've successfully registered to our Travel Agency as <span sec:authentication="name"/>!
+                            </div>
+                        </div>
+                        <h2 align="center" class="text-primary"><span th:text="#{msg.tour_search}"/></h2>
 
             <form action="#" th:action="@{/search_tours}" th:object="${tourDto}" method="get">
                 <table class="for_tour_search">
@@ -118,8 +119,11 @@
                     </tr>
                 </table>
                 <br>
-                <button class="uui-button for_tour_search" type="submit"><span th:text="#{msg.search}"/></button>
+                <button class="uui-button for_tour_search dark-blue" type="submit"><span th:text="#{msg.search}"/></button>
             </form>
+                    </div>
+                    </div>
+                    </div>
 
 
             <div th:if="${!tours.empty}">
@@ -139,8 +143,8 @@
                     </thead>
 
                     <tbody>
-                    <tr th:each="tour: ${tours}">
-                        <td><img th:src="${tour.photo}" alt=""/></td>
+                    <tr th:each="tour: ${tourPage.content}">
+                        <td><img class="tour_photo" src="uui\images\icons\tour_photo.png" alt=""/></td>
                         <td th:text="${tour.date}"/>
                         <td th:text="${tour.duration}"/>
                         <td th:text="${tour.description}"/>
@@ -156,9 +160,74 @@
                 </table>
             </div>
 
-            <div th:if="${tours.empty}">
+            <div align="center" th:if="${tours.empty}">
                 <h3><span th:text="#{msg.no_tours}"/></h3>
             </div>
+
+
+
+
+<!--            <div th:if="${tourPage.totalPages > 0}" class="pagination"-->
+<!--                 th:each="pageNumber : ${pageNumbers}">-->
+<!--                <a th:href="@{/search_tours(size=${tourPage.size}, page=${pageNumber})}"-->
+<!--                   th:text=${pageNumber}-->
+<!--                   th:class="${pageNumber==tourPage.number + 1} ? active"></a>-->
+<!--            </div>-->
+
+
+
+            <ul class="uui-pagination" >
+                <li class="actions-wrapper">
+                    <ul class="pagination-items">
+                        <li th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
+                                th:class="${tourPage.number==0} ? disable" class="first-page ">
+                            <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', '1').toUriString()}}">
+                                <span>First</span>
+                            </a>
+                        </li>
+                        <li class="prev-page disable">
+                            <a href="#">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <div th:if="${tourPage.totalPages > 0}" class="pagination"
+                     th:each="pageNumber : ${pageNumbers}">
+                <li class="pages-wrapper">
+                    <ul class="pagination-items">
+                        <li th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
+                                th:class="${pageNumber==tourPage.number + 1} ? active">
+                            <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', __${pageNumber}__).toUriString()}}"
+                               th:text=${pageNumber}></a>
+                        </li>
+                    </ul>
+                </li>
+                </div>
+                <li class="actions-wrapper">
+                    <ul class="pagination-items">
+                        <li class="next-page">
+                            <a href="#">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
+                                th:class="${pageNumbers != null}? (${tourPage.number==pageNumbers.size()-1} ? disable)" class="last-page">
+
+
+
+<!--                            <tr th:class="${row.even}? (${row.first}? 'first' : 'even') : 'odd'">-->
+<!--                                ...-->
+<!--                            </tr>-->
+
+
+                            <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', __${pageNumbers.size()}__).toUriString()}}">
+                                <span>Last</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
 
         </main>
 

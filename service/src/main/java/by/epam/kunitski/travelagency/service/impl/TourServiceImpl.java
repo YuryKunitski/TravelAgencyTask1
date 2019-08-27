@@ -5,11 +5,16 @@ import by.epam.kunitski.travelagency.dao.specification.Specification;
 import by.epam.kunitski.travelagency.dao.entity.Tour;
 import by.epam.kunitski.travelagency.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -74,5 +79,27 @@ public class TourServiceImpl implements TourService {
 
         return violationsTour;
     }
+
+
+    public Page<Tour> findPaginated(Pageable pageable, Specification<Tour> tourSpecification) {
+
+        List<Tour> tours = findAllByCriteria(tourSpecification);
+
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Tour> list;
+
+        if (tours.size() < startItem){
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, tours.size());
+            list = tours.subList(startItem, toIndex);
+        }
+
+        Page<Tour> tourPage = new PageImpl<Tour>(list, PageRequest.of(currentPage, pageSize), tours.size());
+        return tourPage;
+    }
+
 
 }
