@@ -151,7 +151,7 @@
 
                     <tbody>
                     <tr th:each="tour: ${tourPage.content}">
-                        <td><img class="tour_photo" src="uui\images\icons\tour_photo.png" alt=""/></td>
+                        <td><img th:src="${tour.photo}" alt=""/></td>
                         <td th:text="${tour.date}"/>
                         <td th:text="${tour.duration}"/>
                         <td th:text="${tour.description}"/>
@@ -167,64 +167,62 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <div align="center">
+                    <ul class="uui-pagination"
+                        th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                        <li class="actions-wrapper">
+                            <ul class="pagination-items">
+                                <li th:class="${tourPage.number==0} ? disable" class="first-page ">
+                                    <a th:href="@{${urlBuilder.replaceQueryParam('page', '1').toUriString()}}">
+                                        <span th:text="#{msg.first}"/>
+                                    </a>
+                                </li>
+                                <li th:class="${!tourPage.hasPrevious()} ? disable" class="prev-page">
+                                    <a th:href="@{${urlBuilder.replaceQueryParam('page', __${currentPage-1}__).toUriString()}}">
+                                        <i class="fa fa-angle-left"><span th:text="'<'"/></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <div th:if="${tourPage.totalPages > 0}" class="pagination"
+                             th:each="pageNumber : ${pageNumbers}">
+                            <li class="pages-wrapper">
+                                <ul class="pagination-items">
+                                    <li th:class="${pageNumber==tourPage.number + 1} ? active">
+                                        <a th:href="@{${urlBuilder.replaceQueryParam('page', __${pageNumber}__).toUriString()}}"
+                                           th:text=${pageNumber}></a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </div>
+                        <li class="actions-wrapper">
+                            <ul class="pagination-items">
+                                <li th:class="${!tourPage.hasNext()} ? disable" class="next-page">
+                                    <a th:href="@{${urlBuilder.replaceQueryParam('page', __${currentPage+1}__).toUriString()}}">
+                                        <i class="fa fa-angle-right"><span th:text="'>'"/></i>
+                                    </a>
+                                </li>
+                                <li th:class="${tourPage.number==tourPage.getTotalPages()-1} ? disable"
+                                    class="last-page">
+                                    <a th:href="@{${urlBuilder.replaceQueryParam('page', __${lastPage}__).toUriString()}}">
+                                        <span th:text="#{msg.last}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div align="center" th:if="${lastPage>5}">
+                        <h6 class="dark-blue" th:text="#{msg.all_pages} + ${lastPage}"/>
+                    </div>
+                </div>
+
             </div>
 
             <div align="center" th:if="${tours.empty}">
                 <h3><span th:text="#{msg.no_tours}"/></h3>
             </div>
-
-
-            <!--            <div th:if="${tourPage.totalPages > 0}" class="pagination"-->
-            <!--                 th:each="pageNumber : ${pageNumbers}">-->
-            <!--                <a th:href="@{/search_tours(size=${tourPage.size}, page=${pageNumber})}"-->
-            <!--                   th:text=${pageNumber}-->
-            <!--                   th:class="${pageNumber==tourPage.number + 1} ? active"></a>-->
-            <!--            </div>-->
-
-
-            <ul class="uui-pagination"
-                th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
-                <li class="actions-wrapper">
-                    <ul class="pagination-items">
-                        <li th:class="${tourPage.number==0} ? disable" class="first-page ">
-                            <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', '1').toUriString()}}">
-                                <span>First</span>
-                            </a>
-                        </li>
-                        <li th:class="${!tourPage.hasPrevious()} ? disable" class="prev-page">
-                            <a href="#">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <div th:if="${tourPage.totalPages > 0}" class="pagination"
-                     th:each="pageNumber : ${pageNumbers}">
-                    <li class="pages-wrapper">
-                        <ul class="pagination-items">
-                            <li th:class="${pageNumber==tourPage.number + 1} ? active">
-                                <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', __${pageNumber}__).toUriString()}}"
-                                   th:text=${pageNumber}></a>
-                            </li>
-                        </ul>
-                    </li>
-                </div>
-                <li class="actions-wrapper">
-                    <ul class="pagination-items">
-                        <li th:class="${!tourPage.hasNext()} ? disable" class="next-page">
-                            <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', __${pageNumber}__).toUriString()}}">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                        <li th:class="${tourPage.number==tourPage.getTotalPages()-1} ? disable"
-                            class="last-page">
-                            <a th:href="@{${urlBuilder.replaceQueryParam('size', __${tourPage.size}__).replaceQueryParam('page', __${lastPage}__).toUriString()}}">
-                                <span>Last</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
 
         </main>
 

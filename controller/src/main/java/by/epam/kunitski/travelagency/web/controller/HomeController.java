@@ -15,8 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -28,72 +26,65 @@ import java.util.stream.IntStream;
 @Controller
 public class HomeController {
 
-  @Autowired
-  private TourService tourService;
+  private static final int MULTIPLE_OF_FIVE = 5;
+  private static final int UP_TO_MULTIPLE_OF_FIVE = 4;
+  private static final int PAGE_SIZE = 10;
 
-  @Autowired
-  private CountryService countryService;
+    @Autowired
+    private TourService tourService;
 
-  @Autowired
-  private MessageSource messageSource;
+    @Autowired
+    private CountryService countryService;
 
-  @GetMapping("/search_tours")
-  public String searchTours(@Valid @ModelAttribute("tourDto") TourDto tourDto,
-                            BindingResult result, ModelMap model, Locale locale,
-                            @RequestParam("page") Optional<Integer> page,
-                            @RequestParam("size") Optional<Integer> size) {
+    @Autowired
+    private MessageSource messageSource;
 
-    int currentPage = page.orElse(1);
-    int pageSize = size.orElse(10);
+    @GetMapping("/search_tours")
+    public String searchTours(@Valid @ModelAttribute("tourDto") TourDto tourDto,
+                              BindingResult result, ModelMap model, Locale locale,
+                              @RequestParam("page") Optional<Integer> page) {
 
-    TourSpecification tourSpecification = new TourSpecification(tourDto);
+        int currentPage = page.orElse(1);
+        TourSpecification tourSpecification = new TourSpecification(tourDto);
+        Page<Tour> tourPage = tourService.findPaginated(PageRequest.of(currentPage - 1, PAGE_SIZE), tourSpecification);
 
-    Page<Tour> tourPage = tourService.findPaginated(PageRequest.of(currentPage - 1, pageSize), tourSpecification);
+        model.addAttribute("tourPage", tourPage);
+        int totalPages = tourPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
 
-    System.out.println("tour page - " + tourPage);
+            System.out.println("totalPages - " + totalPages);
+            model.addAttribute("lastPage", totalPages);
 
-    model.addAttribute("tourPage", tourPage);
-    int totalPages = tourPage.getTotalPages();
-    if (totalPages > 0) {
-      List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-              .boxed()
-              .collect(Collectors.toList());
-      int lastPage = pageNumbers.size()-1;
-      model.addAttribute("lastPage", lastPage);
-
-      System.out.println("currentPage - " + currentPage);
-      if (pageNumbers.size() > 5) {
-        System.out.println("1------------- pageNumber.size()"+ pageNumbers);
-        int temp = 0;
-        if ((currentPage + 4) % 5 == 0) {
-          System.out.println("2-------------- curentPage - " +currentPage);
-          temp = currentPage-1;
-          pageNumbers = pageNumbers.subList(currentPage - 1, currentPage + 4);
-        } else {
-          System.out.println("2-------- temp - "+temp);
-          pageNumbers = pageNumbers.subList(temp, temp+5);
+            if (totalPages > MULTIPLE_OF_FIVE) {
+                if (currentPage != totalPages && (currentPage + UP_TO_MULTIPLE_OF_FIVE) % MULTIPLE_OF_FIVE == 0) {
+                    pageNumbers = pageNumbers.subList(currentPage - 1, currentPage + UP_TO_MULTIPLE_OF_FIVE);
+                } else {
+                    int temp = 0;
+                    if (totalPages - currentPage >= UP_TO_MULTIPLE_OF_FIVE) {
+                        temp = (currentPage % MULTIPLE_OF_FIVE != 0) ? currentPage + 1 - (currentPage % MULTIPLE_OF_FIVE) : currentPage - UP_TO_MULTIPLE_OF_FIVE;
+                        pageNumbers = pageNumbers.subList(temp - 1, temp + UP_TO_MULTIPLE_OF_FIVE);
+                    } else {
+                        temp = currentPage + (totalPages - currentPage);
+                        pageNumbers = pageNumbers.subList(temp - MULTIPLE_OF_FIVE, temp);
+                    }
+                }
+            }
+            model.addAttribute("pageNumbers", pageNumbers);
         }
 
-        System.out.println("pageNumbers after subslit - " + pageNumbers);
-      }
+        if (tourDto.getMaxDate() != null && tourDto.getMinDate() != null && tourDto.getMinDate().isAfter(tourDto.getMaxDate())) {
+            String dateErrorMsg = messageSource.getMessage("msg.wrongDate", new Object[]{}, locale);
+            result.rejectValue("minDate", "error.tourDto", dateErrorMsg);
+        }
 
-      System.out.println("pageNumbers - " + pageNumbers);
-      model.addAttribute("pageNumbers", pageNumbers);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("tours", tourService.findAllByCriteria(tourSpecification));
+        model.addAttribute("countries", countryService.findAll());
+
+        return "home";
     }
-
-
-    if (tourDto.getMaxDate() != null && tourDto.getMinDate() != null && tourDto.getMinDate().isAfter(tourDto.getMaxDate())) {
-      String dateErrorMsg = messageSource.getMessage("msg.wrongDate", new Object[]{}, locale);
-      result.rejectValue("minDate", "error.tourDto", dateErrorMsg);
-    }
-
-    model.addAttribute("tours", tourService.findAllByCriteria(tourSpecification));
-    model.addAttribute("countries", countryService.findAll());
-//
-//    UriBuilder uriBuilder = ServletUriComponentsBuilder.fromCurrentRequest();
-//    uriBuilder.replaceQueryParam("1", "2");
-
-    return "home";
-  }
 
 }
