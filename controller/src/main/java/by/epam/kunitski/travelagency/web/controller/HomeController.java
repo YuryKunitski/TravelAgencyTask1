@@ -55,7 +55,6 @@ public class HomeController {
                     .boxed()
                     .collect(Collectors.toList());
 
-            System.out.println("totalPages - " + totalPages);
             model.addAttribute("lastPage", totalPages);
 
             if (totalPages > MULTIPLE_OF_FIVE) {

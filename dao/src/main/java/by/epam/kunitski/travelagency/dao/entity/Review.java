@@ -3,6 +3,7 @@ package by.epam.kunitski.travelagency.dao.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
@@ -21,6 +22,7 @@ public class Review {
     private LocalDate date;
 
     @Size(min = 1, max = 500)
+    @NotEmpty
     private String text;
 
     @NotNull

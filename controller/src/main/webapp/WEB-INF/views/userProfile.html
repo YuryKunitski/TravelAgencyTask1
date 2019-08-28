@@ -38,6 +38,11 @@
             <div class="uui-person-horizontal-profile dark-blue">
                 <div class="person-profile-body">
                     <div class="person-profile-section">
+                        <div th:if="${param.left_review}">
+                            <div class="alert alert-info">
+                                You've successfully left review!
+                            </div>
+                        </div>
                         <div class="person-profile-photo">
                             <img sec:authorize="hasRole('MEMBER')" src="uui/images/icons/member_icon.jpg" alt=""/>
                             <img sec:authorize="hasRole('ADMIN')" src="uui/images/icons/admin_icon.jpg" alt=""/>
@@ -58,16 +63,16 @@
                     <div class="tabs-heading">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a data-toggle="tab" href="#tab1">My tours</a>
+                                <a data-toggle="tab" href="#tours">My tours</a>
                             </li>
                             <li>
-                                <a data-toggle="tab" href="#tab2">My reviews</a>
+                                <a data-toggle="tab" href="#reviews">My reviews</a>
                             </li>
                         </ul>
                     </div>
                     <div class="tabs-body">
                         <div class="tab-content">
-                            <div id="tab1" class="tab-pane active">
+                            <div id="tours" class="tab-pane active">
 
                                 <div th:if="${!tours.empty}">
                                     <br/>
@@ -93,9 +98,16 @@
                                             <td th:text="${tour.description}"/>
                                             <td th:text="${tour.cost}"/>
                                             <td th:text="${tour.tour_type}"/>
-                                            <td><span th:text="${tour.hotel_id.name}"/> <br>
+                                            <td><a th:href="@{/hotel(hotel_id=${tour.hotel_id.id})}"><span
+                                                    th:text="${tour.hotel_id.name}"/></a>
+                                                <br>
                                                 Stars: <span th:text="${tour.hotel_id.stars}"/></td>
-                                            <td th:text="${tour.country_id.name}"/>
+                                            <td><span th:text="${tour.country_id.name}"/> <br> <br>
+                                                <a th:href="@{/tour(tour_id=${tour.id})}" class="uui-button btn"><span
+                                                        th:text="#{msg.btn_tour}"/></a><br><br>
+                                                <a th:href="@{/review(tour_id=${tour.id})}" class="uui-button btn"><span
+                                                        th:text="#{msg.btn_review}"/></a>
+
                                         </tr>
                                         </tbody>
                                     </table>
@@ -106,7 +118,7 @@
                                 </div>
 
                             </div>
-                            <div id="tab2" class="tab-pane">
+                            <div id="reviews" class="tab-pane">
 
                                 <div th:if="${!reviews.empty}">
                                     <br/>
@@ -115,6 +127,8 @@
                                         <tr>
                                             <th>Date</th>
                                             <th>Text</th>
+                                            <th>Cost</th>
+                                            <th>Tour's type</th>
                                             <th>Hotel</th>
                                             <th>Country</th>
                                         </tr>
@@ -124,8 +138,27 @@
                                         <tr th:each="review: ${reviews}">
                                             <td th:text="${review.date}"/>
                                             <td th:text="${review.text}"/>
-                                            <td th:text="${review.tourID.hotel_id.name}"/>
-                                            <td th:text="${review.tourID.country_id.name}"/>
+                                            <td th:text="${review.tourID.cost}"/>
+                                            <td th:text="${review.tourID.tour_type}"/>
+                                            <td><a th:href="@{/hotel(hotel_id=${review.tourID.hotel_id.id})}"><span
+                                                    th:text="${review.tourID.hotel_id.name}"/></a>
+                                                <br>
+                                                Stars: <span th:text="${review.tourID.hotel_id.stars}"/></td>
+                                            <td><span th:text="${review.tourID.country_id.name}"/> <br> <br>
+                                                <a th:href="@{/tour(tour_id=${review.tourID.id})}"
+                                                   class="uui-button btn"><span
+                                                        th:text="#{msg.btn_tour}"/></a><br><br>
+
+                                                <form class="form" th:action="@{/remove_review}" method="get">
+                                                    <input type="hidden" name="review_id"  th:value="${review.id}"/>
+                                                        <button type="submit" class="uui-button btn" >
+                                                            <span th:text="#{msg.remove_review}"/>
+                                                        </button>
+                                                </form><br>
+
+                                                <a th:href="@{/update_review(tour_id=${review.tourID.id}, review_id=${review.id})}" class="uui-button btn"><span
+                                                        th:text="#{msg.update_review}"/></a>
+
                                         </tr>
                                         </tbody>
                                     </table>
