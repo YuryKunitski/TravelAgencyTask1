@@ -36,14 +36,16 @@
     <div class="uui-main-container">
         <main>
             <div class="for_tour_search">
-                <h2><span th:text="#{msg.leave_review}"/></h2>
-<!--if param.update-->
 
-                <div th:if="${param.update}">
+
+                <div th:if="${param.review_id}">
+                    <h2><span th:text="#{msg.pls_update_review}"/></h2><br>
+                    <h5><span th:text="${'Your previous review: '}"/></h5><i  th:text="${currentText}" /><br><br>
+
                     <form class="form" th:action="@{/update_review}" method="get">
                         <textarea name="textReview" class="uui-form-element" rows="3" cols="10" placeholder="Review text" required autofocus></textarea>
-                        <input type="hidden" name="tour_id"  th:value="${tour_id}"/>
                         <input type="hidden" name="review_id"  th:value="${review_id}"/>
+                        <input type="hidden" name="tour_id"  th:value="${tour_id}"/>
 
                         <div class="login-separator">
                             <div class="border">
@@ -62,28 +64,30 @@
                     </form>
                 </div>
 
-                <div th:if="${!param.update}">
-                <form class="form" th:action="@{/review}" method="get">
-                    <textarea name="textReview" class="uui-form-element" rows="3" cols="10" placeholder="Review text" required autofocus></textarea>
-                    <input type="hidden" name="tour_id"  th:value="${tour_id}"/>
+                <div th:unless="${param.review_id}">
+                    <h2><span th:text="#{msg.leave_review}"/></h2>
+                <form class="form" th:action="@{/create_review}" method="get">
+                <textarea name="textReview" class="uui-form-element" rows="3" cols="10" placeholder="Review text" required autofocus></textarea>
+                <input type="hidden" name="tour_id"  th:value="${tour_id}"/>
 
-                    <div class="login-separator">
-                        <div class="border">
-                            <span></span>
-                        </div>
+                <div class="login-separator">
+                    <div class="border">
+                        <span></span>
+                    </div>
 
-                        <div class="border">
-                            <span></span>
-                        </div>
+                    <div class="border">
+                        <span></span>
                     </div>
-                    <div class="epam-login">
-                        <button type="submit" class="uui-button large blue" >
-                            <span th:text="#{msg.btn_review}"/>
-                        </button>
-                    </div>
-                </form>
+                </div>
+                <div class="epam-login">
+                    <button type="submit" class="uui-button large blue" >
+                        <span th:text="#{msg.btn_review}"/>
+                    </button>
+                </div>
+            </form>
                 </div>
             </div>
+
         </main>
 
     </div>

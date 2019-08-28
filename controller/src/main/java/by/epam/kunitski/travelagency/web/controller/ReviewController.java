@@ -27,13 +27,11 @@ public class ReviewController {
     @Autowired
     private TourService tourService;
 
-    @GetMapping("/review")
-    public String leaveReviewForm(Principal principal, Model model,
+    @GetMapping("/create_review")
+    public String addReview(Principal principal, Model model,
                                   @RequestParam(value = "tour_id", required = false) Integer tour_id,
                                   @RequestParam(value = "textReview", required = false) String textReview) {
 
-
-        System.out.println("tour_id - " + tour_id);
         model.addAttribute("tour_id", tour_id);
         if (textReview != null) {
 
@@ -64,34 +62,42 @@ public class ReviewController {
 
         reviewService.delete(review_id);
 
-        return "redirect:/profile_member";
+        return "redirect:/profile_member?removed_review";
     }
 
     @GetMapping("/update_review")
-    public String updateReview(Model model,
-                               @RequestParam(value = "review_id", required = false) Integer review_id,
+    public String updateReview(Model model, Principal principal,
                                @RequestParam(value = "tour_id", required = false) Integer tour_id,
+                               @RequestParam(value = "review_id", required = false) Integer review_id,
                                @RequestParam(value = "textReview", required = false) String textReview) {
 
-        System.out.println("tour_id" + tour_id);
-        System.out.println("review_id" + review_id);
+        String currentText = reviewService.findById(review_id).get().getText();
 
         model.addAttribute("tour_id", tour_id);
         model.addAttribute("review_id", review_id);
+        model.addAttribute("currentText", currentText);
 
         if (textReview != null) {
+
+            User user = userService.findByUserName(principal.getName());
+            Tour tour = new Tour();
+            if (tourService.findById(tour_id).isPresent()) {
+                tour = tourService.findById(tour_id).get();
+            }
 
             Review review = new Review();
             review.setId(review_id);
             review.setDate(LocalDate.now());
             review.setText(textReview);
+            review.setUserID(user);
+            review.setTourID(tour);
 
             reviewService.update(review);
 
-            return "redirect:/profile_member";
+            return "redirect:/profile_member?updated_review";
         }
 
-        return "redirect:/review?update";
+        return "review";
     }
 
 }
