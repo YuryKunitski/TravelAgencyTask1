@@ -39,7 +39,8 @@
                 <div class="person-profile-body">
                     <div class="person-profile-section">
                         <div class="person-profile-photo">
-                            <img src="uui/images/icons/download.png" alt="" />
+                            <img sec:authorize="hasRole('MEMBER')" src="uui/images/icons/member_icon.jpg" alt=""/>
+                            <img sec:authorize="hasRole('ADMIN')" src="uui/images/icons/admin_icon.jpg" alt=""/>
                         </div>
                         <div class="person-profile-info">
                             <h2><span th:text="#{msg.y_login}"/>: <span sec:authentication="name"></span></h2>
@@ -137,8 +138,8 @@
                         </div>
                     </div>
                 </section>
-
             </div>
+
             <div sec:authorize="hasRole('ADMIN')">
                 <section class="uui-tabs">
                     <div class="tabs-heading">
@@ -167,13 +168,7 @@
                     </div>
                 </section>
             </div>
-
-
-
-
-
         </main>
-
     </div>
 
     <footer th:replace="footer :: footer"></footer>

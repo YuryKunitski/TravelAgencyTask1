@@ -7,6 +7,8 @@ import by.epam.kunitski.travelagency.service.UserService;
 import by.epam.kunitski.travelagency.web.webDto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -35,11 +37,13 @@ public class UserController {
     @Autowired
     private MessageSource messageSource;
 
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
     public String logIn(ModelMap model) {
         return "login";
     }
 
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/registration")
     public String registrationView(@ModelAttribute("userDto") UserDto userDto, ModelMap model) {
 
@@ -56,14 +60,12 @@ public class UserController {
             String loginErrorMsg = messageSource.getMessage("msg.register_error_login", new Object[]{}, locale);
             result.rejectValue("login", null, loginErrorMsg);
 
-//            return "redirect:/registration?register_error";
             return "registration";
         }
 
         if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
             String passErrorMsg = messageSource.getMessage("msg.wrongConfirmPass", new Object[]{}, locale);
             result.rejectValue("confirmPassword", null, passErrorMsg);
-//            return "redirect:/registration?register_error";
             return "registration";
         }
 
@@ -82,8 +84,21 @@ public class UserController {
         return "redirect:/search_tours?register_success";
     }
 
-    @GetMapping("/profile")
-    public String userProfile(Principal principal, ModelMap model) {
+    @Secured("ROLE_MEMBER")
+    @GetMapping("/profile_member")
+    public String memberProfile(Principal principal, ModelMap model) {
+
+        User user = userService.findByUserName(principal.getName());
+
+        model.addAttribute("tours", tourService.findAllByUserId(user.getId()));
+        model.addAttribute("reviews", reviewService.findAllByUserId(user.getId()));
+
+        return "userProfile";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/profile_admin")
+    public String adminProfile(Principal principal, ModelMap model) {
 
         User user = userService.findByUserName(principal.getName());
 
