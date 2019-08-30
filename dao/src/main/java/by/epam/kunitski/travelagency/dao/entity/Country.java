@@ -18,9 +18,7 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull(message = "Country name cannot be null")
     private String name;
-
 
     @OneToMany(mappedBy = "country_id", cascade=CascadeType.ALL)
     private Set<Tour> tourList = new HashSet<>();
