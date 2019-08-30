@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -43,16 +44,19 @@ public class UserController {
         return "login";
     }
 
-    @PreAuthorize("isAnonymous()")
+    //    @PreAuthorize("isAnonymous()")
     @GetMapping("/registration")
     public String registrationView(@ModelAttribute("userDto") UserDto userDto, ModelMap model) {
+
 
         return "registration";
     }
 
+    //    @PreAuthorize("isAnonymous()")
     @PostMapping("/registration")
-    public String registration(@Valid @ModelAttribute("userDto") UserDto userDto,
-                               BindingResult result, HttpServletRequest request, Locale locale) throws ServletException {
+    public String registration(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult result, Authentication authentication,
+                               HttpServletRequest request, Locale locale) throws ServletException {
+
 
         User existing = userService.findByUserName(userDto.getLogin());
 
@@ -69,13 +73,22 @@ public class UserController {
             return "registration";
         }
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             return "registration";
         }
 
         User user = new User();
         user.setLogin(userDto.getLogin());
         user.setPassword(userDto.getPassword());
+
+        if (authentication != null) {
+            user.setRole(User.UserRole.ADMIN);
+
+            userService.add(user);
+
+            return "redirect:/profile_admin";
+        }
+
         user.setRole(User.UserRole.MEMBER);
 
         userService.add(user);
@@ -107,5 +120,7 @@ public class UserController {
 
         return "userProfile";
     }
+
+
 
 }

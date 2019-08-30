@@ -4,11 +4,9 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.validator.constraints.Range;
-
+import org.hibernate.validator.constraints.URL;
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,13 +28,13 @@ public class Hotel {
     @Range(min = 1, max = 5)
     private int stars;
 
-    @Email
+    @URL
     private String website;
 
-    @PositiveOrZero
+    @Range(min = -90, max = 90)
     private double latitude;
 
-    @PositiveOrZero
+    @Range(min = -180, max = 180)
     private double longitude;
 
     @NotNull

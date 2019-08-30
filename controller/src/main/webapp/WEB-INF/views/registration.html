@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <!-- jQuery Core -->
     <script src="uui/js/lib/jquery-1.12.0.min.js"></script>
@@ -46,8 +47,10 @@
                 <div class="login-panel-body">
                     <div class="login-panel-section">
 
+                        <h2 sec:authorize="!isAuthenticated()" align="center" class="form-signin-heading text-primary"><span th:text="#{msg.please_register}"/></h2>
+                        <h2 sec:authorize="hasRole('ADMIN')" align="center" class="form-signin-heading text-primary"><span th:text="#{msg.register_admin}"/></h2>
+
                         <form action="#" th:action="@{/registration}" th:object="${userDto}" method="post">
-                            <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.please_register}"/></h2>
 
                             <span class="fa" th:text="#{msg.login}"/> <br>
                             <input type="text" class="form-control" th:field="*{login}" placeholder="Login" required autofocus >
@@ -73,7 +76,8 @@
 
                             <div class="epam-login">
                                 <button type="submit" class="uui-button large blue" >
-                                    <span th:text="#{msg.register}"/>
+                                    <span sec:authorize="!isAuthenticated()"  th:text="#{msg.register}"/>
+                                    <span sec:authorize="hasRole('ADMIN')"  th:text="#{msg.reg_admin}"/>
                                 </button>
                             </div>
                         </form>

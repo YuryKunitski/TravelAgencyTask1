@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.web.controller;
 
-import by.epam.kunitski.travelagency.dao.daoDto.TourDto;
+import by.epam.kunitski.travelagency.dao.daoForm.TourSearchForm;
 import by.epam.kunitski.travelagency.dao.entity.Tour;
 import by.epam.kunitski.travelagency.dao.specification.impl.TourSpecification;
 import by.epam.kunitski.travelagency.service.CountryService;
@@ -40,12 +40,12 @@ public class HomeController {
     private MessageSource messageSource;
 
     @GetMapping("/search_tours")
-    public String searchTours(@Valid @ModelAttribute("tourDto") TourDto tourDto,
+    public String searchTours(@Valid @ModelAttribute("tourSearchForm") TourSearchForm tourSearchForm,
                               BindingResult result, ModelMap model, Locale locale,
                               @RequestParam("page") Optional<Integer> page) {
 
         int currentPage = page.orElse(1);
-        TourSpecification tourSpecification = new TourSpecification(tourDto);
+        TourSpecification tourSpecification = new TourSpecification(tourSearchForm);
         Page<Tour> tourPage = tourService.findPaginated(PageRequest.of(currentPage - 1, PAGE_SIZE), tourSpecification);
 
         model.addAttribute("tourPage", tourPage);
@@ -74,7 +74,7 @@ public class HomeController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
-        if (tourDto.getMaxDate() != null && tourDto.getMinDate() != null && tourDto.getMinDate().isAfter(tourDto.getMaxDate())) {
+        if (tourSearchForm.getMaxDate() != null && tourSearchForm.getMinDate() != null && tourSearchForm.getMinDate().isAfter(tourSearchForm.getMaxDate())) {
             String dateErrorMsg = messageSource.getMessage("msg.wrongDate", new Object[]{}, locale);
             result.rejectValue("minDate", "error.tourDto", dateErrorMsg);
         }

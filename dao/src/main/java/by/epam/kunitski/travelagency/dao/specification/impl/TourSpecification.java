@@ -1,6 +1,6 @@
 package by.epam.kunitski.travelagency.dao.specification.impl;
 
-import by.epam.kunitski.travelagency.dao.daoDto.TourDto;
+import by.epam.kunitski.travelagency.dao.daoForm.TourSearchForm;
 import by.epam.kunitski.travelagency.dao.entity.Country;
 import by.epam.kunitski.travelagency.dao.entity.Hotel;
 import by.epam.kunitski.travelagency.dao.entity.Tour;
@@ -27,17 +27,17 @@ public class TourSpecification extends AbstractSpecification<Tour> {
     private Double minCost;
     private Double maxCost;
 
-    public TourSpecification(TourDto tourDto) {
-        this.countryNames = tourDto.getCountryNames();
-        this.tourType = tourDto.getTourType();
-        this.maxStars = tourDto.getMaxStars();
-        this.minStars = tourDto.getMinStars();
-        this.minDate = tourDto.getMinDate();
-        this.maxDate = tourDto.getMaxDate();
-        this.minDuration = tourDto.getMinDuration();
-        this.maxDuration = tourDto.getMaxDuration();
-        this.minCost = tourDto.getMinCost();
-        this.maxCost = tourDto.getMaxCost();
+    public TourSpecification(TourSearchForm tourSearchForm) {
+        this.countryNames = tourSearchForm.getCountryNames();
+        this.tourType = tourSearchForm.getTourType();
+        this.maxStars = tourSearchForm.getMaxStars();
+        this.minStars = tourSearchForm.getMinStars();
+        this.minDate = tourSearchForm.getMinDate();
+        this.maxDate = tourSearchForm.getMaxDate();
+        this.minDuration = tourSearchForm.getMinDuration();
+        this.maxDuration = tourSearchForm.getMaxDuration();
+        this.minCost = tourSearchForm.getMinCost();
+        this.maxCost = tourSearchForm.getMaxCost();
     }
 
     @Override

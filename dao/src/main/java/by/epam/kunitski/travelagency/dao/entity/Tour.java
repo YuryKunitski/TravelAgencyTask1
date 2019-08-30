@@ -25,15 +25,13 @@ public class Tour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
     private String photo;
 
-    @NotNull
     @FutureOrPresent
     private LocalDate date;
 
     @Range(min = 1, max = 99)
-    private int duration;
+    private Integer duration;
 
     @Size(min = 1, max = 500)
     private String description;
@@ -41,17 +39,14 @@ public class Tour {
     @Positive
     private Double cost;
 
-    @NotNull
     @ManyToOne()
     @JoinColumn(name = "hotel_id")
     private Hotel hotel_id;
 
-    @NotNull
     @ManyToOne()
     @JoinColumn(name = "country_id")
     private Country country_id;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Type( type = "pgsql_enum" )
     private TourType tour_type;

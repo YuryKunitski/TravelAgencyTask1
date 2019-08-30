@@ -18,6 +18,8 @@
     <!-- Your custom CSS Styles -->
     <link rel="stylesheet" href="uui/css/custom-styles.css"/>
 
+    <link rel="stylesheet" href="uui/fonts/font-awesome/css/font-awesome.css"/>
+
     <!-- Scroll for UUI Sidebar -->
     <link rel="stylesheet" href="uui/css/lib/components/jquery.mCustomScrollbar.min.css"/>
     <script src="uui/js/lib/components/jquery.mCustomScrollbar.concat.min.js"></script>
@@ -178,25 +180,37 @@
                     <div class="tabs-heading">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a data-toggle="tab" href="#t1">Manage users</a>
+                                <a data-toggle="tab" href="#user">Manage users</a>
                             </li>
                             <li>
-                                <a data-toggle="tab" href="#t2">Manage tours</a>
+                                <a data-toggle="tab" href="#tour">Manage tours</a>
                             </li>
                             <li>
-                                <a data-toggle="tab" href="#t3">Manage reviews</a>
+                                <a data-toggle="tab" href="#hotel">Manage hotels</a>
                             </li>
                             <li>
-                                <a data-toggle="tab" href="#t4">Manage hotels</a>
+                                <a data-toggle="tab" href="#country">Manage countries</a>
                             </li>
                         </ul>
                     </div>
                     <div class="tabs-body">
                         <div class="tab-content">
-                            <div id="t1" class="tab-pane active">manage users</div>
-                            <div id="t2" class="tab-pane">manage tours</div>
-                            <div id="t3" class="tab-pane">manage reviews</div>
-                            <div id="t4" class="tab-pane">manage hotels</div>
+                            <div id="user" class="tab-pane active">
+                                <a th:href="@{/registration}" class="uui-button btn"><span
+                                        th:text="#{msg.add_admin}"/></a>
+                            </div>
+                            <div id="tour" class="tab-pane">
+                                <a th:href="@{/add_tour_view}" class="uui-button btn"><span
+                                        th:text="#{msg.add_tour}"/></a>
+                            </div>
+                            <div id="hotel" class="tab-pane">
+                                <a th:href="@{/add_hotel_view}" class="uui-button btn"><span
+                                        th:text="#{msg.add_hotel}"/></a>
+                            </div>
+                            <div id="country" class="tab-pane">
+                                <a th:href="@{/#}" class="uui-button btn"><span
+                                        th:text="#{msg.add_country}"/></a>
+                            </div>
                         </div>
                     </div>
                 </section>

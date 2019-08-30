@@ -18,19 +18,17 @@
                             <img src="uui/images/icons/no_photo.png" alt=""/>
                         </div>
                     </a>
-                    <div class="dropdown-menu " role="menu">
+                    <div class="dropdown-menu" role="menu">
                         <span class="menu-arrow"></span>
                         <ul class="profile-links">
                             <li sec:authorize="!isAuthenticated()" class="login"><a href="login"><i
                                     class="fa fa-sign-in"></i><span th:text="#{msg.log_in}"/></a></li>
                             <li sec:authorize="!isAuthenticated()" class="login"><a href="registration"><i
-                                    class="fa fa-sign-in"></i><span th:text="#{msg.register}"/></a></li>
-                            <li sec:authorize="isAuthenticated()" class="login"><a href="logout"><i
-                                    class="fa fa-sign-in"></i><span th:text="#{msg.log_out}"/></a></li>
-                            <li sec:authorize="isAuthenticated()" class="login">
-                                <a sec:authorize="hasRole('ADMIN')" href="profile_admin"/>
-                                <a sec:authorize="hasRole('MEMBER')" href="profile_member"/>
-                                <i class="fa fa-sign-in"></i><span th:text="#{msg.profile}"/></li>
+                                    class="fa fa-lightbulb-o"></i><span th:text="#{msg.register}"/></a></li>
+                            <li sec:authorize="isAuthenticated()" class="logout"><a href="logout"><i
+                                    class="fa fa-sign-out"></i><span th:text="#{msg.log_out}"/></a></li>
+                            <li sec:authorize="hasRole('ADMIN')" class="login"><a th:href="profile_admin"><i class="fa fa-user"></i><span th:text="#{msg.profile}"/></a></li>
+                            <li sec:authorize="hasRole('MEMBER')" class="login"><a th:href="profile_member"><i class="fa fa-user"></i><span th:text="#{msg.profile}"/></a></li>
                         </ul>
                     </div>
                 </li>

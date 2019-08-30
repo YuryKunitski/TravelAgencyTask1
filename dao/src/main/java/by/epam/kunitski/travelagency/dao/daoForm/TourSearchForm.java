@@ -1,4 +1,4 @@
-package by.epam.kunitski.travelagency.dao.daoDto;
+package by.epam.kunitski.travelagency.dao.daoForm;
 
 import by.epam.kunitski.travelagency.dao.entity.Tour;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TourDto {
+public class TourSearchForm {
 
     private List<String> countryNames = new ArrayList<>();
 
