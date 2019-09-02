@@ -42,7 +42,37 @@
                     <div class="person-profile-section">
                         <div th:if="${param.left_review}">
                             <div class="alert alert-info">
-                                You've successfully left review!
+                                You've successfully left a review!
+                            </div>
+                        </div>
+                        <div th:if="${param.country_added}">
+                            <div class="alert alert-info">
+                                You've successfully added a country!
+                            </div>
+                        </div>
+                        <div th:if="${param.hotel_added}">
+                            <div class="alert alert-info">
+                                You've successfully added a hotel!
+                            </div>
+                        </div>
+                        <div th:if="${param.tour_added}">
+                            <div class="alert alert-info">
+                                You've successfully added a tour!
+                            </div>
+                        </div>
+                        <div th:if="${param.admin_added}">
+                            <div class="alert alert-info">
+                                You've successfully added an admin!
+                            </div>
+                        </div>
+                        <div th:if="${param.removed_user}">
+                            <div class="alert alert-info">
+                                You've successfully removed an user!
+                            </div>
+                        </div>
+                        <div th:if="${param.hotel_removed}">
+                            <div class="alert alert-info">
+                                You've successfully removed a hotel!
                             </div>
                         </div>
                         <div class="person-profile-photo">
@@ -159,7 +189,7 @@
                                                 </form><br>
 
                                                 <a th:href="@{/update_review(tour_id=${review.tourID.id}, review_id=${review.id})}" class="uui-button btn"><span
-                                                        th:text="#{msg.update_review}"/></a>
+                                                        th:text="#{msg.update_review}"/></a></td>
 
                                         </tr>
                                         </tbody>
@@ -195,22 +225,31 @@
                     </div>
                     <div class="tabs-body">
                         <div class="tab-content">
+
                             <div id="user" class="tab-pane active">
                                 <a th:href="@{/registration}" class="uui-button btn"><span
-                                        th:text="#{msg.add_admin}"/></a>
+                                        th:text="#{msg.add_admin}"/></a><br><br>
+                                <a th:href="@{/view_all_users}" class="uui-button btn"><span
+                                        th:text="#{msg.view_users}"/></a>
                             </div>
+
                             <div id="tour" class="tab-pane">
                                 <a th:href="@{/add_tour_view}" class="uui-button btn"><span
                                         th:text="#{msg.add_tour}"/></a>
                             </div>
+
                             <div id="hotel" class="tab-pane">
                                 <a th:href="@{/add_hotel_view}" class="uui-button btn"><span
-                                        th:text="#{msg.add_hotel}"/></a>
+                                        th:text="#{msg.add_hotel}"/></a><br><br>
+                                <a th:href="@{/view_all_hotels}" class="uui-button btn"><span
+                                        th:text="#{msg.view_hotels}"/></a>
                             </div>
+
                             <div id="country" class="tab-pane">
                                 <a th:href="@{/add_country_view}" class="uui-button btn"><span
                                         th:text="#{msg.add_country}"/></a>
                             </div>
+
                         </div>
                     </div>
                 </section>

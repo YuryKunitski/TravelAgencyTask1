@@ -39,72 +39,144 @@
         <main>
             <div class="for_tour_search">
 
-                <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.please_add_tour}"/>
-                </h2>
-                <div class="uui-login-panel center_form">
-                    <form th:action="@{/add_tour}" th:object="${tourDto}" method="get">
-                        <span class="fa" th:text="#{msg.photo}"/> <br>
-                        <input type="text" class="form-control" th:field="*{photo}" placeholder="Photo" required>
-                        <p th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" style="color:red"></p>
+                <div th:if="${param.tour_id}">
+                    <h2 align="center" class="form-signin-heading text-primary"><span
+                            th:text="#{msg.form_update_tour}"/>
+                    </h2>
+                    <div class="uui-login-panel center_form">
+                        <form th:action="@{/update_tour}" th:object="${tourDto}" method="get">
 
-                        <span class="fa" th:text="#{msg.date}"/> <br>
-                        <input type="date" class="form-control" th:field="*{date}" placeholder="Date" required>
-                        <p th:if="${#fields.hasErrors('date')}" th:errors="*{date}" style="color:red"></p>
+                            <input type="hidden" name="tour_id" th:value="${tour_id}"/>
 
-                        <span class="fa" th:text="#{msg.duration}"/> <br>
-                        <input type="number" value="http://" class="form-control" th:field="*{duration}" placeholder="Duration"  required>
-                        <p th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}" style="color:red"></p>
+                            <span class="fa" th:text="#{msg.photo}"/> <br>
+                            <input type="text" class="form-control" th:field="*{photo}" placeholder="Photo" required>
+                            <p th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" style="color:red"></p>
 
-                        <span class="fa" th:text="#{msg.description}"/> <br>
-                        <input type="text" class="form-control" th:field="*{description}" placeholder="Description" required>
-                        <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color:red"></p>
+                            <span class="fa" th:text="#{msg.date}"/> <br>
+                            <input type="date" class="form-control" th:field="*{date}" placeholder="Date" required>
+                            <p th:if="${#fields.hasErrors('date')}" th:errors="*{date}" style="color:red"></p>
 
-                        <span class="fa" th:text="#{msg.cost}"/> <br>
-                        <input type="number" class="form-control" th:field="*{cost}" placeholder="Cost" required>
-                        <p th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" style="color:red"></p>
+                            <span class="fa" th:text="#{msg.duration}"/> <br>
+                            <input type="number" value="http://" class="form-control" th:field="*{duration}"
+                                   placeholder="Duration" required>
+                            <p th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}" style="color:red"></p>
 
-                        <span th:text="#{msg.hotel}"/> <br>
-                        <select th:field="*{hotel_id}" class="selectpicker uui-form-element">
-                            <option selected="selected" disabled="true" value=""><span
-                                    th:text="#{msg.choose_hotel}"/></option>
-                            <option th:each="hotel : ${hotels}" th:value="${hotel.id}"
-                                    th:text="${hotel.name}">
-                            </option>
-                        </select><br>
+                            <span class="fa" th:text="#{msg.description}"/> <br>
+                            <input type="text" class="form-control" th:field="*{description}" placeholder="Description"
+                                   required>
+                            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                               style="color:red"></p>
 
-                        <span th:text="#{msg.country}"/> <br>
-                        <select th:field="*{country_id}" class="selectpicker uui-form-element">
-                            <option selected="selected" disabled="true" value=""><span
-                                    th:text="#{msg.choose_country}"/></option>
-                            <option th:each="country : ${countries}" th:value="${country.id}"
-                                    th:text="${country.name}">
-                            </option>
-                        </select><br>
+                            <span class="fa" th:text="#{msg.cost}"/> <br>
+                            <input type="number" class="form-control" th:field="*{cost}" placeholder="Cost" required>
+                            <p th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" style="color:red"></p>
 
-                        <span th:text="#{msg.tour_type}"/> <br>
-                        <select th:field="*{tour_type}" class="selectpicker uui-form-element"/>
-                        <option disabled="true" value=""><span
-                                th:text="#{msg.choose_tour_type}"/></option>
-                        <option th:value="'ECONOM'" th:text="'econom'"></option>
-                        <option th:value="'ALL_INCLUSIVE'" th:text="'all inclusive'"></option>
-                        <option th:value="'ONLY_BREAKFAST'" th:text="'only breakfast'"></option>
-                        </select>
-                        <div class="login-separator">
-                            <div class="border">
-                                <span></span>
+                            <span th:text="#{msg.hotel}"/> <br>
+                            <select th:field="*{hotel_id}" class="selectpicker uui-form-element">
+                                <option th:each="hotel : ${hotels}" th:value="${hotel.id}"
+                                        th:text="${hotel.name}">
+                                </option>
+                            </select><br>
+
+                            <span th:text="#{msg.country}"/> <br>
+                            <select th:field="*{country_id}" class="selectpicker uui-form-element">
+                                <option th:each="country : ${countries}" th:value="${country.id}"
+                                        th:text="${country.name}">
+                                </option>
+                            </select><br>
+
+                            <span th:text="#{msg.tour_type}"/> <br>
+                            <select th:field="*{tour_type}" class="selectpicker uui-form-element">
+                            <option th:each="tour_type : ${tour_types}" th:value="${tour_type}" th:text="${tour_type}"></option>
+                            </select>
+                            <div class="login-separator">
+                                <div class="border">
+                                    <span></span>
+                                </div>
+
+                                <div class="border">
+                                    <span></span>
+                                </div>
                             </div>
-
-                            <div class="border">
-                                <span></span>
+                            <br>
+                            <div class="epam-login">
+                                <button type="submit" class="uui-button large blue">
+                                    <span class="fa" th:text="#{msg.update_tour}"/>
+                                </button>
                             </div>
-                        </div>
-                        <br>
-                        <div class="epam-login">
-                            <button type="submit" class="uui-button large blue">
-                                <span class="fa" th:text="#{msg.add_tour}"/>
-                            </button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                </div>
+
+                <div th:unless="${param.tour_id}">
+                    <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.please_add_tour}"/>
+                    </h2>
+                    <div class="uui-login-panel center_form">
+                        <form th:action="@{/add_tour}" th:object="${tourDto}" method="get">
+                            <span class="fa" th:text="#{msg.photo}"/> <br>
+                            <input type="text" class="form-control" th:field="*{photo}" placeholder="Photo" required>
+                            <p th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" style="color:red"></p>
+
+                            <span class="fa" th:text="#{msg.date}"/> <br>
+                            <input type="date" class="form-control" th:field="*{date}" placeholder="Date" required>
+                            <p th:if="${#fields.hasErrors('date')}" th:errors="*{date}" style="color:red"></p>
+
+                            <span class="fa" th:text="#{msg.duration}"/> <br>
+                            <input type="number" value="http://" class="form-control" th:field="*{duration}"
+                                   placeholder="Duration" required>
+                            <p th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}" style="color:red"></p>
+
+                            <span class="fa" th:text="#{msg.description}"/> <br>
+                            <input type="text" class="form-control" th:field="*{description}" placeholder="Description"
+                                   required>
+                            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                               style="color:red"></p>
+
+                            <span class="fa" th:text="#{msg.cost}"/> <br>
+                            <input type="number" class="form-control" th:field="*{cost}" placeholder="Cost" required>
+                            <p th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" style="color:red"></p>
+
+                            <span th:text="#{msg.hotel}"/> <br>
+                            <select th:field="*{hotel_id}" class="selectpicker uui-form-element">
+                                <option selected="selected" disabled="true" value=""><span
+                                        th:text="#{msg.choose_hotel}"/></option>
+                                <option th:each="hotel : ${hotels}" th:value="${hotel.id}"
+                                        th:text="${hotel.name}">
+                                </option>
+                            </select><br>
+
+                            <span th:text="#{msg.country}"/> <br>
+                            <select th:field="*{country_id}" class="selectpicker uui-form-element">
+                                <option selected="selected" disabled="true" value=""><span
+                                        th:text="#{msg.choose_country}"/></option>
+                                <option th:each="country : ${countries}" th:value="${country.id}"
+                                        th:text="${country.name}">
+                                </option>
+                            </select><br>
+
+                            <span th:text="#{msg.tour_type}"/> <br>
+                            <select th:field="*{tour_type}" class="selectpicker uui-form-element"/>
+                            <option disabled="true" value=""><span
+                                    th:text="#{msg.choose_tour_type}"/></option>
+                            <option th:each="type : ${tour_types}" th:value="${type}" th:text="${type}"></option>
+                            </select>
+                            <div class="login-separator">
+                                <div class="border">
+                                    <span></span>
+                                </div>
+
+                                <div class="border">
+                                    <span></span>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="epam-login">
+                                <button type="submit" class="uui-button large blue">
+                                    <span class="fa" th:text="#{msg.add_tour}"/>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </main>

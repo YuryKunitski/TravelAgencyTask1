@@ -55,6 +55,16 @@
                                 You've successfully registered to our Travel Agency as <span sec:authentication="name"/>!
                             </div>
                         </div>
+                        <div th:if="${param.tour_removed}">
+                            <div class="alert alert-info">
+                                You've successfully removed a tour!
+                            </div>
+                        </div>
+                        <div th:if="${param.tour_updated}">
+                            <div class="alert alert-info">
+                                You've successfully updated a tour!
+                            </div>
+                        </div>
                         <h2 align="center" class="text-primary"><span th:text="#{msg.tour_search}"/></h2>
 
                         <form action="#" th:action="@{/search_tours}" th:object="${tourSearchForm}" method="get">
@@ -163,7 +173,11 @@
                             Stars: <span th:text="${tour.hotel_id.stars}"/></td>
                         <td><span th:text="${tour.country_id.name}"/> <br> <br>
                             <a th:href="@{/tour(tour_id=${tour.id})}" class="uui-button btn"><span
-                                    th:text="#{msg.btn_tour}"/></a>
+                                    th:text="#{msg.btn_tour}"/></a><br><br>
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/remove_tour(tour_id=${tour.id})}" class="uui-button btn"><span
+                                    th:text="#{msg.remove_tour}"/></a><br><br>
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/update_tour_view(tour_id=${tour.id}, photo=${tour.photo}, date=${tour.date}, duration=${tour.duration}, description=${tour.description}, cost=${tour.cost})}" class="uui-button btn"><span
+                                    th:text="#{msg.update_tour}"/></a>
                         </td>
                     </tr>
                     </tbody>
@@ -181,7 +195,7 @@
                                 </li>
                                 <li th:class="${!tourPage.hasPrevious()} ? disable" class="prev-page">
                                     <a th:href="@{${urlBuilder.replaceQueryParam('page', __${currentPage-1}__).toUriString()}}">
-                                        <i class="fa fa-angle-left"><span th:text="'<'"/></i>
+                                        <i class="fa fa-angle-left"></i>
                                     </a>
                                 </li>
                             </ul>
@@ -201,7 +215,7 @@
                             <ul class="pagination-items">
                                 <li th:class="${!tourPage.hasNext()} ? disable" class="next-page">
                                     <a th:href="@{${urlBuilder.replaceQueryParam('page', __${currentPage+1}__).toUriString()}}">
-                                        <i class="fa fa-angle-right"><span th:text="'>'"/></i>
+                                        <i class="fa fa-angle-right"></i>
                                     </a>
                                 </li>
                                 <li th:class="${tourPage.number==tourPage.getTotalPages()-1} ? disable"

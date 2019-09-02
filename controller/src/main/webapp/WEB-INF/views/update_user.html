@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <!-- jQuery Core -->
+    <script src="uui/js/lib/jquery-1.12.0.min.js"></script>
+
+    <!-- Bootstrap Core -->
+    <link rel="stylesheet" href="uui/bootstrap/css/bootstrap.min.css"/>
+    <script src="uui/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- EPAM UUI JavaScript Core -->
+    <script src="uui/js/uui-core.min.js" type="text/javascript"></script>
+
+    <!-- EPAM UUI Styles Core -->
+    <link rel="stylesheet" href="uui/css/uui-all.css"/>
+    <!-- Your custom CSS Styles -->
+    <link rel="stylesheet" href="uui/css/custom-styles.css"/>
+
+    <link rel="stylesheet" href="uui/fonts/font-awesome/css/font-awesome.css"/>
+
+    <!-- Scroll for UUI Sidebar -->
+    <link rel="stylesheet" href="uui/css/lib/components/jquery.mCustomScrollbar.min.css"/>
+    <script src="uui/js/lib/components/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Include elements that you need described on Getting Started page (above) -->
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+<div class="wrapper">
+
+    <header th:replace="header :: header"></header>
+
+    <div class="uui-main-container">
+        <main>
+            <div th:if="${param.register_error}">
+                <div class="alert alert-danger">
+                    <span th:text="#{msg.register_error}"/>
+                </div>
+            </div>
+
+            <div class="uui-login-panel center_form">
+                <div class="login-panel-body">
+                    <div class="login-panel-section">
+
+                        <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.frm_for_apdate_user}"/></h2>
+
+                        <form action="#" th:action="@{/update_user}" th:object="${userDto}" method="post">
+
+                            <input type="hidden" name="user_id"  th:value="${user_id}"/>
+
+                            <span class="fa" th:text="#{msg.login}"/> <br>
+                            <input type="text" class="form-control"  th:value="${login}" name="login" placeholder="Login"  required autofocus >
+                            <p th:if="${#fields.hasErrors('login')}" th:errors="*{login}" style="color:red"></p><br>
+
+                            <h5><span th:text="${'Current role is - '}" /><i  th:text="${role}" /></h5>
+                            <span th:text="#{msg.roles}"/><br>
+                            <select name="role" class="selectpicker uui-form-element">
+                                <option selected="selected" disabled="true" value=""><span
+                                        th:text="#{msg.choose_role}"/></option>
+                                <option th:each="role : ${roles}" th:value="${role}"
+                                        th:text="${role}">
+                                </option>
+                            </select><br>
+
+                            <div class="login-separator">
+                                <div class="border">
+                                    <span></span>
+                                </div>
+
+                                <div class="border">
+                                    <span></span>
+                                </div>
+                            </div>
+
+                            <div class="epam-login">
+                                <button type="submit" class="uui-button large blue" >
+                                    <span th:text="#{msg.update_user}"/>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer th:replace="footer :: footer"></footer>
+</div>
+</body>
+</html>

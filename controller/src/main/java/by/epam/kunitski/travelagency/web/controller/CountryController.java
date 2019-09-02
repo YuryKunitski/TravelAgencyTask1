@@ -5,6 +5,7 @@ import by.epam.kunitski.travelagency.dao.entity.Hotel;
 import by.epam.kunitski.travelagency.service.CountryService;
 import by.epam.kunitski.travelagency.web.webDto.HotelDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -20,12 +21,14 @@ public class CountryController {
   @Autowired
   private CountryService countryService;
 
+  @Secured("ROLE_ADMIN")
   @GetMapping("/add_country_view")
-  public String addCountryView(@Valid @ModelAttribute("country") Country country, Model model) {
+  public String addCountryView(@ModelAttribute("country") Country country, Model model) {
 
     return "addCountry";
   }
 
+  @Secured("ROLE_ADMIN")
   @GetMapping("/add_country")
   public String addCountry(@Valid @ModelAttribute("country") Country country,
                            BindingResult result, ModelMap model) {
@@ -36,7 +39,7 @@ public class CountryController {
 
       countryService.add(country);
 
-      return "redirect:/profile_admin";
+      return "redirect:/profile_admin?country_added";
 
   }
 }

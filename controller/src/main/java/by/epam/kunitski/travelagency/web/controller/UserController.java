@@ -11,11 +11,14 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +27,7 @@ import java.security.Principal;
 import java.util.Locale;
 
 @Controller
+@Validated
 public class UserController {
 
     @Autowired
@@ -44,15 +48,14 @@ public class UserController {
         return "login";
     }
 
-    //    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("hasRole('ADMIN') or isAnonymous()")
     @GetMapping("/registration")
     public String registrationView(@ModelAttribute("userDto") UserDto userDto, ModelMap model) {
-
 
         return "registration";
     }
 
-    //    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("hasRole('ADMIN') or isAnonymous()")
     @PostMapping("/registration")
     public String registration(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult result, Authentication authentication,
                                HttpServletRequest request, Locale locale) throws ServletException {
@@ -86,7 +89,7 @@ public class UserController {
 
             userService.add(user);
 
-            return "redirect:/profile_admin";
+            return "redirect:/profile_admin?admin_added";
         }
 
         user.setRole(User.UserRole.MEMBER);
@@ -121,6 +124,71 @@ public class UserController {
         return "userProfile";
     }
 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/view_all_users")
+    public String viewAllUsers(ModelMap model) {
+
+        model.addAttribute("users", userService.findAll());
+
+        return "allUser";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/remove_user")
+    public String removeUser(Model model,
+                             @RequestParam(value = "user_id", required = false) Integer user_id) {
+
+        userService.delete(user_id);
+
+        return "redirect:/view_all_users?removed_user";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/update_user_view")
+    public String updateUserView(Model model, @ModelAttribute("userDto") UserDto userDto,
+                                 @RequestParam(value = "user_id", required = false) Integer user_id) {
+
+        model.addAttribute("roles", User.UserRole.values());
+        model.addAttribute("login", userService.findById(user_id).get().getLogin());
+        model.addAttribute("role", userService.findById(user_id).get().getRole());
+        model.addAttribute("user_id", user_id);
+
+        return "update_user";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/update_user")
+    public String updateUser(@Valid @ModelAttribute("userDto") UserDto userDto,      //this row for validation login input
+                             BindingResult result, Model model,
+                             @RequestParam(value = "user_id", required = false) Integer user_id,
+                             @RequestParam(value = "role", required = false) String role,
+                             @RequestParam(value = "login", required = false) String login) {
+
+        if (result.hasErrors()) {
+
+            model.addAttribute("roles", User.UserRole.values());
+            model.addAttribute("login", userService.findById(user_id).get().getLogin());
+            model.addAttribute("role", userService.findById(user_id).get().getRole());
+            model.addAttribute("user_id", user_id);
+
+            return "update_user";
+        }
+
+        User user = new User();
+        user.setId(user_id);
+        user.setLogin(login);
+        user.setPassword(userService.findById(user_id).get().getPassword());
+
+        if (role != null) {
+            user.setRole(User.UserRole.valueOf(role));
+        } else {
+            user.setRole(userService.findById(user_id).get().getRole());
+        }
+
+        userService.update(user);
+
+        return "redirect:/view_all_users?updated_user";
+    }
 
 
 }
