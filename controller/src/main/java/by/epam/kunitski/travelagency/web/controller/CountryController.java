@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -37,9 +38,57 @@ public class CountryController {
       return "addCountry";
     }
 
-      countryService.add(country);
+    countryService.add(country);
 
-      return "redirect:/profile_admin?country_added";
+    return "redirect:/profile_admin?country_added";
 
+  }
+
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/view_all_countries")
+  public String viewAllCountries(@Valid @ModelAttribute("country") Country country, ModelMap model) {
+
+    model.addAttribute("countries", countryService.findAll());
+
+    return "allContries";
+  }
+
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/update_country_view")
+  public String updateCountryView(@Valid @ModelAttribute("country") Country country, Model model,
+                                  @RequestParam(value = "country_id", required = false) Integer country_id) {
+
+    model.addAttribute("country_id", country_id);
+
+    country.setId(country_id);
+    country.setName(countryService.findById(country_id).get().getName());
+
+    return "addCountry";
+  }
+
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/update_country")
+  public String updateCountry(@Valid @ModelAttribute("country") Country country, BindingResult result,
+                              @RequestParam(value = "country_id", required = false) Integer country_id) {
+
+    if (result.hasErrors()) {
+
+      return "addCountry";
+    }
+
+    country.setId(country_id);
+
+    countryService.update(country);
+
+    return "redirect:/profile_admin?country_updated";
+  }
+
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/remove_country")
+  public String removeCountry(@RequestParam(value = "country_id", required = false) Integer country_id) {
+
+    countryService.delete(country_id);
+
+    return "redirect:/profile_admin?country_removed";
   }
 }

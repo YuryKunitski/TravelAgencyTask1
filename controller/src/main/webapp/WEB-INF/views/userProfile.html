@@ -75,6 +75,21 @@
                                 You've successfully removed a hotel!
                             </div>
                         </div>
+                        <div th:if="${param.hotel_updated}">
+                            <div class="alert alert-info">
+                                You've successfully updated a hotel!
+                            </div>
+                        </div>
+                        <div th:if="${param.country_updated}">
+                            <div class="alert alert-info">
+                                You've successfully updated a country!
+                            </div>
+                        </div>
+                        <div th:if="${param.country_removed}">
+                            <div class="alert alert-info">
+                                You've successfully removed a country!
+                            </div>
+                        </div>
                         <div class="person-profile-photo">
                             <img sec:authorize="hasRole('MEMBER')" src="uui/images/icons/member_icon.jpg" alt=""/>
                             <img sec:authorize="hasRole('ADMIN')" src="uui/images/icons/admin_icon.jpg" alt=""/>
@@ -137,7 +152,8 @@
                                             <td><span th:text="${tour.country_id.name}"/> <br> <br>
                                                 <a th:href="@{/tour(tour_id=${tour.id})}" class="uui-button btn"><span
                                                         th:text="#{msg.btn_tour}"/></a><br><br>
-                                                <a th:href="@{/create_review(tour_id=${tour.id})}" class="uui-button btn"><span
+                                                <a th:href="@{/create_review(tour_id=${tour.id})}"
+                                                   class="uui-button btn"><span
                                                         th:text="#{msg.btn_review}"/></a>
 
                                         </tr>
@@ -182,13 +198,15 @@
                                                         th:text="#{msg.btn_tour}"/></a><br><br>
 
                                                 <form class="form" th:action="@{/remove_review}" method="get">
-                                                    <input type="hidden" name="review_id"  th:value="${review.id}"/>
-                                                        <button type="submit" class="uui-button btn" >
-                                                            <span th:text="#{msg.remove_review}"/>
-                                                        </button>
-                                                </form><br>
+                                                    <input type="hidden" name="review_id" th:value="${review.id}"/>
+                                                    <button type="submit" class="uui-button btn">
+                                                        <span th:text="#{msg.remove_review}"/>
+                                                    </button>
+                                                </form>
+                                                <br>
 
-                                                <a th:href="@{/update_review(tour_id=${review.tourID.id}, review_id=${review.id})}" class="uui-button btn"><span
+                                                <a th:href="@{/update_review(tour_id=${review.tourID.id}, review_id=${review.id})}"
+                                                   class="uui-button btn"><span
                                                         th:text="#{msg.update_review}"/></a></td>
 
                                         </tr>
@@ -247,7 +265,9 @@
 
                             <div id="country" class="tab-pane">
                                 <a th:href="@{/add_country_view}" class="uui-button btn"><span
-                                        th:text="#{msg.add_country}"/></a>
+                                        th:text="#{msg.add_country}"/></a><br><br>
+                                <a th:href="@{/view_all_countries}" class="uui-button btn"><span
+                                        th:text="#{msg.view_all_country}"/></a>
                             </div>
 
                         </div>

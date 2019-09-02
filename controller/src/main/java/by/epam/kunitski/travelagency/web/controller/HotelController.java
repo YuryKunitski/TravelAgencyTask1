@@ -18,105 +18,122 @@ import javax.validation.Valid;
 @Controller
 public class HotelController {
 
-    @Autowired
-    private HotelService hotelService;
+  @Autowired
+  private HotelService hotelService;
 
-    @GetMapping("/hotel")
-    public String viewHotel(@RequestParam(value = "hotel_id", required = false) Integer hotel_id, Model model) {
+  @GetMapping("/hotel")
+  public String viewHotel(@RequestParam(value = "hotel_id", required = false) Integer hotel_id, Model model) {
 
-        Hotel hotel = new Hotel();
+    Hotel hotel = new Hotel();
 
-        if (hotelService.findById(hotel_id).isPresent()) {
-            hotel = hotelService.findById(hotel_id).get();
-        }
-
-        model.addAttribute("hotel", hotel);
-
-        return "hotel";
+    if (hotelService.findById(hotel_id).isPresent()) {
+      hotel = hotelService.findById(hotel_id).get();
     }
 
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/add_hotel_view")
-    public String addHotelView(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto, Model model) {
+    model.addAttribute("hotel", hotel);
 
-        model.addAttribute("features", Hotel.FeatureType.values());
+    return "hotel";
+  }
 
-        return "addHotel";
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/add_hotel_view")
+  public String addHotelView(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto, Model model) {
+
+    model.addAttribute("features", Hotel.FeatureType.values());
+
+    return "addHotel";
+  }
+
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/add_hotel")
+  public String addHotel(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto,
+                         BindingResult result, ModelMap model) {
+
+    model.addAttribute("features", Hotel.FeatureType.values());
+
+    if (result.hasErrors()) {
+      return "addHotel";
     }
 
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/add_hotel")
-    public String addHotel(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto,
-                           BindingResult result, ModelMap model) {
 
-        model.addAttribute("features", Hotel.FeatureType.values());
+      Hotel hotel = new Hotel();
+      hotel.setName(hotelDto.getName());
+      hotel.setStars(hotelDto.getStars());
+      hotel.setWebsite(hotelDto.getWebsite());
+      hotel.setLatitude(hotelDto.getLatitude());
+      hotel.setLongitude(hotelDto.getLongitude());
+      hotel.setFeatures(hotelDto.getFeatures());
 
-        if (result.hasErrors()) {
-            return "addHotel";
-        }
+      hotelService.add(hotel);
 
-        if (hotelDto != null) {
-            Hotel hotel = new Hotel();
-            hotel.setName(hotelDto.getName());
-            hotel.setStars(hotelDto.getStars());
-            hotel.setWebsite(hotelDto.getWebsite());
-            hotel.setLatitude(hotelDto.getLatitude());
-            hotel.setLongitude(hotelDto.getLongitude());
-            hotel.setFeatures(hotelDto.getFeatures());
+    return "redirect:/profile_admin?hotel_added";
+  }
 
-            hotelService.add(hotel);
-        }
-        return "redirect:/profile_admin?hotel_added";
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/view_all_hotels")
+  public String viewAllHotels(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto, ModelMap model) {
+
+    model.addAttribute("hotels", hotelService.findAll());
+
+    return "allHotels";
+  }
+
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/update_hotel_view")
+  public String updateHotelView(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto, BindingResult result,
+                                @RequestParam(value = "hotel_id", required = false) Integer hotel_id,
+                                ModelMap model) {
+
+    model.addAttribute("features", Hotel.FeatureType.values());
+    model.addAttribute("hotel_id", hotel_id);
+
+    Hotel hotel = hotelService.findById(hotel_id).get();
+
+    hotelDto.setName(hotel.getName());
+    hotelDto.setStars(hotel.getStars());
+    hotelDto.setWebsite(hotel.getWebsite());
+    hotelDto.setLatitude(hotel.getLatitude());
+    hotelDto.setLongitude(hotel.getLongitude());
+    hotelDto.setFeatures(hotel.getFeatures());
+
+    return "addHotel";
+  }
+
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/update_hotel")
+  public String updateHotel(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto, BindingResult result,
+                            @RequestParam(value = "hotel_id", required = false) Integer hotel_id,
+                            ModelMap model) {
+
+    if (result.hasErrors()) {
+      model.addAttribute("features", Hotel.FeatureType.values());
+      model.addAttribute("hotel_id", hotel_id);
+
+      return "addHotel";
     }
 
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/view_all_hotels")
-    public String viewAllHotels(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto,
-                           BindingResult result, ModelMap model) {
+    Hotel hotel = new Hotel();
+    hotel.setId(hotel_id);
+    hotel.setName(hotelDto.getName());
+    hotel.setStars(hotelDto.getStars());
+    hotel.setWebsite(hotelDto.getWebsite());
+    hotel.setLatitude(hotelDto.getLatitude());
+    hotel.setLongitude(hotelDto.getLongitude());
+    hotel.setFeatures(hotelDto.getFeatures());
 
-        model.addAttribute("hotels", hotelService.findAll());
+    hotelService.update(hotel);
 
-        return "allHotels";
-    }
+    return "redirect:/profile_admin?hotel_updated";
 
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/update_hotel_view")
-    public String updateHotelView(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto,
-                                  @RequestParam(value = "hotel_id", required = false) Integer hotel_id,
-                                BindingResult result, ModelMap model) {
+  }
 
-        model.addAttribute("hotels", hotelService.findAll());
-        model.addAttribute("features", Hotel.FeatureType.values());
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/remove_hotel")
+  public String removeHotel(@RequestParam(value = "hotel_id", required = false) Integer hotel_id) {
 
-        Hotel hotel = hotelService.findById(hotel_id).get();
+    hotelService.delete(hotel_id);
 
-        hotelDto.setName(hotel.getName());
-        hotelDto.setStars(hotel.getStars());
-        hotelDto.setWebsite(hotel.getWebsite());
-        hotelDto.setLatitude(hotel.getLatitude());
-        hotelDto.setLongitude(hotel.getLongitude());
-
-        return "addHotel";
-    }
-
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/update_hotel")
-    public String updateHotel(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto,
-                                  BindingResult result, ModelMap model) {
-
-        model.addAttribute("hotels", hotelService.findAll());
-
-        return "";
-    }
-
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/remove_hotel")
-    public String removeHotel(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto,
-                                  BindingResult result, ModelMap model) {
-
-        System.out.println("remove hotel method");
-
-        return "redirect:/profile_admin?hotel_removed";
-    }
+    return "redirect:/profile_admin?hotel_removed";
+  }
 
 }

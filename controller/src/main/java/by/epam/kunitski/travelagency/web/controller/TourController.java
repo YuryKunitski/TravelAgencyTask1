@@ -88,7 +88,7 @@ public class TourController {
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/remove_tour")
-    public String removeTour(@RequestParam(value = "tour_id", required = false) Integer tour_id, Model model) {
+    public String removeTour(@RequestParam(value = "tour_id", required = false) Integer tour_id) {
 
         tourService.delete(tour_id);
 

@@ -44,6 +44,9 @@
                     </h2>
                     <div class="uui-login-panel center_form">
                         <form th:action="@{/update_hotel}" th:object="${hotelDto}" method="get">
+
+                            <input type="hidden" name="hotel_id" th:value="${hotel_id}"/>
+
                             <span class="fa" th:text="#{msg.hotel_name}"/> <br>
                             <input type="text" class="form-control" th:field="*{name}" placeholder="Hotel's name" required
                                    autofocus>
@@ -69,6 +72,7 @@
                             <select th:field="*{features}" class="selectpicker uui-form-element">
                                 <option th:each="feature : ${features}" th:value="${feature}" th:text="${feature}"></option>
                             </select>
+
                             <div class="login-separator">
                                 <div class="border">
                                     <span></span>
@@ -81,7 +85,7 @@
                             <br>
                             <div class="epam-login">
                                 <button type="submit" class="uui-button large blue">
-                                    <span class="fa" th:text="#{msg.add_hotel}"/>
+                                    <span class="fa" th:text="#{msg.update_hotel}"/>
                                 </button>
                             </div>
                         </form>

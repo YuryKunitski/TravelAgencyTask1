@@ -41,49 +41,39 @@
             <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.all_hotels}"/>
             </h2>
 
-            <div th:if="${!hotels.empty}">
+            <div th:if="${!countries.empty}">
                 <br/>
                 <table class="uui-table">
                     <thead>
                     <tr>
                         <th>№</th>
                         <th>Hotel's name</th>
-                        <th>Stars</th>
-                        <th>Website</th>
-                        <th>Latitude</th>
-                        <th>Longitude</th>
-                        <th>Feature</th>
                         <th>Options</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    <tr th:each="hotel,iterator: ${hotels}">
+                    <tr th:each="country,iterator: ${countries}">
                         <td th:text="${iterator.index+1}"></td>
-                        <td th:text="${hotel.name}"/>
-                        <td th:text="${hotel.stars}"/>
-                        <td th:text="${hotel.website}"/>
-                        <td th:text="${hotel.latitude}"/>
-                        <td th:text="${hotel.longitude}"/>
-                        <td th:text="${hotel.features}"/>
+                        <td th:text="${country.name}"/>
 
-                        <td><a th:href="@{/update_hotel_view(hotel_id=${hotel.id})}"
+                        <td><a th:href="@{/update_country_view(country_id=${country.id})}"
                                class="uui-button btn"><span
-                                th:text="#{msg.update_hotel}"/></a><br><br>
+                                th:text="#{msg.update_country}"/></a><br><br>
 
-                            <form class="form" th:action="@{/remove_hotel}" method="get">
-                                <input type="hidden" name="hotel_id"  th:value="${hotel.id}"/>
-                                <button type="submit" class="uui-button btn" >
-                                    <span th:text="#{msg.remove_hotel}"/>
+                            <form class="form" th:action="@{/remove_country}" method="get">
+                                <input type="hidden" name="country_id" th:value="${country.id}"/>
+                                <button type="submit" class="uui-button btn">
+                                    <span th:text="#{msg.remove_country}"/>
                                 </button>
-                            </form></td>
-
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div th:unless="${!hotels.empty}">
-                <h3><span th:text="#{msg.no_hotels}"/></h3>
+            <div th:unless="${!countries.empty}">
+                <h3><span th:text="#{msg.no_countries}"/></h3>
             </div>
         </main>
     </div>

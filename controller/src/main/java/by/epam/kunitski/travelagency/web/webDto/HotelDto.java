@@ -17,7 +17,7 @@ public class HotelDto {
     @Range(min = 1, max = 5)
     private Integer stars;
 
-    @URL
+    @URL(message = "{msg.valid_url}")
     private String website;
 
     @Range(min = -90, max = 90)
