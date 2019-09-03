@@ -80,7 +80,17 @@ public class TourServiceImpl implements TourService {
         return violationsTour;
     }
 
+    @Transactional
+    @Override
+    public void uploadTours(Tour[] tours) {
 
+        for (Tour tour : tours) {
+            tourDAO.create(tour);
+        }
+
+    }
+
+    @Override
     public Page<Tour> findPaginated(Pageable pageable, Specification<Tour> tourSpecification) {
 
         List<Tour> tours = findAllByCriteria(tourSpecification);
@@ -90,7 +100,7 @@ public class TourServiceImpl implements TourService {
         int startItem = currentPage * pageSize;
         List<Tour> list;
 
-        if (tours.size() < startItem){
+        if (tours.size() < startItem) {
             list = Collections.emptyList();
         } else {
             int toIndex = Math.min(startItem + pageSize, tours.size());

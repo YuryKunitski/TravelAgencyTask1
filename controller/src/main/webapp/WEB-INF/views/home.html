@@ -73,7 +73,8 @@
 
                                     <th><span th:text="#{msg.min_cost}"/> <br>
                                         <input type="number" th:field="*{minCost}" class="uui-form-element"/><br>
-                                        <p th:if="${#fields.hasErrors('minCost')}" th:errors="*{minCost}" style="color:red"></p>
+                                        <p th:if="${#fields.hasErrors('minCost')}" th:errors="*{minCost}"
+                                           style="color:red"></p>
                                     </th>
 
                                     <th><span th:text="#{msg.min_duration}"/> <br>
@@ -162,7 +163,7 @@
 
                     <tbody>
                     <tr th:each="tour: ${tourPage.content}">
-                        <td><img th:src="${tour.photo}" alt=""/></td>
+                        <td><img th:src="${tour.photo}" alt="photo" width="220" height="180"/></td>
                         <td th:text="${tour.date}"/>
                         <td th:text="${tour.duration}"/>
                         <td th:text="${tour.description}"/>
@@ -174,9 +175,18 @@
                         <td><span th:text="${tour.country_id.name}"/> <br> <br>
                             <a th:href="@{/tour(tour_id=${tour.id})}" class="uui-button btn"><span
                                     th:text="#{msg.btn_tour}"/></a><br><br>
-                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/remove_tour(tour_id=${tour.id})}" class="uui-button btn"><span
-                                    th:text="#{msg.remove_tour}"/></a><br><br>
-                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/update_tour_view(tour_id=${tour.id}, photo=${tour.photo}, date=${tour.date}, duration=${tour.duration}, description=${tour.description}, cost=${tour.cost})}" class="uui-button btn"><span
+                            <div sec:authorize="hasRole('ADMIN')">
+                                <form class="form" th:action="@{/remove_tour}" method="post">
+                                    <input type="hidden" name="tour_id" th:value="${tour.id}"/>
+                                    <button type="submit" class="uui-button btn">
+                                        <span th:text="#{msg.remove_tour}"/>
+                                    </button>
+                                </form>
+                            </div>
+                            <br>
+                            <a sec:authorize="hasRole('ADMIN')"
+                               th:href="@{/update_tour_view(tour_id=${tour.id}, photo=${tour.photo}, date=${tour.date}, duration=${tour.duration}, description=${tour.description}, cost=${tour.cost})}"
+                               class="uui-button btn"><span
                                     th:text="#{msg.update_tour}"/></a>
                         </td>
                     </tr>

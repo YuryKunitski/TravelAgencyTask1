@@ -1,10 +1,7 @@
 package by.epam.kunitski.travelagency.web.controller;
 
 import by.epam.kunitski.travelagency.dao.entity.Tour;
-import by.epam.kunitski.travelagency.service.CountryService;
-import by.epam.kunitski.travelagency.service.HotelService;
-import by.epam.kunitski.travelagency.service.ReviewService;
-import by.epam.kunitski.travelagency.service.TourService;
+import by.epam.kunitski.travelagency.service.*;
 import by.epam.kunitski.travelagency.web.webDto.TourDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -13,9 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Controller
 public class TourController {
@@ -31,6 +33,9 @@ public class TourController {
 
     @Autowired
     private HotelService hotelService;
+
+    @Autowired
+    private JsonParserTourService jsonParserTourService;
 
     @GetMapping("/tour")
     public String allTours(@RequestParam(value = "tour_id", required = false) Integer tour_id, Model model) {
@@ -60,7 +65,7 @@ public class TourController {
     }
 
     @Secured("ROLE_ADMIN")
-    @GetMapping("/add_tour")
+    @PostMapping("/add_tour")
     public String addTour(@Valid @ModelAttribute("tourDto") TourDto tourDto, BindingResult result, Model model) {
 
         model.addAttribute("tour_types", Tour.TourType.values());
@@ -87,7 +92,7 @@ public class TourController {
     }
 
     @Secured("ROLE_ADMIN")
-    @GetMapping("/remove_tour")
+    @PostMapping("/remove_tour")
     public String removeTour(@RequestParam(value = "tour_id", required = false) Integer tour_id) {
 
         tourService.delete(tour_id);
@@ -120,7 +125,7 @@ public class TourController {
     }
 
     @Secured("ROLE_ADMIN")
-    @GetMapping("/update_tour")
+    @PostMapping("/update_tour")
     public String updateTour(@Valid @ModelAttribute("tourDto") TourDto tourDto, BindingResult result,
                              @RequestParam(value = "tour_id", required = false) Integer tour_id, Model model) {
 
@@ -148,4 +153,23 @@ public class TourController {
 
         return "redirect:/search_tours?tour_updated";
     }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/upload_tour")
+    public String uploadTour(@RequestParam(value = "tourUpload", required = false) MultipartFile tourUpload) throws IOException {
+
+        if (tourUpload.getSize() != 0) {
+
+            InputStream inputStream = tourUpload.getInputStream();
+            Tour[] tours = jsonParserTourService.parseJsonTours(inputStream);
+
+            tourService.uploadTours(tours);
+
+            return "redirect:/profile_admin?tour_loaded";
+        }
+
+        return "redirect:/profile_admin?tour_loaded_fail";
+
+    }
+
 }

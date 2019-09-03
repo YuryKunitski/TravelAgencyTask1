@@ -43,7 +43,7 @@
                     <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.form_for_update_hotel}"/>
                     </h2>
                     <div class="uui-login-panel center_form">
-                        <form th:action="@{/update_hotel}" th:object="${hotelDto}" method="get">
+                        <form th:action="@{/update_hotel}" th:object="${hotelDto}" method="post">
 
                             <input type="hidden" name="hotel_id" th:value="${hotel_id}"/>
 
@@ -97,7 +97,7 @@
                     <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.please_add_hotel}"/>
                     </h2>
                     <div class="uui-login-panel center_form">
-                        <form th:action="@{/add_hotel}" th:object="${hotelDto}" method="get">
+                        <form th:action="@{/add_hotel}" th:object="${hotelDto}" method="post">
                             <span class="fa" th:text="#{msg.hotel_name}"/> <br>
                             <input type="text" class="form-control" th:field="*{name}" placeholder="Hotel's name" required
                                    autofocus>

@@ -134,7 +134,7 @@ public class UserController {
     }
 
     @Secured("ROLE_ADMIN")
-    @GetMapping("/remove_user")
+    @PostMapping("/remove_user")
     public String removeUser(Model model,
                              @RequestParam(value = "user_id", required = false) Integer user_id) {
 

@@ -44,7 +44,7 @@
                     <h2><span th:text="#{msg.pls_update_review}"/></h2><br>
                     <h5><span th:text="${'Your previous review: '}"/></h5><i th:text="${currentText}"/><br><br>
 
-                    <form class="form" th:action="@{/update_review}" method="get">
+                    <form class="form" th:action="@{/update_review}" method="post">
                         <textarea name="textReview" class="uui-form-element" rows="3" cols="10"
                                   placeholder="Review text" required autofocus></textarea>
                         <input type="hidden" name="review_id" th:value="${review_id}"/>
@@ -69,7 +69,7 @@
 
                 <div th:unless="${param.review_id}">
                     <h2><span th:text="#{msg.leave_review}"/></h2>
-                    <form class="form" th:action="@{/create_review}" method="get">
+                    <form class="form" th:action="@{/create_review}" method="post">
                         <textarea name="textReview" class="uui-form-element" rows="3" cols="10"
                                   placeholder="Review text" required autofocus></textarea>
                         <input type="hidden" name="tour_id" th:value="${tour_id}"/>

@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
@@ -45,7 +46,7 @@ public class HotelController {
   }
 
   @Secured("ROLE_ADMIN")
-  @GetMapping("/add_hotel")
+  @PostMapping("/add_hotel")
   public String addHotel(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto,
                          BindingResult result, ModelMap model) {
 
@@ -100,7 +101,7 @@ public class HotelController {
   }
 
   @Secured("ROLE_ADMIN")
-  @GetMapping("/update_hotel")
+  @PostMapping("/update_hotel")
   public String updateHotel(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto, BindingResult result,
                             @RequestParam(value = "hotel_id", required = false) Integer hotel_id,
                             ModelMap model) {
@@ -128,7 +129,7 @@ public class HotelController {
   }
 
   @Secured("ROLE_ADMIN")
-  @GetMapping("/remove_hotel")
+  @PostMapping("/remove_hotel")
   public String removeHotel(@RequestParam(value = "hotel_id", required = false) Integer hotel_id) {
 
     hotelService.delete(hotel_id);

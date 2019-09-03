@@ -42,7 +42,7 @@
                 <div th:if="${param.country_id}">
                     <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.form_for_update_country}"/></h2>
                     <div class="uui-login-panel center_form">
-                        <form th:action="@{/update_country}" th:object="${country}" method="get">
+                        <form th:action="@{/update_country}" th:object="${country}" method="post">
 
                             <input type="hidden" name="country_id" th:value="${country_id}"/>
 
@@ -73,7 +73,7 @@
                 <div th:unless="${param.country_id}">
                     <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.please_add_country}"/></h2>
                     <div class="uui-login-panel center_form">
-                        <form th:action="@{/add_country}" th:object="${country}" method="get">
+                        <form th:action="@{/add_country}" th:object="${country}" method="post">
                             <span class="fa" th:text="#{msg.country}"/> <br>
                             <input type="text" class="form-control" th:field="*{name}" placeholder="Country's name" required
                                    autofocus>

@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
@@ -30,7 +31,7 @@ public class CountryController {
   }
 
   @Secured("ROLE_ADMIN")
-  @GetMapping("/add_country")
+  @PostMapping("/add_country")
   public String addCountry(@Valid @ModelAttribute("country") Country country,
                            BindingResult result, ModelMap model) {
 
@@ -67,7 +68,7 @@ public class CountryController {
   }
 
   @Secured("ROLE_ADMIN")
-  @GetMapping("/update_country")
+  @PostMapping("/update_country")
   public String updateCountry(@Valid @ModelAttribute("country") Country country, BindingResult result,
                               @RequestParam(value = "country_id", required = false) Integer country_id) {
 
@@ -84,7 +85,7 @@ public class CountryController {
   }
 
   @Secured("ROLE_ADMIN")
-  @GetMapping("/remove_country")
+  @PostMapping("/remove_country")
   public String removeCountry(@RequestParam(value = "country_id", required = false) Integer country_id) {
 
     countryService.delete(country_id);

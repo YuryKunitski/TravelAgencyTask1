@@ -61,7 +61,7 @@
                                class="uui-button btn"><span
                                 th:text="#{msg.update_country}"/></a><br><br>
 
-                            <form class="form" th:action="@{/remove_country}" method="get">
+                            <form class="form" th:action="@{/remove_country}" method="post">
                                 <input type="hidden" name="country_id" th:value="${country.id}"/>
                                 <button type="submit" class="uui-button btn">
                                     <span th:text="#{msg.remove_country}"/>

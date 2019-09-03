@@ -44,7 +44,7 @@
                             th:text="#{msg.form_update_tour}"/>
                     </h2>
                     <div class="uui-login-panel center_form">
-                        <form th:action="@{/update_tour}" th:object="${tourDto}" method="get">
+                        <form th:action="@{/update_tour}" th:object="${tourDto}" method="post">
 
                             <input type="hidden" name="tour_id" th:value="${tour_id}"/>
 
@@ -112,7 +112,7 @@
                     <h2 align="center" class="form-signin-heading text-primary"><span th:text="#{msg.please_add_tour}"/>
                     </h2>
                     <div class="uui-login-panel center_form">
-                        <form th:action="@{/add_tour}" th:object="${tourDto}" method="get">
+                        <form th:action="@{/add_tour}" th:object="${tourDto}" method="post">
                             <span class="fa" th:text="#{msg.photo}"/> <br>
                             <input type="text" class="form-control" th:field="*{photo}" placeholder="Photo" required>
                             <p th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" style="color:red"></p>

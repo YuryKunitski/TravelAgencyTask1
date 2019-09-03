@@ -90,6 +90,26 @@
                                 You've successfully removed a country!
                             </div>
                         </div>
+                        <div th:if="${param.tour_loaded}">
+                            <div class="alert alert-info">
+                                You've successfully loaded a tour!
+                            </div>
+                        </div>
+                        <div th:if="${param.tour_loaded_fail}">
+                            <div class="alert alert-danger">
+                                Something went wrong!
+                            </div>
+                        </div>
+                        <div th:if="${param.removed_review}">
+                            <div class="alert alert-info">
+                                You've successfully removed a review!
+                            </div>
+                        </div>
+                        <div th:if="${param.updated_review}">
+                            <div class="alert alert-info">
+                                You've successfully updated a review!
+                            </div>
+                        </div>
                         <div class="person-profile-photo">
                             <img sec:authorize="hasRole('MEMBER')" src="uui/images/icons/member_icon.jpg" alt=""/>
                             <img sec:authorize="hasRole('ADMIN')" src="uui/images/icons/admin_icon.jpg" alt=""/>
@@ -152,7 +172,7 @@
                                             <td><span th:text="${tour.country_id.name}"/> <br> <br>
                                                 <a th:href="@{/tour(tour_id=${tour.id})}" class="uui-button btn"><span
                                                         th:text="#{msg.btn_tour}"/></a><br><br>
-                                                <a th:href="@{/create_review(tour_id=${tour.id})}"
+                                                <a th:href="@{/create_review_view(tour_id=${tour.id})}"
                                                    class="uui-button btn"><span
                                                         th:text="#{msg.btn_review}"/></a>
 
@@ -197,7 +217,7 @@
                                                    class="uui-button btn"><span
                                                         th:text="#{msg.btn_tour}"/></a><br><br>
 
-                                                <form class="form" th:action="@{/remove_review}" method="get">
+                                                <form class="form" th:action="@{/remove_review}" method="post">
                                                     <input type="hidden" name="review_id" th:value="${review.id}"/>
                                                     <button type="submit" class="uui-button btn">
                                                         <span th:text="#{msg.remove_review}"/>
@@ -205,7 +225,7 @@
                                                 </form>
                                                 <br>
 
-                                                <a th:href="@{/update_review(tour_id=${review.tourID.id}, review_id=${review.id})}"
+                                                <a th:href="@{/update_review_view(tour_id=${review.tourID.id}, review_id=${review.id})}"
                                                    class="uui-button btn"><span
                                                         th:text="#{msg.update_review}"/></a></td>
 
@@ -253,7 +273,17 @@
 
                             <div id="tour" class="tab-pane">
                                 <a th:href="@{/add_tour_view}" class="uui-button btn"><span
-                                        th:text="#{msg.add_tour}"/></a>
+                                        th:text="#{msg.add_tour}"/></a><br><br>
+                                <a th:href="@{/search_tours}" class="uui-button btn"><span
+                                        th:text="#{msg.view_tours}"/></a><br><br>
+                                <div class=" ">
+                                <form method="post" th:action="@{/upload_tour}" enctype="multipart/form-data">
+                                    <h6><span th:text="#{msg.pick_file}"/></h6>
+                                    <input type="file" th:name="tourUpload" size="50" class="uui-button btn"/><br>
+                                    <input type="submit" value="Upload tour" class="uui-button btn"/>
+                                </form>
+                                </div>
+
                             </div>
 
                             <div id="hotel" class="tab-pane">

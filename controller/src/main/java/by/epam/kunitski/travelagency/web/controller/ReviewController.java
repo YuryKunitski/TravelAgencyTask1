@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
@@ -27,12 +28,23 @@ public class ReviewController {
     @Autowired
     private TourService tourService;
 
-    @GetMapping("/create_review")
-    public String addReview(Principal principal, Model model,
-                                  @RequestParam(value = "tour_id", required = false) Integer tour_id,
-                                  @RequestParam(value = "textReview", required = false) String textReview) {
+    @GetMapping("/create_review_view")
+    public String addReviewView(Principal principal, Model model,
+                                @RequestParam(value = "tour_id", required = false) Integer tour_id,
+                                @RequestParam(value = "textReview", required = false) String textReview) {
 
         model.addAttribute("tour_id", tour_id);
+
+        return "review";
+    }
+
+    @PostMapping("/create_review")
+    public String addReview(Principal principal, Model model,
+                            @RequestParam(value = "tour_id", required = false) Integer tour_id,
+                            @RequestParam(value = "textReview", required = false) String textReview) {
+
+        model.addAttribute("tour_id", tour_id);
+
         if (textReview != null) {
 
             User user = userService.findByUserName(principal.getName());
@@ -56,7 +68,7 @@ public class ReviewController {
     }
 
 
-    @GetMapping("/remove_review")
+    @PostMapping("/remove_review")
     public String removeReview(Model model,
                                @RequestParam(value = "review_id", required = false) Integer review_id) {
 
@@ -65,17 +77,27 @@ public class ReviewController {
         return "redirect:/profile_member?removed_review";
     }
 
-    @GetMapping("/update_review")
-    public String updateReview(Model model, Principal principal,
-                               @RequestParam(value = "tour_id", required = false) Integer tour_id,
-                               @RequestParam(value = "review_id", required = false) Integer review_id,
-                               @RequestParam(value = "textReview", required = false) String textReview) {
+    @GetMapping("/update_review_view")
+    public String updateReviewView(Model model, Principal principal,
+                                   @RequestParam(value = "tour_id", required = false) Integer tour_id,
+                                   @RequestParam(value = "review_id", required = false) Integer review_id,
+                                   @RequestParam(value = "textReview", required = false) String textReview) {
 
         String currentText = reviewService.findById(review_id).get().getText();
 
         model.addAttribute("tour_id", tour_id);
         model.addAttribute("review_id", review_id);
         model.addAttribute("currentText", currentText);
+
+        return "review";
+
+    }
+
+    @PostMapping("/update_review")
+    public String updateReview(Model model, Principal principal,
+                               @RequestParam(value = "tour_id", required = false) Integer tour_id,
+                               @RequestParam(value = "review_id", required = false) Integer review_id,
+                               @RequestParam(value = "textReview", required = false) String textReview) {
 
         if (textReview != null) {
 

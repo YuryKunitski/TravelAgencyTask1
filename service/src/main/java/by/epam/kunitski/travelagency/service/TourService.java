@@ -11,6 +11,8 @@ import java.util.List;
 public interface TourService extends EntityService<Tour> {
 
     List<Tour> findAllByUserId(int userId);
+
     Page<Tour> findPaginated(Pageable pageable, Specification<Tour> tourSpecification);
 
+    void uploadTours(Tour[] tours);
 }

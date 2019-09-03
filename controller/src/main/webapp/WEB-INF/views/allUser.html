@@ -73,7 +73,7 @@
                                class="uui-button btn"><span
                                     th:text="#{msg.update_user}"/></a><br><br>
 
-                          <form class="form" th:action="@{/remove_user}" method="get">
+                          <form class="form" th:action="@{/remove_user}" method="post">
                                 <input type="hidden" name="user_id"  th:value="${user.id}"/>
                                 <button type="submit" class="uui-button btn" >
                                     <span th:text="#{msg.remove_user}"/>
