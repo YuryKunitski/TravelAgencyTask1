@@ -45,10 +45,9 @@ public class ReviewController {
 
         model.addAttribute("tour_id", tour_id);
 
-        if (textReview != null) {
-
             User user = userService.findByUserName(principal.getName());
             Tour tour = new Tour();
+
             if (tourService.findById(tour_id).isPresent()) {
                 tour = tourService.findById(tour_id).get();
             }
@@ -62,9 +61,6 @@ public class ReviewController {
             reviewService.add(review);
 
             return "redirect:/profile_member?left_review";
-        }
-
-        return "review";
     }
 
 
@@ -94,7 +90,7 @@ public class ReviewController {
     }
 
     @PostMapping("/update_review")
-    public String updateReview(Model model, Principal principal,
+    public String updateReview(Principal principal,
                                @RequestParam(value = "tour_id", required = false) Integer tour_id,
                                @RequestParam(value = "review_id", required = false) Integer review_id,
                                @RequestParam(value = "textReview", required = false) String textReview) {

@@ -25,19 +25,14 @@ public class CountryController {
 
   @Secured("ROLE_ADMIN")
   @GetMapping("/add_country_view")
-  public String addCountryView(@ModelAttribute("country") Country country, Model model) {
+  public String addCountryView(@ModelAttribute("country") Country country) {
 
     return "addCountry";
   }
 
   @Secured("ROLE_ADMIN")
   @PostMapping("/add_country")
-  public String addCountry(@Valid @ModelAttribute("country") Country country,
-                           BindingResult result, ModelMap model) {
-
-    if (result.hasErrors()) {
-      return "addCountry";
-    }
+  public String addCountry(@ModelAttribute("country") Country country) {
 
     countryService.add(country);
 
@@ -47,7 +42,7 @@ public class CountryController {
 
   @Secured("ROLE_ADMIN")
   @GetMapping("/view_all_countries")
-  public String viewAllCountries(@Valid @ModelAttribute("country") Country country, ModelMap model) {
+  public String viewAllCountries(@ModelAttribute("country") Country country, ModelMap model) {
 
     model.addAttribute("countries", countryService.findAll());
 
@@ -56,7 +51,7 @@ public class CountryController {
 
   @Secured("ROLE_ADMIN")
   @GetMapping("/update_country_view")
-  public String updateCountryView(@Valid @ModelAttribute("country") Country country, Model model,
+  public String updateCountryView(@ModelAttribute("country") Country country, Model model,
                                   @RequestParam(value = "country_id", required = false) Integer country_id) {
 
     model.addAttribute("country_id", country_id);
@@ -69,13 +64,8 @@ public class CountryController {
 
   @Secured("ROLE_ADMIN")
   @PostMapping("/update_country")
-  public String updateCountry(@Valid @ModelAttribute("country") Country country, BindingResult result,
+  public String updateCountry(@ModelAttribute("country") Country country,
                               @RequestParam(value = "country_id", required = false) Integer country_id) {
-
-    if (result.hasErrors()) {
-
-      return "addCountry";
-    }
 
     country.setId(country_id);
 

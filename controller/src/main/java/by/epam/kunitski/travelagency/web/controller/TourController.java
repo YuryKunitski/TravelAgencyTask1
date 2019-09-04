@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class TourController {
     private JsonParserTourService jsonParserTourService;
 
     @GetMapping("/tour")
-    public String allTours(@RequestParam(value = "tour_id", required = false) Integer tour_id, Model model) {
+    public String viewTour(@RequestParam(value = "tour_id", required = false) Integer tour_id, Model model) {
 
         Tour tour = new Tour();
 
@@ -68,11 +67,11 @@ public class TourController {
     @PostMapping("/add_tour")
     public String addTour(@Valid @ModelAttribute("tourDto") TourDto tourDto, BindingResult result, Model model) {
 
-        model.addAttribute("tour_types", Tour.TourType.values());
-        model.addAttribute("countries", countryService.findAll());
-        model.addAttribute("hotels", hotelService.findAll());
-
         if (result.hasErrors()) {
+            model.addAttribute("tour_types", Tour.TourType.values());
+            model.addAttribute("countries", countryService.findAll());
+            model.addAttribute("hotels", hotelService.findAll());
+
             return "addTour";
         }
 
@@ -134,6 +133,7 @@ public class TourController {
             model.addAttribute("tour_id", tour_id);
             model.addAttribute("countries", countryService.findAll());
             model.addAttribute("hotels", hotelService.findAll());
+            model.addAttribute("tour_types", Tour.TourType.values());
 
             return "addTour";
         }

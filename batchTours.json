@@ -1,0 +1,66 @@
+[
+  {
+"photo": "https://i.5sfer.com/post/postImage/thumb-8ipwnn.jpg", 
+"date": "2019-12-12",
+"duration": 11,
+"description": "The best tour",
+"cost": 9999.99,
+"hotel_id": {
+	"id": 1,
+	"name": "Choloepus hoffmani",
+	"stars": 2,
+	"website": "kvassman0@wikimedia.org",
+	"latitude": 8.2673715,
+	"longitude": 48.9086571,
+	"features": "CHILDREN_AREA"
+},
+"country_id": {
+	"id": 5,
+	"name": "Italy"
+},
+"tour_type": "ALL_INCLUSIVE"
+},
+{
+"photo": "https://i.5sfer.com/post/postImage/thumb-8ipwnn.jpg",
+"date": "2019-12-12",
+"duration": 12,
+"description": "The normal tour",
+"cost": 999.99,
+"hotel_id": {
+	"id": 2,
+	"name": "Terrapene carolina",
+	"stars": 3,
+	"website": "ebeiderbecke1@merriam-webster.com",
+	"latitude": 38.6198298,
+	"longitude": -3.9984597,
+	"features": "FREE_WIFI"
+},
+"country_id": {
+	"id": 16,
+	"name": "Poland"
+},
+"tour_type": "ONLY_BREAKFAST"
+},
+{
+"photo": "https://i.5sfer.com/post/postImage/thumb-8ipwnn.jpg",
+"date": "2019-12-12",
+"duration": 13,
+"description": "The worst tour",
+"cost": 99.99,
+"hotel_id": {
+	"id": 3,
+	"name": "Kobus leche robertsi",
+	"stars": 4,
+	"website": "rboothman2@google.fr",
+	"latitude": 40.8288377,
+	"longitude": 13.7610951,
+	"features": "FREE_WIFI"
+},
+"country_id": {
+	"id": 20,
+	"name": "Belarus"
+},
+"tour_type": "ECONOM"
+}
+]
+

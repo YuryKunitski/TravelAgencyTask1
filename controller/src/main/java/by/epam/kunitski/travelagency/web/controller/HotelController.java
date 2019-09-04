@@ -38,7 +38,7 @@ public class HotelController {
 
   @Secured("ROLE_ADMIN")
   @GetMapping("/add_hotel_view")
-  public String addHotelView(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto, Model model) {
+  public String addHotelView(@ModelAttribute("hotelDto") HotelDto hotelDto, Model model) {
 
     model.addAttribute("features", Hotel.FeatureType.values());
 
@@ -50,9 +50,8 @@ public class HotelController {
   public String addHotel(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto,
                          BindingResult result, ModelMap model) {
 
-    model.addAttribute("features", Hotel.FeatureType.values());
-
     if (result.hasErrors()) {
+      model.addAttribute("features", Hotel.FeatureType.values());
       return "addHotel";
     }
 
@@ -72,7 +71,7 @@ public class HotelController {
 
   @Secured("ROLE_ADMIN")
   @GetMapping("/view_all_hotels")
-  public String viewAllHotels(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto, ModelMap model) {
+  public String viewAllHotels(@ModelAttribute("hotelDto") HotelDto hotelDto, ModelMap model) {
 
     model.addAttribute("hotels", hotelService.findAll());
 
@@ -81,7 +80,7 @@ public class HotelController {
 
   @Secured("ROLE_ADMIN")
   @GetMapping("/update_hotel_view")
-  public String updateHotelView(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto, BindingResult result,
+  public String updateHotelView(@Valid @ModelAttribute("hotelDto") HotelDto hotelDto,
                                 @RequestParam(value = "hotel_id", required = false) Integer hotel_id,
                                 ModelMap model) {
 
