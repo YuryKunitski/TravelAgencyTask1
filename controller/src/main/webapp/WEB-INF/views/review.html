@@ -49,6 +49,7 @@
                                   placeholder="Review text" required autofocus></textarea>
                         <input type="hidden" name="review_id" th:value="${review_id}"/>
                         <input type="hidden" name="tour_id" th:value="${tour_id}"/>
+                        <input type="hidden" name="user_name" th:value="${#authentication.getPrincipal().getUsername()}"/>
 
                         <div class="login-separator">
                             <div class="border">
@@ -73,6 +74,8 @@
                         <textarea name="textReview" class="uui-form-element" rows="3" cols="10"
                                   placeholder="Review text" required autofocus></textarea>
                         <input type="hidden" name="tour_id" th:value="${tour_id}"/>
+                        <input type="hidden" name="user_name" th:value="${#authentication.getPrincipal().getUsername()}"/>
+
 
                         <div class="login-separator">
                             <div class="border">

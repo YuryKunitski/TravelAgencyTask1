@@ -37,7 +37,7 @@ public class WebInitEntity {
         hotel.setId(1);
         hotel.setName("Choloepus hoffmani");
         hotel.setStars(2);
-        hotel.setWebsite("kvassman0@wikimedia.org");
+        hotel.setWebsite("http://kvassman0@wikimedia.org");
         hotel.setLatitude(8.2673715);
         hotel.setLongitude(48.9086571);
         hotel.setFeatures(CHILDREN_AREA);
@@ -65,8 +65,8 @@ public class WebInitEntity {
         tour.setTour_type(ECONOM);
 
         review.setText("Excelent");
-        review.setDate(LocalDate.of(2019, 1, 1));
-        review.setText("Pellentesque ultrices mattis odio.");
+        review.setDate(LocalDate.now());
+        review.setText("aaa");
         review.setUserID(user);
         review.setTourID(tour);
 

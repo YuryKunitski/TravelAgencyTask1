@@ -1,6 +1,5 @@
 package by.epam.kunitski.travelagency.web.controller;
 
-import by.epam.kunitski.travelagency.dao.entity.Hotel;
 import by.epam.kunitski.travelagency.dao.entity.Review;
 import by.epam.kunitski.travelagency.dao.entity.Tour;
 import by.epam.kunitski.travelagency.dao.entity.User;
@@ -14,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,7 +22,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.HashSet;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -86,9 +83,10 @@ public class ReviewControllerTest {
 
         mockMvc.perform((RequestBuilder) post("/create_review")
                 .param("tour_id", "1")
+                .param("user_name", "Saundra")
                 .param("textReview", "aaa"))
                 .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/profile_admin?review_added"))
+                .andExpect(view().name("redirect:/profile_member?left_review"))
                 .andExpect(model().attribute("tour_id", 1));
 
         verify(reviewService, times(1)).add(review);
@@ -96,14 +94,66 @@ public class ReviewControllerTest {
     }
 
     @Test
-    public void removeReview() {
+    public void removeReview() throws Exception {
+
+        when(reviewService.delete(1)).thenReturn(true);
+
+        mockMvc.perform((RequestBuilder) post("/remove_review")
+                .param("review_id", "1"))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/profile_member?removed_review"))
+                .andExpect(model().attributeDoesNotExist());
+
+        verify(reviewService, times(1)).delete(1);
+        verifyNoMoreInteractions(reviewService);
     }
 
     @Test
-    public void updateReviewView() {
+    public void updateReviewView() throws Exception {
+
+        review.setId(1);
+
+        when(reviewService.findById(1)).thenReturn(Optional.of(review));
+
+        mockMvc.perform((RequestBuilder) get("/update_review_view")
+                .param("review_id", "1")
+                .param("tour_id", "1")
+                .param("textReview", "aaa"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("review"))
+                .andExpect(model().attribute("tour_id", 1))
+                .andExpect(model().attribute("currentText", "aaa"))
+                .andExpect(model().attribute("review_id", 1));
+
+        verify(reviewService, times(1)).findById(1);
+        verifyNoMoreInteractions(reviewService);
     }
 
     @Test
-    public void updateReview() {
+    public void updateReview() throws Exception {
+
+        User user = WebInitEntity.initUser();
+        user.setId(1);
+
+        Tour tour = WebInitEntity.initTour();
+        tour.setId(1);
+
+        review.setId(1);
+
+        when(userService.findByUserName("Saundra")).thenReturn(user);
+        when(tourService.findById(1)).thenReturn(Optional.of(tour));
+        when(reviewService.update(review)).thenReturn(new HashSet<>());
+
+        mockMvc.perform((RequestBuilder) post("/update_review")
+                .param("tour_id", "1")
+                .param("review_id", "1")
+                .param("user_name", "Saundra")
+                .param("textReview", "aaa"))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/profile_member?updated_review"))
+                .andExpect(model().attributeDoesNotExist());
+
+        verify(reviewService, times(1)).update(review);
+        verifyNoMoreInteractions(reviewService);
     }
 }

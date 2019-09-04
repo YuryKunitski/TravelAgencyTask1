@@ -29,7 +29,7 @@ public class ReviewController {
     private TourService tourService;
 
     @GetMapping("/create_review_view")
-    public String addReviewView(Principal principal, Model model,
+    public String addReviewView(Model model,
                                 @RequestParam(value = "tour_id", required = false) Integer tour_id,
                                 @RequestParam(value = "textReview", required = false) String textReview) {
 
@@ -39,13 +39,14 @@ public class ReviewController {
     }
 
     @PostMapping("/create_review")
-    public String addReview(Principal principal, Model model,
+    public String addReview(Model model,
                             @RequestParam(value = "tour_id", required = false) Integer tour_id,
+                            @RequestParam(value = "user_name", required = false) String user_name,
                             @RequestParam(value = "textReview", required = false) String textReview) {
 
         model.addAttribute("tour_id", tour_id);
 
-            User user = userService.findByUserName(principal.getName());
+            User user = userService.findByUserName(user_name);
             Tour tour = new Tour();
 
             if (tourService.findById(tour_id).isPresent()) {
@@ -65,8 +66,7 @@ public class ReviewController {
 
 
     @PostMapping("/remove_review")
-    public String removeReview(Model model,
-                               @RequestParam(value = "review_id", required = false) Integer review_id) {
+    public String removeReview(@RequestParam(value = "review_id", required = false) Integer review_id) {
 
         reviewService.delete(review_id);
 
@@ -74,7 +74,7 @@ public class ReviewController {
     }
 
     @GetMapping("/update_review_view")
-    public String updateReviewView(Model model, Principal principal,
+    public String updateReviewView(Model model,
                                    @RequestParam(value = "tour_id", required = false) Integer tour_id,
                                    @RequestParam(value = "review_id", required = false) Integer review_id,
                                    @RequestParam(value = "textReview", required = false) String textReview) {
@@ -90,14 +90,14 @@ public class ReviewController {
     }
 
     @PostMapping("/update_review")
-    public String updateReview(Principal principal,
-                               @RequestParam(value = "tour_id", required = false) Integer tour_id,
+    public String updateReview(@RequestParam(value = "tour_id", required = false) Integer tour_id,
                                @RequestParam(value = "review_id", required = false) Integer review_id,
+                               @RequestParam(value = "user_name", required = false) String user_name,
                                @RequestParam(value = "textReview", required = false) String textReview) {
 
-        if (textReview != null) {
 
-            User user = userService.findByUserName(principal.getName());
+
+            User user = userService.findByUserName(user_name);
             Tour tour = new Tour();
             if (tourService.findById(tour_id).isPresent()) {
                 tour = tourService.findById(tour_id).get();
@@ -113,9 +113,6 @@ public class ReviewController {
             reviewService.update(review);
 
             return "redirect:/profile_member?updated_review";
-        }
-
-        return "review";
     }
 
 }
