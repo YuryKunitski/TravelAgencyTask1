@@ -52,6 +52,8 @@
 
                         <form action="#" th:action="@{/registration}" th:object="${userDto}" method="post">
 
+                            <input type="hidden" name="user_role" th:value="${#authentication.getAuthorities()}"/>
+
                             <span class="fa" th:text="#{msg.login}"/> <br>
                             <input type="text" class="form-control" th:field="*{login}" placeholder="Login" required autofocus >
                             <p th:if="${#fields.hasErrors('login')}" th:errors="*{login}" style="color:red"></p>

@@ -27,7 +27,6 @@ import java.security.Principal;
 import java.util.Locale;
 
 @Controller
-@Validated
 public class UserController {
 
     @Autowired
@@ -44,22 +43,22 @@ public class UserController {
 
     @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
-    public String logIn(ModelMap model) {
+    public String logIn() {
         return "login";
     }
 
     @PreAuthorize("hasRole('ADMIN') or isAnonymous()")
     @GetMapping("/registration")
-    public String registrationView(@ModelAttribute("userDto") UserDto userDto, ModelMap model) {
+    public String registrationView(@ModelAttribute("userDto") UserDto userDto) {
 
         return "registration";
     }
 
     @PreAuthorize("hasRole('ADMIN') or isAnonymous()")
     @PostMapping("/registration")
-    public String registration(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult result, Authentication authentication,
+    public String registration(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult result,
+                               @RequestParam(value = "user_role", required = false) String user_role,
                                HttpServletRequest request, Locale locale) throws ServletException {
-
 
         User existing = userService.findByUserName(userDto.getLogin());
 
@@ -84,7 +83,7 @@ public class UserController {
         user.setLogin(userDto.getLogin());
         user.setPassword(userDto.getPassword());
 
-        if (authentication != null) {
+        if (user_role.equals("[ROLE_ADMIN]")) {
             user.setRole(User.UserRole.ADMIN);
 
             userService.add(user);
@@ -102,9 +101,10 @@ public class UserController {
 
     @Secured("ROLE_MEMBER")
     @GetMapping("/profile_member")
-    public String memberProfile(Principal principal, ModelMap model) {
+    public String memberProfile(@RequestParam(value = "user_name", required = false) String user_name,
+                                  ModelMap model) {
 
-        User user = userService.findByUserName(principal.getName());
+        User user = userService.findByUserName(user_name);
 
         model.addAttribute("tours", tourService.findAllByUserId(user.getId()));
         model.addAttribute("reviews", reviewService.findAllByUserId(user.getId()));
@@ -114,12 +114,7 @@ public class UserController {
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/profile_admin")
-    public String adminProfile(Principal principal, ModelMap model) {
-
-        User user = userService.findByUserName(principal.getName());
-
-        model.addAttribute("tours", tourService.findAllByUserId(user.getId()));
-        model.addAttribute("reviews", reviewService.findAllByUserId(user.getId()));
+    public String adminProfile() {
 
         return "userProfile";
     }
@@ -135,8 +130,7 @@ public class UserController {
 
     @Secured("ROLE_ADMIN")
     @PostMapping("/remove_user")
-    public String removeUser(Model model,
-                             @RequestParam(value = "user_id", required = false) Integer user_id) {
+    public String removeUser(@RequestParam(value = "user_id", required = false) Integer user_id) {
 
         userService.delete(user_id);
 
@@ -148,9 +142,11 @@ public class UserController {
     public String updateUserView(Model model, @ModelAttribute("userDto") UserDto userDto,
                                  @RequestParam(value = "user_id", required = false) Integer user_id) {
 
+        User user = userService.findById(user_id).get();
+
         model.addAttribute("roles", User.UserRole.values());
-        model.addAttribute("login", userService.findById(user_id).get().getLogin());
-        model.addAttribute("role", userService.findById(user_id).get().getRole());
+        model.addAttribute("login", user.getLogin());
+        model.addAttribute("role", user.getRole());
         model.addAttribute("user_id", user_id);
 
         return "update_user";
@@ -164,11 +160,14 @@ public class UserController {
                              @RequestParam(value = "role", required = false) String role,
                              @RequestParam(value = "login", required = false) String login) {
 
+
+
         if (result.hasErrors()) {
+            User user = userService.findById(user_id).get();
 
             model.addAttribute("roles", User.UserRole.values());
-            model.addAttribute("login", userService.findById(user_id).get().getLogin());
-            model.addAttribute("role", userService.findById(user_id).get().getRole());
+            model.addAttribute("login", user.getLogin());
+            model.addAttribute("role", user.getRole());
             model.addAttribute("user_id", user_id);
 
             return "update_user";

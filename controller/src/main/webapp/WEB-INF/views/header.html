@@ -27,8 +27,11 @@
                                     class="fa fa-lightbulb-o"></i><span th:text="#{msg.register}"/></a></li>
                             <li sec:authorize="isAuthenticated()" class="logout"><a href="logout"><i
                                     class="fa fa-sign-out"></i><span th:text="#{msg.log_out}"/></a></li>
-                            <li sec:authorize="hasRole('ADMIN')" class="login"><a th:href="profile_admin"><i class="fa fa-user"></i><span th:text="#{msg.profile}"/></a></li>
-                            <li sec:authorize="hasRole('MEMBER')" class="login"><a th:href="profile_member"><i class="fa fa-user"></i><span th:text="#{msg.profile}"/></a></li>
+                            <li sec:authorize="hasRole('ADMIN')" class="login"><a th:href="profile_admin"><i
+                                    class="fa fa-user"></i><span th:text="#{msg.profile}"/></a></li>
+                            <li sec:authorize="hasRole('MEMBER')" class="login">
+                                <a th:href="@{/profile_member(user_name=${#authentication.getPrincipal().getUsername()})}">
+                                    <i class="fa fa-user"></i><span th:text="#{msg.profile}"/></a></li>
                         </ul>
                     </div>
                 </li>
