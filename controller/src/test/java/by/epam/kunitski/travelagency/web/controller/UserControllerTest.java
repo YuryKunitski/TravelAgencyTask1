@@ -106,7 +106,7 @@ public class UserControllerTest {
         mockMvc.perform(post("/registration")
                 .param("user_role", "[ROLE_MEMBER]")
                 .param("login", "S")    //Not valid
-                .param("password", "C")    //Not valid
+                .param("password", "S")    //Not valid
                 .param("confirmPassword", "CD"))    //Not valid
                 .andExpect(status().isOk())
                 .andExpect(view().name("registration"))

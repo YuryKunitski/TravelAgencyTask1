@@ -22,7 +22,7 @@ public class InitEntity {
 
         hotel.setName("Turist");
         hotel.setStars(2);
-        hotel.setWebsite("kvassman0@wikimedia.org");
+        hotel.setWebsite("http://kvassman0@wikimedia.org");
         hotel.setLatitude(8.2673715);
         hotel.setLongitude(48.9086571);
         hotel.setFeatures(CHILDREN_AREA);

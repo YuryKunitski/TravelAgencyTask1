@@ -69,13 +69,13 @@ public class UserController {
             return "registration";
         }
 
-        if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
-            String passErrorMsg = messageSource.getMessage("msg.wrongConfirmPass", new Object[]{}, locale);
-            result.rejectValue("confirmPassword", null, passErrorMsg);
+        if (result.hasErrors()) {
             return "registration";
         }
 
-        if (result.hasErrors()) {
+        if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
+            String passErrorMsg = messageSource.getMessage("msg.wrongConfirmPass", new Object[]{}, locale);
+            result.rejectValue("confirmPassword", null, passErrorMsg);
             return "registration";
         }
 

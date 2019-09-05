@@ -50,7 +50,7 @@ public class UserDAOImplTest {
 
     @Test
     public void getAll() {
-        int sizeExpected = 100;
+        int sizeExpected = 101;
         int sizeActual = userDAO.getAll().size();
         assertEquals(sizeExpected, sizeActual);
     }
@@ -59,7 +59,7 @@ public class UserDAOImplTest {
     public void getAllByCriteria() {
         UserSpecification userSpecification = new UserSpecification();
 
-        int sizeExpected = 100;
+        int sizeExpected = 101;
         int sizeActual = userDAO.getAllByCriteria(userSpecification).size();
         assertEquals(sizeExpected, sizeActual);
     }
@@ -81,7 +81,7 @@ public class UserDAOImplTest {
     @Test
     public void create() {
         User actualUser = userDAO.create(expUser);
-        int generatedId = 101;
+        int generatedId = 102;
         assertEquals(generatedId, actualUser.getId());
     }
 

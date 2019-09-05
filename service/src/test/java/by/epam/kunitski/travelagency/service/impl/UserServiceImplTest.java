@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -31,6 +33,9 @@ public class UserServiceImplTest {
 
     @Mock
     private UserDAOImpl userDAO;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserServiceImpl userServiceImpl;
@@ -76,13 +81,17 @@ public class UserServiceImplTest {
 
     @Test
     public void addValid() {
+        when(userDAO.create(expectedUser)).thenReturn(expectedUser);
         when(validator.validate(expectedUser)).thenReturn(expViolations);
         when(expViolations.isEmpty()).thenReturn(true);
-        when(userDAO.create(expectedUser)).thenReturn(expectedUser);
+
+        System.out.println("userServiceImpl - "+userServiceImpl);
 
         userServiceImpl.add(expectedUser);
 
         verify(userDAO, times(1)).create(expectedUser);
+        verify(validator, times(1)).validate(expectedUser);
+        verify(passwordEncoder, times(1)).encode(null);
     }
 
     @Test
@@ -93,11 +102,6 @@ public class UserServiceImplTest {
         userServiceImpl.add(expectedUser);
 
         verify(userDAO, times(0)).create(expectedUser);
-    }
-
-    @Test
-    public void addByNull() {
-        userServiceImpl.add(null);
     }
 
     @Test

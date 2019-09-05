@@ -56,7 +56,7 @@ public class ReviewDAOImplTest {
 
     @Test
     public void getAllByUserId() {
-        int sizeExpected = 10;
+        int sizeExpected = 11;
         int sizeActual = reviewDAO.getAllByUserId(1).size();
         assertEquals(sizeExpected, sizeActual);
     }
